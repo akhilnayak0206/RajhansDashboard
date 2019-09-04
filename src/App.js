@@ -1,9 +1,13 @@
-import React from 'react';
-import LoginPage from './views/LoginPage'
+import React from "react";
+import { HashRouter } from "react-router-dom";
+import MainRouter from "./components/routers/MainRouter";
+import "./App.css";
 
 function App() {
   return (
-     <LoginPage />
+    <HashRouter>
+        <MainRouter />
+    </HashRouter>
   );
 }
 
