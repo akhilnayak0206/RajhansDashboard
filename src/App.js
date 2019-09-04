@@ -1,11 +1,9 @@
 import React from 'react';
-import LoginPage from './components/LoginPage'
+import LoginPage from './views/LoginPage'
 
 function App() {
   return (
-    <div>
      <LoginPage />
-    </div>
   );
 }
 

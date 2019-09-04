@@ -4,7 +4,7 @@ const initState = {}
 
 const auth = (state=initState, action) =>{
   switch(action.type){
-    case types.ON_AUTH :
+    case types.ON_SEND_LOGIN :
       console.log("created reducer", action.payload)
       return action.payload
   }

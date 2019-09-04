@@ -1,28 +1,24 @@
 import types from "../action_types/index";
 
-const OnAuth = data => {
+const OnAuth = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    // make call
-    const firestore = getFirestore();
-    firestore
-      .collection("users")
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          if (doc.exists) {
-            // console.log("Document data:", doc.data());
-            dispatch({
-              type: types.ON_AUTH,
-              payload: doc.data()
-            });
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!", doc);
-          }
+   
+    const firebase = getFirebase();
+    firebase
+      .auth()
+      .signInWithEmailAndPassword("nnewn3@gmail.com", "12345678")
+      .then(() => {
+        console.log("action");
+        dispatch({
+          type: types.ON_SEND_LOGIN,
+          payload: {}
         });
       })
-      .catch(function(error) {
-        console.log("Error getting document:", error);
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+       console.log("error",errorCode,errorMessage)
       });
   };
 };
