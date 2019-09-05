@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+.login-form {
+    display: flex !important ;
+    display: -webkit-flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-div {
+    display: flex !important ;
+    display: -webkit-flex !important;
+    height:100%;
+    width:100%;
+    justify-content: center;
+}

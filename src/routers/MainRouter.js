@@ -2,8 +2,8 @@ import React, { Component, PureComponent } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import LoginPage from "../../views/LoginPage";
-import Dashboard from "../../views/Dashboard";
+import LoginPage from "../views/LoginPage";
+import Dashboard from "../views/Dashboard";
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
