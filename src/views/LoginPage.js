@@ -4,7 +4,7 @@ import React, { Component } from "react";
 // import { firestoreConnect } from "react-redux-firebase";
 // import { compose } from "redux";
 import firebase from '../config/fbConfig'
-import { Form, Icon, Input, Button, Tooltip } from 'antd'
+import { Form, Icon, Input, Button, Tooltip, Avatar } from 'antd'
 import '../styles/LoginPage.css'
 
 class NormalLoginForm extends Component {
@@ -30,6 +30,7 @@ class NormalLoginForm extends Component {
     return (
       <div className="login-div" >
         <Form onSubmit={this.handleSubmit} className="login-form">
+        <img src="https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg" alt="Jai Mitra Mandal" />
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
