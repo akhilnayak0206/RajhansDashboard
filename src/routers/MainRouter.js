@@ -5,27 +5,28 @@ import { compose } from "redux";
 import LoginPage from "../views/LoginPage";
 import Dashboard from "../views/Dashboard";
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+  return (
   <Route
     {...rest}
-    render={props => (auth ? <Component /> : <Redirect to="/login" />)}
+    render={props => ( auth ? <Component {...props} /> : <Redirect to="/login" />)}
   />
-);
+)};
 
 class MainRouter extends PureComponent {
 
   constructor(props) {
     super(props);
     this.state = {
-      auth: false
+      auth: props.firebase.auth.email
     };
   }
 
-//   static getDerivedStateFromProps(nextProps, prevState) {
-//     if (nextProps.firebase.auth !== prevState.auth) {
-//       return { auth: nextProps.firebase.auth };
-//     } else return null; // Triggers no change in the state
-//   }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.firebase.auth !== prevState.auth) {
+      return { auth: nextProps.firebase.auth.email };
+    } else return null; // Triggers no change in the state
+  }
 
   render() {
     return (

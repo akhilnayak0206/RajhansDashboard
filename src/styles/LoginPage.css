@@ -14,6 +14,8 @@
   height: 100%;
   width: 100%;
   justify-content: center;
+  background-image: url('https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567681210/wallpaperLogin.jpg');
+  background-size: cover;
 }
 
 @media only screen and (max-width:320px){

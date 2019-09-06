@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import { OnAuth } from "../store/actions/actions";
-// import { firestoreConnect } from "react-redux-firebase";
-// import { compose } from "redux";
-import firebase from '../config/fbConfig'
-import { Form, Icon, Input, Button, Tooltip, Avatar } from 'antd'
-import '../styles/LoginPage.css'
+import { connect } from "react-redux";
+import { OnAuth } from "../store/actions/actions";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { Redirect } from "react-router-dom";
+import firebase from "../config/fbConfig";
+import { Form, Icon, Input, Button, Tooltip, Avatar } from "antd";
+import "../styles/LoginPage.css";
 
 class NormalLoginForm extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      data: {}
+      auth: props.firebase.auth.email
     };
   }
 
@@ -20,49 +20,86 @@ class NormalLoginForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(values.username, values.password)
+          .then(() => {
+            alert("Logged in");
+          })
+          .catch(err => {
+            alert("Enter correct email or password");
+            console.log("error", err);
+          });
       }
     });
   };
-  
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.firebase.auth !== prevState.auth) {
+      return { auth: nextProps.firebase.auth.email };
+    } else return null; // Triggers no change in the state
+  }
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    if (this.state.auth) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
-      <div className="login-div" >
+      <div className="login-div">
         <Form onSubmit={this.handleSubmit} className="login-form">
-        <img src="https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg" alt="Jai Mitra Mandal" />
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> }
-              suffix={
-        <Tooltip title="Email ID or username as given by the admin">
-          <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
-        </Tooltip>
-      }
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input.Password
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
+          <img
+            src="https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg"
+            alt="Jai Mitra Mandal"
+          />
+          <Form.Item>
+            {getFieldDecorator("username", {
+              rules: [
+                { required: true, message: "Please input your username!" }
+              ]
+            })(
+              <Input
+                prefix={
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                suffix={
+                  <Tooltip title="Email ID or username as given by the admin">
+                    <Icon
+                      type="info-circle"
+                      style={{ color: "rgba(0,0,0,.45)" }}
+                    />
+                  </Tooltip>
+                }
+                placeholder="Username"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator("password", {
+              rules: [
+                { required: true, message: "Please input your Password!" }
+              ]
+            })(
+              <Input.Password
+                prefix={
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                type="password"
+                placeholder="Password"
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     );
   }
@@ -72,27 +109,24 @@ const LoginPage = Form.create({})(NormalLoginForm);
 
 //const LoginPage = Form.create({ name: 'normal_login' })(NormalLoginPage);
 
-export default LoginPage
+// export default LoginPage;
 
-// function mapStateToProps(state) {
-  //   console.log("state",state.firebase.auth)
-  //   const { firebase } = state;
-  //   return {
-    //     firebase
-    //   };
-    // }
-    
-    // export default compose(
-      //   connect(mapStateToProps,{
-        //     OnAuth
-        //   }),
-        // )(LoginPage);
-        
-        {/* <p>soething somehitng</p>
+function mapStateToProps(state) {
+  const { firebase } = state;
+  return {
+    firebase
+  };
+}
+
+export default compose(connect(mapStateToProps))(LoginPage);
+
+{
+  /* <p>soething somehitng</p>
         <button onClick={() => this.props.OnAuth("login")}>
         <button onClick={()=>firebase.auth().signInWithEmailAndPassword("nnewn3@gmail.com", "12345678").then(()=>alert("Logged in"))}>
           <p>hello</p>
         </button>
         <p>{JSON.stringify(this.state.data)}</p>
         <button onClick={() => this.props.OnAuth("logout")}>p
-        </button> */}
+        </button> */
+}

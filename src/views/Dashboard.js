@@ -8,14 +8,14 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <button>ok</button>
+        <button onClick={() => this.props.OnAuth("logout")}>p
+        </button>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-    console.log("dashboard",state)
     const { auth } = state;
     return {
       auth:auth
