@@ -1,36 +1,59 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { OnAuth } from "../store/actions/actions";
-import { firestoreConnect } from "react-redux-firebase";
+// import { OnAuth } from "../store/actions/actions";
+// import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import firebase from "../config/fbConfig";
-import { Form, Icon, Input, Button, Tooltip, Avatar } from "antd";
+import { Form, Icon, Input, Button, Tooltip, notification } from "antd";
 import "../styles/LoginPage.css";
 
 class NormalLoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: props.firebase.auth.email
+      auth: props.firebase.auth.email,
+      btnLogIn:false
     };
   }
 
   handleSubmit = e => {
+    this.setState({
+      btnLogIn:true
+    })
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         firebase
           .auth()
-          .signInWithEmailAndPassword(values.username, values.password)
+          .setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(() => {
-            alert("Logged in");
-          })
-          .catch(err => {
-            alert("Enter correct email or password");
-            console.log("error", err);
+            return firebase
+              .auth()
+              .signInWithEmailAndPassword(values.username, values.password)
+              .then(() => {
+                notification['success']({ 
+                  message: 'Jai Mata Di',
+                  description:
+                    `Let's get started with the Rajhans App's Dashboard.`,
+                });
+              })
+              .catch(err => {
+                this.setState({
+                  btnLogIn:false
+                })
+                notification['error']({ 
+                  message: 'Incorrect credential',
+                  description:
+                    'Hey User, the username or password is invalid.',
+                });
+                console.log("error", err);
+              });
           });
       }
+    else { this.setState({
+       btnLogIn:false
+     })}
     });
   };
 
@@ -39,7 +62,6 @@ class NormalLoginForm extends Component {
       return { auth: nextProps.firebase.auth.email };
     } else return null; // Triggers no change in the state
   }
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -95,6 +117,7 @@ class NormalLoginForm extends Component {
               type="primary"
               htmlType="submit"
               className="login-form-button"
+              disabled={this.state.btnLogIn}
             >
               Log in
             </Button>
