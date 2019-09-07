@@ -13,14 +13,14 @@ class NormalLoginForm extends Component {
     super(props);
     this.state = {
       auth: props.firebase.auth.email,
-      btnLogIn:false
+      btnLogIn: false
     };
   }
 
   handleSubmit = e => {
     this.setState({
-      btnLogIn:true
-    })
+      btnLogIn: true
+    });
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -32,28 +32,27 @@ class NormalLoginForm extends Component {
               .auth()
               .signInWithEmailAndPassword(values.username, values.password)
               .then(() => {
-                notification['success']({ 
-                  message: 'Jai Mata Di',
-                  description:
-                    `Let's get started with the Rajhans App's Dashboard.`,
+                notification["success"]({
+                  message: "Jai Mata Di",
+                  description: `Let's get started with the Rajhans App's Dashboard.`
                 });
               })
               .catch(err => {
                 this.setState({
-                  btnLogIn:false
-                })
-                notification['error']({ 
-                  message: 'Incorrect credential',
-                  description:
-                    'Hey User, the username or password is invalid.',
+                  btnLogIn: false
+                });
+                notification["error"]({
+                  message: "Incorrect credential",
+                  description: "Hey User, the username or password is invalid."
                 });
                 console.log("error", err);
               });
           });
+      } else {
+        this.setState({
+          btnLogIn: false
+        });
       }
-    else { this.setState({
-       btnLogIn:false
-     })}
     });
   };
 
