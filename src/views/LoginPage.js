@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { OnAuth } from "../store/actions/actions";
-// import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import firebase from "../config/fbConfig";
@@ -129,10 +127,6 @@ class NormalLoginForm extends Component {
 
 const LoginPage = Form.create({})(NormalLoginForm);
 
-//const LoginPage = Form.create({ name: 'normal_login' })(NormalLoginPage);
-
-// export default LoginPage;
-
 function mapStateToProps(state) {
   const { firebase } = state;
   return {
@@ -141,14 +135,3 @@ function mapStateToProps(state) {
 }
 
 export default compose(connect(mapStateToProps))(LoginPage);
-
-{
-  /* <p>soething somehitng</p>
-        <button onClick={() => this.props.OnAuth("login")}>
-        <button onClick={()=>firebase.auth().signInWithEmailAndPassword("nnewn3@gmail.com", "12345678").then(()=>alert("Logged in"))}>
-          <p>hello</p>
-        </button>
-        <p>{JSON.stringify(this.state.data)}</p>
-        <button onClick={() => this.props.OnAuth("logout")}>p
-        </button> */
-}
