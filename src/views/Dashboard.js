@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import { OnAuth } from "../store/actions/actions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import firebase from "../config/fbConfig";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
+import { Link } from 'react-router-dom'
 import "../styles/Dashboard.css";
+import DashboardRouter from "../routers/DashboardRouter";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
+
 class Dashboard extends Component {
   constructor(props){
    super(props);
@@ -40,18 +42,64 @@ class Dashboard extends Component {
          collapsible 
          collapsed={this.state.collapsed}>
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
-              <Icon type="user" />
-              <span>nav 1</span>
+              <Link to="/dashboard/home" >
+              <Icon type="home" />
+              <span>Home</span>
+              </Link>
             </Menu.Item>
+            <SubMenu
+            key="sub1"
+            title={
+              <span>
+                <Icon type="database" />
+                <span>Database</span>
+              </span>
+            }
+          >
+            <Menu.Item key="sub1/1">
+              <Link to="/dashboard/home" >
+              <Icon type="book" />
+              <span>Overview</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub1/2">
+              <Link to="/dashboard/home" >
+              <Icon type="edit" />
+              <span>Edit Receipt</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub1/3">
+              <Link to="/dashboard/home" >
+              <Icon type="user-add" />
+              <span>Add User</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub1/4">
+              <Link to="/dashboard/home" >
+              <Icon type="delete" />
+              <span>Reset Database</span>
+              </Link>
+            </Menu.Item>
+          </SubMenu>
             <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span>nav 2</span>
+              <Link to="/dashboard/downloads" >
+              <Icon type="download" />
+              <span>Downloads</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="upload" />
-              <span>nav 3</span>
+              <Link to="/dashboard/cashathand" >
+              <Icon type="dollar" />
+              <span>Cash At Hand</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Link to="/dashboard/account" >
+              <Icon type="user" />
+              <span>Account</span>
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -78,12 +126,7 @@ class Dashboard extends Component {
               height:'100%'
             }}
           >
-            { this.state.collapsed && (
-                <p>kiii</p>
-              )}
-            Content
-           
-Eiusmod aliqua minim eu sunt tempor labore sit et aliquip. Occaecat fugiat eiusmod mollit amet veniam do ea et ex in aliqua aliqua. Ipsum est in aute elit nulla do qui magna elit. Do consectetur ipsum reprehenderit minim.
+          <DashboardRouter />
           </Content>
         </Layout>
       </Layout>
