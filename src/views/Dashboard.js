@@ -4,7 +4,7 @@ import { OnAuth } from "../store/actions/actions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
-import { Link } from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 import "../styles/Dashboard.css";
 import DashboardRouter from "../routers/DashboardRouter";
 
@@ -12,12 +12,13 @@ const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class Dashboard extends Component {
-  constructor(props){
-   super(props);
-  this.state = {
-    collapsed: false
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: false
+    };
+    console.log(this.props);
+  }
 
   onCollapse = collapsed => {
     console.log(collapsed);
@@ -31,102 +32,113 @@ class Dashboard extends Component {
   };
 
   render() {
-    console.log(this.state.collapsed)
     return (
-      <Layout style={{width:'100%',height:'100%'}} >
+      <Layout style={{ width: "100%", height: "100%" }}>
         <Sider
-        style={{overflow:'auto'}}
-         trigger={null}
-        breakpoint="md"
-        collapsedWidth="0"
-         collapsible 
-         collapsed={this.state.collapsed}>
+          style={{ overflow: "auto" }}
+          trigger={null}
+          breakpoint="md"
+          collapsedWidth="0"
+          collapsible
+          collapsed={this.state.collapsed}
+        >
           <div className="logo" />
-          <Menu theme="dark" mode="inline">
-            <Menu.Item key="1">
-              <Link to="/dashboard/home" >
-              <Icon type="home" />
-              <span>Home</span>
-              </Link>
+          <Menu
+            theme="dark"
+            mode="inline"
+            selectedKeys={[this.props.location.pathname]}
+          >
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home">
+                <Icon type="home" />
+                <span>Home</span>
+              </NavLink>
             </Menu.Item>
             <SubMenu
-            key="sub1"
-            title={
-              <span>
-                <Icon type="database" />
-                <span>Database</span>
-              </span>
-            }
-          >
-            <Menu.Item key="sub1/1">
-              <Link to="/dashboard/home" >
+              key="sub1"
+              title={
+                <span>
+                  <Icon type="database" />
+                  <span>Database</span>
+                </span>
+              }
+            >
+              {/* <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
               <Icon type="book" />
               <span>Overview</span>
-              </Link>
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="sub1/2">
-              <Link to="/dashboard/home" >
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
               <Icon type="edit" />
               <span>Edit Receipt</span>
-              </Link>
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="sub1/3">
-              <Link to="/dashboard/home" >
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
               <Icon type="user-add" />
               <span>Add User</span>
-              </Link>
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="sub1/4">
-              <Link to="/dashboard/home" >
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
               <Icon type="delete" />
               <span>Reset Database</span>
-              </Link>
+              </NavLink>
+            </Menu.Item> */}
+            </SubMenu>
+            <Menu.Item key="/dashboard/downloads">
+              <NavLink to="/dashboard/downloads">
+                <Icon type="download" />
+                <span>Downloads</span>
+              </NavLink>
             </Menu.Item>
-          </SubMenu>
-            <Menu.Item key="2">
-              <Link to="/dashboard/downloads" >
-              <Icon type="download" />
-              <span>Downloads</span>
-              </Link>
+            <Menu.Item key="/dashboard/cashathand">
+              <NavLink to="/dashboard/cashathand">
+                <Icon type="dollar" />
+                <span>Cash At Hand</span>
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="3">
-              <Link to="/dashboard/cashathand" >
-              <Icon type="dollar" />
-              <span>Cash At Hand</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/dashboard/account" >
-              <Icon type="user" />
-              <span>Account</span>
-              </Link>
+            <Menu.Item key="/dashboard/account">
+              <NavLink to="/dashboard/account">
+                <Icon type="user" />
+                <span>Account</span>
+              </NavLink>
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout >
-        <Header style={{ background: '#fff', padding: 0, position:'fixed', zIndex:10, width:"100%", display:'flex'}}>
-      <Icon
-              className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-              style={{marginLeft:'5px'}}
-            />
-            {
-              this.state.collapsed && (
-                <div className="headerDivLogo" >
-                <div className="headerLogo" />
-                </div>
-              )
-            }
-    </Header>
-          <Content
+        <Layout>
+          <Header
             style={{
-              margin: '65px 16px',
-              padding: 24,
-              height:'100%'
+              background: "#fff",
+              padding: 0,
+              position: "fixed",
+              zIndex: 10,
+              width: "100%",
+              display: "flex"
             }}
           >
-          <DashboardRouter />
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+              onClick={this.toggle}
+              style={{ marginLeft: "5px" }}
+            />
+            {this.state.collapsed && (
+              <div className="headerDivLogo">
+                <div className="headerLogo" />
+              </div>
+            )}
+          </Header>
+          <Content
+            style={{
+              margin: "65px 16px",
+              padding: 24,
+              height: "100%"
+            }}
+          >
+            <DashboardRouter />
           </Content>
         </Layout>
       </Layout>
