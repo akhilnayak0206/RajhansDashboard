@@ -38,6 +38,11 @@ class Dashboard extends Component {
           style={{ overflow: "auto" }}
           trigger={null}
           breakpoint="md"
+          onBreakpoint={broken => {
+            this.setState({
+              collapsed: broken
+            });
+          }}
           collapsedWidth="0"
           collapsible
           collapsed={this.state.collapsed}
