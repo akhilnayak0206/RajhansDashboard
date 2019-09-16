@@ -13,5 +13,6 @@
   flex-wrap: wrap;
 }
 .cardBoth {
-  flex: 50%;
+  flex: 40%;
+  margin:16
 }
