@@ -7,6 +7,7 @@ import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import { NavLink } from "react-router-dom";
 import "../styles/Dashboard.css";
 import DashboardRouter from "../routers/DashboardRouter";
+// import firebase from "../config/fbConfig"; //for data of JMM excel
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -17,7 +18,7 @@ class Dashboard extends Component {
     this.state = {
       collapsed: false
     };
-    console.log(this.props);
+    console.log("inHoe",this.props);
   }
 
   onCollapse = collapsed => {
@@ -30,6 +31,29 @@ class Dashboard extends Component {
       collapsed: !this.state.collapsed
     });
   };
+
+  // for data
+
+  // componentDidMount(){
+  //   let data = []
+  //   let citiesRef = firebase.firestore().collection('expenses').orderBy('timestamp');
+  //   let query = citiesRef.get()
+  //     .then(snapshot => {
+  //       if (snapshot.empty) {
+  //         console.log('No matching documents.');
+  //         return;
+  //       }  
+    
+  //       snapshot.forEach(doc => {
+  //         data.push(doc.data())
+  //         // console.log(doc.id, '=>', doc.data());
+  //       });
+  //       console.log("data",JSON.stringify(data))
+  //     })
+  //     .catch(err => {
+  //       console.log('Error getting documents', err);
+  //     });
+  // }
 
   render() {
     return (
@@ -96,7 +120,7 @@ class Dashboard extends Component {
             <Menu.Item key="/dashboard/downloads">
               <NavLink to="/dashboard/downloads">
                 <Icon type="download" />
-                <span>Downloads</span>
+                <span>Download</span>
               </NavLink>
             </Menu.Item>
             <Menu.Item key="/dashboard/cashathand">

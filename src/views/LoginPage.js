@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { OnAuth } from "../store/actions/actions";
 import { Redirect } from "react-router-dom";
 import firebase from "../config/fbConfig";
 import { Form, Icon, Input, Button, Tooltip, notification } from "antd";
@@ -32,8 +33,9 @@ class NormalLoginForm extends Component {
               .then(() => {
                 notification["success"]({
                   message: "Jai Mata Di",
-                  description: `Let's get started with the Rajhans App's Dashboard.`
+                  description: "Let's get started with the Rajhans App's Dashboard."
                 });
+                this.props.OnAuth({type:"login",email:values.username})
               })
               .catch(err => {
                 this.setState({
@@ -43,7 +45,7 @@ class NormalLoginForm extends Component {
                   message: "Incorrect credential",
                   description: "Hey User, the username or password is invalid."
                 });
-                console.log("error", err);
+                //console.log("error", err);
               });
           });
       } else {
@@ -133,5 +135,12 @@ function mapStateToProps(state) {
     firebase
   };
 }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      OnAuth
+    }
+  ))(LoginPage);
 
-export default compose(connect(mapStateToProps))(LoginPage);
+// export default compose(connect(mapStateToProps))(LoginPage);
