@@ -19,11 +19,13 @@
   background-repeat: no-repeat;
   background-position: center;
   margin: 16px;
+  background-color: transparent;
 }
 
 .headerLogo {
   width: 120px;
   height: 40px;
+  background-color: transparent;
   background-image: url("https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg");
   background-size: contain;
   background-repeat: no-repeat;
@@ -34,4 +36,13 @@
   display:flex;
   width:100%;
   justify-content: center;
+}
+
+.ant-layout-sider{
+  background-image: url("https://res.cloudinary.com/dx0wpoeyu/image/upload/v1575461310/sideBar.jpg");
+  background-size: cover ;
+}
+
+.ant-menu-dark{
+  background-color: transparent;
 }
