@@ -9,6 +9,13 @@ import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Account.css";
 
 class Home extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+
+    }
+  }
+  
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>

@@ -4,7 +4,7 @@ class CashAtHand extends Component {
   render() {
     return (
       <div>
-        <p>cahs At Hand</p>
+        <p>change the name at every instance</p>
       </div>
     )
   }

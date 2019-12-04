@@ -6,6 +6,10 @@ import Home from "../views/DashboardScreens/Home";
 import Account from "../views/DashboardScreens/Account";
 import CashAtHand from "../views/DashboardScreens/CashAtHand";
 import Downloads from "../views/DashboardScreens/Downloads";
+import AddEditExpense from "../views/DashboardScreens/AddEditData/AddEditExpense";
+import AddEditUsers from "../views/DashboardScreens/AddEditData/AddEditUsers";
+import AddEditWellWisher from "../views/DashboardScreens/AddEditData/AddEditWellWisher";
+import AddEditWing from "../views/DashboardScreens/AddEditData/AddEditWing";
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
   return (
@@ -34,8 +38,12 @@ class DashboardRouter extends PureComponent {
     return (
       <Switch>
         <Route exact path="/dashboard/home" component={Home} />
+        <Route exact path="/dashboard/wings" component={AddEditWing} />
+        <Route exact path="/dashboard/well-wishers" component={AddEditWellWisher} />
+        <Route exact path="/dashboard/expenses" component={AddEditExpense} />
+        <Route exact path="/dashboard/addeditusers" component={AddEditUsers} />
         <Route exact path="/dashboard/downloads" component={Downloads} />
-        <Route exact path="/dashboard/cashathand" component={CashAtHand} />
+        <Route exact path="/dashboard/bankbook" component={CashAtHand} />
         <Route exact path="/dashboard/account" component={Account} />
         <Redirect to="/dashboard/home" />
       </Switch>

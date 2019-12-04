@@ -5,6 +5,8 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRupeeSign, faUserEdit, faHome, faEdit,  faDownload, faPlus, faUsers, faUserAlt, faFileInvoiceDollar, faUsersCog } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Dashboard.css";
 import DashboardRouter from "../routers/DashboardRouter";
 // import firebase from "../config/fbConfig"; //for data of JMM excel
@@ -79,59 +81,49 @@ class Dashboard extends Component {
           >
             <Menu.Item key="/dashboard/home">
               <NavLink to="/dashboard/home">
-                <Icon type="home" />
+              <Icon><FontAwesomeIcon icon={faHome} /></Icon>
                 <span>Home</span>
               </NavLink>
             </Menu.Item>
-            <SubMenu
-              key="sub1"
-              title={
-                <span>
-                  <Icon type="database" />
-                  <span>Database</span>
-                </span>
-              }
-            >
-              {/* <Menu.Item key="/dashboard/home">
-              <NavLink to="/dashboard/home" >
-              <Icon type="book" />
-              <span>Overview</span>
+            <Menu.Item key="/dashboard/wings">
+              <NavLink to="/dashboard/wings">
+               <Icon><FontAwesomeIcon icon={faEdit} /></Icon>
+                <span>Wings</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/home">
-              <NavLink to="/dashboard/home" >
-              <Icon type="edit" />
-              <span>Edit Receipt</span>
+            <Menu.Item key="/dashboard/well-wishers">
+              <NavLink to="/dashboard/well-wishers">
+               <Icon><FontAwesomeIcon icon={faPlus} /></Icon>
+                <span>Well-Wishers</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/home">
-              <NavLink to="/dashboard/home" >
-              <Icon type="user-add" />
-              <span>Add User</span>
+            <Menu.Item key="/dashboard/expenses">
+              <NavLink to="/dashboard/expenses">
+               <Icon><FontAwesomeIcon icon={faFileInvoiceDollar} /></Icon>
+                <span>Expenses</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/home">
-              <NavLink to="/dashboard/home" >
-              <Icon type="delete" />
-              <span>Reset Database</span>
+            <Menu.Item key="/dashboard/addeditusers">
+              <NavLink to="/dashboard/addeditusers">
+                <Icon><FontAwesomeIcon icon={faUsersCog} /></Icon>
+                <span>Add/Edit Users</span>
               </NavLink>
-            </Menu.Item> */}
-            </SubMenu>
+            </Menu.Item>
             <Menu.Item key="/dashboard/downloads">
               <NavLink to="/dashboard/downloads">
-                <Icon type="download" />
+               <Icon><FontAwesomeIcon icon={faDownload} /></Icon>
                 <span>Download</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/cashathand">
-              <NavLink to="/dashboard/cashathand">
-                <Icon type="dollar" />
-                <span>Cash At Hand</span>
+            <Menu.Item key="/dashboard/bankbook">
+              <NavLink to="/dashboard/bankbook">
+                <Icon><FontAwesomeIcon icon={faRupeeSign} /></Icon>
+                <span>Bank Book</span>
               </NavLink>
             </Menu.Item>
             <Menu.Item key="/dashboard/account">
               <NavLink to="/dashboard/account">
-                <Icon type="user" />
+               <Icon><FontAwesomeIcon icon={faUserAlt} /></Icon>
                 <span>Account</span>
               </NavLink>
             </Menu.Item>
@@ -195,3 +187,39 @@ export default compose(
     }
   ])
 )(Dashboard);
+
+
+{/* <SubMenu
+              key="sub1"
+              title={
+                <span>
+                  <Icon type="database" />
+                  <span>Database</span>
+                </span>
+              }
+            >
+              <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
+              <Icon type="book" />
+              <span>Overview</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
+              <Icon type="edit" />
+              <span>Edit Receipt</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
+              <Icon type="user-add" />
+              <span>Add User</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="/dashboard/home">
+              <NavLink to="/dashboard/home" >
+              <Icon type="delete" />
+              <span>Reset Database</span>
+              </NavLink>
+            </Menu.Item>
+            </SubMenu> */}
