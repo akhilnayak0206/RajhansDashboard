@@ -1,0 +1,10 @@
+@import "~antd/dist/antd.css";
+
+.custom-tooltip{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.label{
+    color: black;
+    opacity: 1;
+}

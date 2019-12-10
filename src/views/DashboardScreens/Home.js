@@ -20,7 +20,7 @@ import {
 // import {
 //   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 // } from 'recharts';
-import "../../styles/Account.css";
+import "../../styles/Home.css";
 
 const data = [
   {
@@ -73,6 +73,51 @@ const data = [
   }
 ];
 
+const barData = [
+  {
+    name: "Page A",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400
+  },
+  {
+    name: "Page B",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210
+  },
+  {
+    name: "Page C",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290
+  },
+  {
+    name: "Page D",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000
+  },
+  {
+    name: "Page E",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181
+  },
+];
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label">{`${label} : ₹ ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -85,14 +130,14 @@ class Home extends Component {
         <div
           style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
         >
-        <Card
+          <Card
             style={{
               flex: "40%",
               margin: 5,
               // textAlign: "center",
               fontFamily: "'Open Sans', sans-serif",
               backgroundImage:
-              "linear-gradient(45deg, #c31432 , #1832C4, #240b36)"
+                "linear-gradient(45deg, #c31432 , #1832C4, #240b36)"
             }}
             // title="Total"
           >
@@ -123,8 +168,7 @@ class Home extends Component {
               // textAlign: "center",
               fontFamily: "'Open Sans', sans-serif",
               backgroundImage:
-              "linear-gradient(45deg, #310F84, #3494E6, #18B7C4)"
-               
+                "linear-gradient(45deg, #310F84, #3494E6, #18B7C4)"
             }}
             // title="Total"
           >
@@ -211,27 +255,43 @@ class Home extends Component {
             </Skeleton>
           </Card>
         </div>
+        {/* 
+        start below 4 cards sdljgzs sjfnzs kszbd ksdbASa skdfbSjkb
+        remove thhis after complteting the page
+        no use of this comment 
+        only for development for Akhil to understand
+         */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Card style={{ margin: 5 }}>
-            <Skeleton paragraph={{ rows: 3 }}>
+            <Skeleton paragraph={{ rows: 3 }} loading={false}>
+            <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
+              <div style={{ display: "flex" }}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart
+                    data={barData}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar dataKey="amt" fill="#8884d8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Skeleton>
+          </Card>
+          <Card style={{ margin: 5 }}>
+            <Skeleton paragraph={{ rows: 3 }} loading={false}>
               <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
               <p style={{ color: "rgba(0,0,0,0.5)" }}>
                 This website is made by Akhil Nayak if you have any doubt or
-                suggestion you can contact me by emailing me to nnewn3@gmail.com
+                suggestion you can contact me by emaili₹ng me to
+                nnewn3@gmail.com
               </p>
             </Skeleton>
           </Card>
           <Card style={{ margin: 5 }}>
-            <Skeleton paragraph={{ rows: 3 }}>
-              <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
-              <p style={{ color: "rgba(0,0,0,0.5)" }}>
-                This website is made by Akhil Nayak if you have any doubt or
-                suggestion you can contact me by emailing me to nnewn3@gmail.com
-              </p>
-            </Skeleton>
-          </Card>
-          <Card style={{ margin: 5 }}>
-            <Skeleton paragraph={{ rows: 3 }}>
+            <Skeleton paragraph={{ rows: 3 }} loading={false}>
               <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
               <p style={{ color: "rgba(0,0,0,0.5)" }}>
                 This website is made by Akhil Nayak if you have any doubt or
