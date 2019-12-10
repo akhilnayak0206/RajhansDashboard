@@ -262,10 +262,10 @@ class Home extends Component {
         only for development for Akhil to understand
          */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <Card style={{ margin: 5 }}>
+          <Card style={{ margin: 5}} bodyStyle={{paddingLeft:0, paddingRight:0}} >
             <Skeleton paragraph={{ rows: 3 }} loading={false}>
             <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", paddingRight:'24px' }}>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart
                     data={barData}
@@ -280,8 +280,8 @@ class Home extends Component {
               </div>
             </Skeleton>
           </Card>
-          <Card style={{ margin: 5 }}>
-            <Skeleton paragraph={{ rows: 3 }} loading={false}>
+          <Card style={{ margin: 5 }} >
+           <Skeleton paragraph={{ rows: 3 }} loading={false}>
               <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
               <p style={{ color: "rgba(0,0,0,0.5)" }}>
                 This website is made by Akhil Nayak if you have any doubt or
