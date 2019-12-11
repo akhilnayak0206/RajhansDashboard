@@ -1,10 +1,25 @@
 @import "~antd/dist/antd.css";
 
-.custom-tooltip{
-    background-color: rgba(0, 0, 0, 0.2);
+.custom-tooltip {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-.label{
-    color: black;
-    opacity: 1;
+.label {
+  color: black;
+  opacity: 1;
 }
+
+@media only screen and (min-width: 481px) {
+  .card-tree {
+    flex: 40%;
+    margin: 5px;
+    width: 40%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+    .card-tree {
+      flex: 40%;
+      margin: 5px;
+    }
+  }

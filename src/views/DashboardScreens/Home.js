@@ -15,7 +15,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  PieChart,
+  Pie,
+  Sector,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Treemap
 } from "recharts";
 // import {
 //   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -103,7 +111,7 @@ const barData = [
     uv: 1890,
     pv: 4800,
     amt: 2181
-  },
+  }
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -118,11 +126,83 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+const pieData = [
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 },
+  { name: "Group E", value: 278 },
+  { name: "Group F", value: 189 }
+];
+
+const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#008800",
+  "#FBFB28"
+];
+
+const renderActiveShape = props => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value
+  } = props;
+
+  return (
+    <g>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        {payload.name}
+      </text>
+      <text x={cx} y={cy + 15} dy={8} textAnchor="middle" fill={fill}>
+        ₹{payload.value}
+      </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+    </g>
+  );
+};
+
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      activeIndex: 0
+    };
   }
+
+  onPieEnter = (data, index) => {
+    this.setState({
+      activeIndex: index
+    });
+  };
 
   render() {
     return (
@@ -262,14 +342,15 @@ class Home extends Component {
         only for development for Akhil to understand
          */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <Card style={{ margin: 5}} bodyStyle={{paddingLeft:0, paddingRight:0}} >
+          <Card
+            style={{ margin: 5 }}
+            bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
+          >
             <Skeleton paragraph={{ rows: 3 }} loading={false}>
-            <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
-              <div style={{ display: "flex", paddingRight:'24px' }}>
+              <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
+              <div style={{ display: "flex", paddingRight: "24px" }}>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart
-                    data={barData}
-                  >
+                  <BarChart data={barData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
@@ -280,16 +361,55 @@ class Home extends Component {
               </div>
             </Skeleton>
           </Card>
-          <Card style={{ margin: 5 }} >
-           <Skeleton paragraph={{ rows: 3 }} loading={false}>
-              <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
-              <p style={{ color: "rgba(0,0,0,0.5)" }}>
-                This website is made by Akhil Nayak if you have any doubt or
-                suggestion you can contact me by emaili₹ng me to
-                nnewn3@gmail.com
-              </p>
-            </Skeleton>
-          </Card>
+          {/* Added below */}
+          <div
+            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+          >
+            <Card
+              className="card-tree"
+            >
+            <Skeleton loading={false} paragraph={{ rows: 3 }}>
+                <h3 style={{ textAlign: "center" }}>Total Contribution</h3>
+                <ResponsiveContainer width="100%" height={300}>
+                  <Treemap
+                    data={pieData}
+                    dataKey="value"
+                    ratio={4 / 3}
+                    stroke="#fff"
+                    fill="#8884d8"
+                  />
+                </ResponsiveContainer>
+              </Skeleton>
+            </Card>
+            <Card style={{ margin: 5, flex: "40%" }}>
+              <Skeleton paragraph={{ rows: 3 }} loading={false}>
+                <h3 style={{ textAlign: "center" }}>Total Contribution</h3>
+                <ResponsiveContainer width="90%" height={300}>
+                  <PieChart>
+                    <Pie
+                      activeIndex={this.state.activeIndex}
+                      activeShape={renderActiveShape}
+                      dataKey="value"
+                      data={pieData}
+                      cx={"55%"}
+                      cy={150}
+                      fill="#8884d8"
+                      outerRadius={80}
+                      innerRadius={60}
+                      onMouseEnter={this.onPieEnter}
+                    >
+                      {data.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </Skeleton>
+            </Card>
+          </div>
           <Card style={{ margin: 5 }}>
             <Skeleton paragraph={{ rows: 3 }} loading={false}>
               <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
@@ -318,3 +438,57 @@ export default compose(
     OnAuth
   })
 )(Home);
+
+// <PieChart>
+// <Pie
+//   dataKey="value"
+//   data={pieData}
+//   cx={"50%"}
+//   cy={150}
+//   fill="#8884d8"
+//   outerRadius={80}
+//   labelLine={false}
+//   label={renderCustomizedLabel}
+// >
+//   {data.map((entry, index) => (
+//     <Cell
+//       key={`cell-${index}`}
+//       fill={COLORS[index % COLORS.length]}
+//     />
+//   ))}
+// </Pie>
+// </PieChart>
+
+// const sin = Math.sin(-RADIAN * midAngle);
+// const cos = Math.cos(-RADIAN * midAngle);
+// const sx = cx + (outerRadius + 10) * cos;
+// const sy = cy + (outerRadius + 10) * sin;
+// const mx = cx + (outerRadius + 30) * cos;
+// const my = cy + (outerRadius + 30) * sin;
+// const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+// const ey = my;
+// const textAnchor = cos >= 0 ? "start" : "end";
+
+{
+  /* <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333"
+      >{`₹ ${value}`}</text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        dy={18}
+        textAnchor={textAnchor}
+        fill="#999"
+      >
+        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+      </text> */
+}
