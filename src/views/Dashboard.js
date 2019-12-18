@@ -155,7 +155,7 @@ class Dashboard extends Component {
           <Content
             style={{
               margin: "65px 16px",
-              padding: 24,
+              padding: 12,
               height: "100%"
             }}
           >
