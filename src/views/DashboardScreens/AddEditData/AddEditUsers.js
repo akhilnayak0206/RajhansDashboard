@@ -56,19 +56,24 @@ class AddEditUsers extends Component {
     let filterCards = this.state.cards.filter(val =>
       new RegExp(this.state.search, "i").exec(val)
     );
-    this.setState({filterCards})
+    this.setState({ filterCards });
   };
 
   handleSearchChange = e => {
-    let value = e.target.value
-    this.setState({ search: value }, () => this.filteringCards());
-  };
-  handleSearchEnter = value => {
+    let value = e.target.value;
     this.setState({ search: value }, () => this.filteringCards());
   };
 
-  handleChangeFilter = value => {
-    this.setState({ showCards: value }, () => this.filteringCards());
+  handleSearchChange = e => {
+    if (e.target) {
+      this.setState({ search: e.target.value }, () => this.filteringCards());
+    }
+  };
+
+  handleSearchEnter = value => {
+    if (value) {
+      this.setState({ search: value }, () => this.filteringCards());
+    }
   };
 
   handleChangeWings = value => {
@@ -104,7 +109,7 @@ class AddEditUsers extends Component {
                 <Search
                   placeholder="input search text"
                   onSearch={value => this.handleSearchChange(value)}
-                  onChange={(e)=>this.handleSearchChange(e)}
+                  onChange={e => this.handleSearchChange(e)}
                   enterButton
                 />
                 {/* <Button type="primary" shape="round" style={{ marginLeft: 5 }}>

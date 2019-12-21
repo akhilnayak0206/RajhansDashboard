@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { Card, Input, Button, Skeleton, Select } from "antd";
+import { Card, Input, Button, Skeleton, Select, Popover, DatePicker, Modal } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const { Search } = Input;
 const { Option } = Select;
+
+const content = (
+  <div>
+    <p>Content</p>
+    <p>Content</p>
+  </div>
+);
 
 class AddEditExpense extends Component {
   constructor(props) {
@@ -48,23 +55,65 @@ class AddEditExpense extends Component {
       ],
       selectedWings: "wingA",
       showCards: "noFil",
-      search: ""
+      search: "",
+      visiblePopover: false,
+      filterDate:"",
+    visibleModal: false,
+    confirmLoadingModal: false,
+    selectedValModal:""
     };
   }
+
+  showModal = (val) => {
+    this.setState({
+      visibleModal: true,
+      selectedValModal:val
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      confirmLoadingModal: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        visibleModal: false,
+        confirmLoadingModal: false,
+      });
+    }, 2000);
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visibleModal: false,
+    });
+  };
+
+  onChangeDate = (date, dateString) => {
+    this.setState({filterDate:dateString})
+  }
+
+  handlePopoverChange = visiblePopover => {
+    this.setState({ visiblePopover });
+  };
 
   filteringCards = () => {
     let filterCards = this.state.cards.filter(val =>
       new RegExp(this.state.search, "i").exec(val)
     );
-    this.setState({filterCards})
+    this.setState({ filterCards });
   };
 
   handleSearchChange = e => {
-    let value = e.target.value
-    this.setState({ search: value }, () => this.filteringCards());
+    if (e.target) {
+      this.setState({ search: e.target.value }, () => this.filteringCards());
+    }
   };
+
   handleSearchEnter = value => {
-    this.setState({ search: value }, () => this.filteringCards());
+    if (value) {
+      this.setState({ search: value }, () => this.filteringCards());
+    }
   };
 
   handleChangeFilter = value => {
@@ -78,6 +127,15 @@ class AddEditExpense extends Component {
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
+      <Modal
+          title="Title"
+          visible={this.state.visibleModal}
+          onOk={this.handleOk}
+          confirmLoading={this.state.confirmLoadingModal}
+          onCancel={this.handleCancel}
+        >
+          <p>{JSON.stringify(this.state.selectedValModal)}</p>
+        </Modal>
         <Skeleton loading={false} paragraph={{ rows: 50 }} active>
           <div
             style={{
@@ -104,34 +162,9 @@ class AddEditExpense extends Component {
                 <Search
                   placeholder="input search text"
                   onSearch={value => this.handleSearchChange(value)}
-                  onChange={(e)=>this.handleSearchChange(e)}
+                  onChange={e => this.handleSearchChange(e)}
                   enterButton
                 />
-                {/* <Button type="primary" shape="round" style={{ marginLeft: 5 }}>
-                   Filter
-                </Button> */}
-                <Select
-                  defaultValue="wingA"
-                  style={{ marginLeft: 5 }}
-                  onChange={this.handleChangeWings}
-                >
-                  <Option value="wingA">Wing A</Option>
-                  <Option value="wingB">Wing B</Option>
-                  <Option value="wingC">Wing C</Option>
-                  <Option value="wingD">Wing D</Option>
-                  <Option value="wingE">Wing E</Option>
-                  <Option value="wingAll">All Wings</Option>
-                </Select>
-                <Select
-                  defaultValue="noFil"
-                  style={{ marginLeft: 5 }}
-                  onChange={this.handleChangeFilter}
-                  maxTagPlaceholder={5}
-                >
-                  <Option value="noFil">No Filter</Option>
-                  <Option value="coll">Collected</Option>
-                  <Option value="noColl">Not Collected</Option>
-                </Select>
               </div>
             </Card>
           </div>
@@ -148,6 +181,7 @@ class AddEditExpense extends Component {
                     backgroundColor: "#f44336"
                   }}
                   key={key}
+                  onClick={()=>this.showModal(val)}
                 >
                   <b>Not Collected yet</b>
                 </Card>
@@ -157,6 +191,7 @@ class AddEditExpense extends Component {
                   title={`FlatNo: ${val}`}
                   style={{ borderRadius: 5, width: "100%", marginBottom: 10 }}
                   key={key}
+                  onClick={()=>this.showModal(val)}
                 >
                   <p>
                     <b>Name: </b>
@@ -168,6 +203,66 @@ class AddEditExpense extends Component {
                 </Card>
               )
             )}
+          </div>
+          <div
+            style={{
+              flexDirection: "column",
+              display: "flex",
+              zIndex: 15,
+              position: "fixed",
+              bottom: 62,
+              right: 38
+            }}
+          >
+            <Popover
+              placement="leftTop"
+              content={
+                <div style={{display:'flex', flexDirection:'column'}} >
+                  <Select
+                  size="large"
+                  defaultValue="wingA"
+                  style={{ marginBottom: 5 }}
+                  onChange={this.handleChangeWings}
+                >
+                  <Option value="wingA">Wing A</Option>
+                  <Option value="wingB">Wing B</Option>
+                  <Option value="wingC">Wing C</Option>
+                  <Option value="wingD">Wing D</Option>
+                  <Option value="wingE">Wing E</Option>
+                  <Option value="wingAll">All Wings</Option>
+                </Select>
+                  <Select
+                  size="large"
+                    defaultValue="noFil"
+                    style={{ marginBottom: 5 }}
+                    onChange={this.handleChangeFilter}
+                    maxTagPlaceholder={5}
+                    value={this.state.showCards}
+                  >
+                    <Option value="noFil">No Filter</Option>
+                    <Option value="coll">Collected</Option>
+                    <Option value="noColl">Not Collected</Option>
+                  </Select>
+                  <DatePicker size="large" onChange={this.onChangeDate} format="DD/MM/YYYY" />
+                </div>
+              }
+              title="Select Filters"
+              trigger="click"
+              visible={this.state.visiblePopover}
+              onVisibleChange={this.handlePopoverChange}
+            >
+              <Button type="primary" shape="circle" size="large" style={{}}>
+                <FontAwesomeIcon icon={faFilter} size={70} color="white" />
+              </Button>
+            </Popover>
+            <Button
+              type="primary"
+              shape="circle"
+              size="large"
+              style={{ marginTop: 10 }}
+            >
+              <FontAwesomeIcon icon={faPlus} size={70} color="white" />
+            </Button>
           </div>
         </Skeleton>
       </div>
