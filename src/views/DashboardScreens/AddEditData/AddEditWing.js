@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Input, Button, Skeleton, Select, Popover, DatePicker } from "antd";
+import { Card, Input, Button, Skeleton, Select, Popover, DatePicker, Modal } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -56,17 +56,45 @@ class AddEditWing extends Component {
       selectedWings: "wingA",
       showCards: "noFil",
       search: "",
-      visible: false,
+      visiblePopover: false,
       filterDate:"",
+    visibleModal: false,
+    confirmLoadingModal: false,
+    selectedValModal:""
     };
   }
+
+  showModal = (val) => {
+    this.setState({
+      visibleModal: true,
+      selectedValModal:val
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      confirmLoadingModal: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        visibleModal: false,
+        confirmLoadingModal: false,
+      });
+    }, 2000);
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visibleModal: false,
+    });
+  };
 
   onChangeDate = (date, dateString) => {
     this.setState({filterDate:dateString})
   }
 
-  handlePopoverChange = visible => {
-    this.setState({ visible });
+  handlePopoverChange = visiblePopover => {
+    this.setState({ visiblePopover });
   };
 
   filteringCards = () => {
@@ -99,6 +127,15 @@ class AddEditWing extends Component {
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
+      <Modal
+          title="Title"
+          visible={this.state.visibleModal}
+          onOk={this.handleOk}
+          confirmLoading={this.state.confirmLoadingModal}
+          onCancel={this.handleCancel}
+        >
+          <p>{JSON.stringify(this.state.selectedValModal)}</p>
+        </Modal>
         <Skeleton loading={false} paragraph={{ rows: 50 }} active>
           <div
             style={{
@@ -144,6 +181,7 @@ class AddEditWing extends Component {
                     backgroundColor: "#f44336"
                   }}
                   key={key}
+                  onClick={()=>this.showModal(val)}
                 >
                   <b>Not Collected yet</b>
                 </Card>
@@ -153,6 +191,7 @@ class AddEditWing extends Component {
                   title={`FlatNo: ${val}`}
                   style={{ borderRadius: 5, width: "100%", marginBottom: 10 }}
                   key={key}
+                  onClick={()=>this.showModal(val)}
                 >
                   <p>
                     <b>Name: </b>
@@ -209,21 +248,21 @@ class AddEditWing extends Component {
               }
               title="Select Filters"
               trigger="click"
-              visible={this.state.visible}
+              visible={this.state.visiblePopover}
               onVisibleChange={this.handlePopoverChange}
             >
               <Button type="primary" shape="circle" size="large" style={{}}>
                 <FontAwesomeIcon icon={faFilter} size={70} color="white" />
               </Button>
             </Popover>
-            <Button
+            {/* <Button
               type="primary"
               shape="circle"
               size="large"
               style={{ marginTop: 10 }}
             >
               <FontAwesomeIcon icon={faPlus} size={70} color="white" />
-            </Button>
+            </Button> */}
           </div>
         </Skeleton>
       </div>
