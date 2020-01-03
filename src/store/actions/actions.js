@@ -1,4 +1,4 @@
 import OnAuth from './OnAuth';
-import OnWings from './OnWings';
+import OnCollectionData from './OnCollectionData';
 
-export { OnAuth, OnWings };
+export { OnAuth, OnCollectionData };

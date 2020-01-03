@@ -1,5 +1,5 @@
 import auth from './auth';
-import wings from './wings';
+import collectionData from './collectionData';
 
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
@@ -7,7 +7,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
   auth,
-  wings,
+  collectionData,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

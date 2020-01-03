@@ -1,6 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { OnAuth, OnWings } from '../../store/actions/actions';
+import { OnAuth, OnCollectionData } from '../../store/actions/actions';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Card, Skeleton } from 'antd';
@@ -407,11 +407,11 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.props.OnWings({ type: 'GET', wing: 'wingA' });
+    this.props.OnCollectionData({ type: 'GET', collection: 'wellWishers' });
   }
 
   render() {
-    console.log('Here in Home after new redux', this.props.wings);
+    console.log('Here in Home after new redux', this.props.collectionData);
     return <p>Here</p>;
     // return (
     //   <div style={{ display: "flex", flexDirection: "column" }}>
@@ -646,18 +646,18 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const { firebase, auth, wings } = state;
+  const { firebase, auth, collectionData } = state;
   return {
     firebase,
     auth,
-    wings
+    collectionData
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
     OnAuth,
-    OnWings
+    OnCollectionData
   })
 )(Home);
 

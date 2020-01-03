@@ -1,14 +1,14 @@
 import types from '../action_types/index';
 
 //this whole is  unnecessary do auth from screen for smoother transition
-const OnWings = data => {
+const OnCollectionData = data => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     // const firestore = getFirestore();
     switch (data.type) {
       case 'GET':
         {
-          let dataRef = firebase.firestore().collection(data.wing);
+          let dataRef = firebase.firestore().collection(data.collection);
           let query = dataRef
             .get()
             .then(snapshot => {
@@ -16,14 +16,14 @@ const OnWings = data => {
                 console.log('No matching documents.');
                 return;
               }
-              let wing = [];
+              let collection = [];
               // console.log(snapshot);
               snapshot.forEach(doc => {
-                wing.push(doc.data());
+                collection.push(doc.data());
               });
               dispatch({
-                type: types.ON_GET_WING,
-                payload: { wing }
+                type: types.ON_GET_COLLECTION,
+                payload: { collection }
               });
             })
             .catch(err => {
@@ -35,8 +35,16 @@ const OnWings = data => {
         {
         }
         break;
+      case 'SET':
+        {
+        }
+        break;
+      case 'DELETE':
+        {
+        }
+        break;
     }
   };
 };
 
-export default OnWings;
+export default OnCollectionData;
