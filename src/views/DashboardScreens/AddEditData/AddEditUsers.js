@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Card, Input, Button, Skeleton, Select } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react';
+import { Card, Input, Button, Skeleton, Select, Modal } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -23,10 +23,10 @@ class AddEditUsers extends Component {
         5,
         6,
         8,
-        "ak",
-        "sakhcbas",
-        "sygew",
-        "kjbiubc"
+        'ak',
+        'sakhcbas',
+        'sygew',
+        'kjbiubc'
       ],
       filterCards: [
         1,
@@ -41,20 +41,46 @@ class AddEditUsers extends Component {
         5,
         6,
         8,
-        "ak",
-        "sakhcbas",
-        "sygew",
-        "kjbiubc"
+        'ak',
+        'sakhcbas',
+        'sygew',
+        'kjbiubc'
       ],
-      selectedWings: "wingA",
-      showCards: "noFil",
-      search: ""
+      selectedWings: 'wingA',
+      showCards: 'noFil',
+      search: '',
+      visibleModal: false,
+      confirmLoadingModal: false
     };
   }
 
+  showModal = () => {
+    this.setState({
+      visibleModal: true
+    });
+  };
+
+  handleOk = () => {
+    this.setState({
+      confirmLoadingModal: true
+    });
+    setTimeout(() => {
+      this.setState({
+        visibleModal: false,
+        confirmLoadingModal: false
+      });
+    }, 2000);
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visibleModal: false
+    });
+  };
+
   filteringCards = () => {
     let filterCards = this.state.cards.filter(val =>
-      new RegExp(this.state.search, "i").exec(val)
+      new RegExp(this.state.search, 'i').exec(val)
     );
     this.setState({ filterCards });
   };
@@ -82,40 +108,58 @@ class AddEditUsers extends Component {
 
   render() {
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Modal
+          title='Title'
+          visible={this.state.visibleModal}
+          onOk={this.handleOk}
+          confirmLoading={this.state.confirmLoadingModal}
+          onCancel={this.handleCancel}
+        >
+          <p>inside modal</p>
+        </Modal>
         <Skeleton loading={false} paragraph={{ rows: 50 }} active>
           <div
             style={{
-              width: "100%",
+              width: '100%',
               marginBottom: 20,
-              position: "sticky",
+              position: 'sticky',
               zIndex: 5,
               top: 65
             }}
           >
             <Card
-              size="small"
-              style={{ borderRadius: 5, width: "100%" }}
-              bodyStyle={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)" }}
+              size='small'
+              style={{ borderRadius: 5, width: '100%' }}
+              bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
               hoverable
             >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-around"
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around'
                 }}
               >
                 <Search
-                  placeholder="input search text"
+                  placeholder='input search text'
                   onSearch={value => this.handleSearchChange(value)}
                   onChange={e => this.handleSearchChange(e)}
                   enterButton
                 />
-                {/* <Button type="primary" shape="round" style={{ marginLeft: 5 }}>
-                   Filter
-                </Button> */}
-                <Select
+                <Button
+                  type='primary'
+                  shape='round'
+                  style={{ marginLeft: 5 }}
+                  onClick={() =>
+                    this.setState({
+                      visibleModal: true
+                    })
+                  }
+                >
+                  Add User
+                </Button>
+                {/* <Select
                   defaultValue="wingA"
                   style={{ marginLeft: 5 }}
                   onChange={this.handleChangeWings}
@@ -136,21 +180,21 @@ class AddEditUsers extends Component {
                   <Option value="noFil">No Filter</Option>
                   <Option value="coll">Collected</Option>
                   <Option value="noColl">Not Collected</Option>
-                </Select>
+                </Select> */}
               </div>
             </Card>
           </div>
-          <div style={{ width: "100%", height: "100%", marginBottom: 20 }}>
+          <div style={{ width: '100%', height: '100%', marginBottom: 20 }}>
             {this.state.filterCards.map((val, key) =>
               val % 2 === 0 ? (
                 <Card
-                  size="small"
+                  size='small'
                   title={`FlatNo: ${val}`}
                   style={{
                     borderRadius: 5,
-                    width: "100%",
+                    width: '100%',
                     marginBottom: 10,
-                    backgroundColor: "#f44336"
+                    backgroundColor: '#f44336'
                   }}
                   key={key}
                 >
@@ -158,9 +202,9 @@ class AddEditUsers extends Component {
                 </Card>
               ) : (
                 <Card
-                  size="small"
+                  size='small'
                   title={`FlatNo: ${val}`}
-                  style={{ borderRadius: 5, width: "100%", marginBottom: 10 }}
+                  style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
                   key={key}
                 >
                   <p>

@@ -1,5 +1,4 @@
-import OnAuth from './OnAuth'
+import OnAuth from './OnAuth';
+import OnWings from './OnWings';
 
-export {
-OnAuth,
-}
+export { OnAuth, OnWings };

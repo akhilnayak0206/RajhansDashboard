@@ -1,33 +1,31 @@
-import types from "../action_types/index";
+import types from '../action_types/index';
 
 //this whole is  unnecessary do auth from screen for smoother transition
 const OnAuth = data => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    console.log("type", data.type);
-    console.log("type", data);
     const firebase = getFirebase();
     const firestore = getFirestore();
     switch (data.type) {
-      case "login":
+      case 'login':
         let cityRef = firebase
           .firestore()
-          .collection("users")
+          .collection('users')
           .doc(data.email);
         let getDoc = cityRef
           .get()
           .then(doc => {
             if (!doc.exists) {
-              console.log("No such document!");
+              console.log('No such document!');
             } else {
-              console.log("Document data:", doc.data());
+              console.log('Document data:', doc.data());
               dispatch({
                 type: types.ON_SEND_LOGIN,
-                payload: { data: doc.data(), message: "Login action" }
+                payload: { data: doc.data(), message: 'Login action' }
               });
             }
           })
           .catch(err => {
-            console.log("Error getting document", err);
+            console.log('Error getting document', err);
           });
         break;
       // firebase
@@ -52,29 +50,29 @@ const OnAuth = data => {
       //         });
       //       });
       //     });
-      case "login_data":
+      case 'login_data':
         let dataRef = firebase
           .firestore()
-          .collection("users")
+          .collection('users')
           .doc(data.email);
         dataRef
           .get()
           .then(doc => {
             if (!doc.exists) {
-              console.log("No such document!");
+              console.log('No such document!');
             } else {
-              console.log("Document data:", doc.data());
+              console.log('Document data:', doc.data());
               dispatch({
                 type: types.ON_SEND_LOGIN_DATA,
                 payload: {
                   data: doc.data(),
-                  message: "Login action at account"
+                  message: 'Login action at account'
                 }
               });
             }
           })
           .catch(err => {
-            console.log("Error getting document", err);
+            console.log('Error getting document', err);
           });
         break;
       //didn't use because unnecessary
