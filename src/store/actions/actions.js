@@ -1,4 +1,5 @@
 import OnAuth from './OnAuth';
-import OnCollectionData from './OnCollectionData';
+import OnGetData from './OnGetData';
+import OnAddData from './OnAddData';
 
-export { OnAuth, OnCollectionData };
+export { OnAuth, OnGetData, OnAddData };

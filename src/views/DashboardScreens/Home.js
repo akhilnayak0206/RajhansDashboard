@@ -1,9 +1,9 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { OnAuth, OnCollectionData } from '../../store/actions/actions';
+import { OnAuth, OnGetData, OnAddData } from '../../store/actions/actions';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { Card, Skeleton } from 'antd';
+import { Card, Skeleton, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -406,13 +406,28 @@ class Home extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.OnCollectionData({ type: 'GET', collection: 'wellWishers' });
-  }
+  componentDidMount() {}
 
   render() {
-    console.log('Here in Home after new redux', this.props.collectionData);
-    return <p>Here</p>;
+    console.log('Here in Home after new redux', this.props.getData);
+    console.log('Here in Home after new redux', this.props.addData);
+    return (
+      <div>
+        <Button onClick={() => this.props.OnGetData({ collection: 'wingA' })}>
+          CLick get Data
+        </Button>
+        <Button
+          onClick={() =>
+            this.props.OnAddData({
+              collection: 'wellWishers',
+              newData: { name: 'dummy', amount: 100, receipt: [1, 2, 3] }
+            })
+          }
+        >
+          CLick add Data
+        </Button>
+      </div>
+    );
     // return (
     //   <div style={{ display: "flex", flexDirection: "column" }}>
     //     <div
@@ -646,18 +661,20 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const { firebase, auth, collectionData } = state;
+  const { firebase, auth, getData, addData } = state;
   return {
     firebase,
     auth,
-    collectionData
+    getData,
+    addData
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
     OnAuth,
-    OnCollectionData
+    OnGetData,
+    OnAddData
   })
 )(Home);
 
