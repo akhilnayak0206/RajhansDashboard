@@ -3,7 +3,7 @@ import types from '../action_types/index';
 const initState = { data: '', message: '' };
 
 const auth = (state = initState, action) => {
-  console.log('auth');
+  // console.log('auth');
   switch (action.type) {
     case types.ON_SEND_LOGIN:
       return action.payload;

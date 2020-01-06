@@ -1,6 +1,7 @@
 import auth from './auth';
 import getData from './getData';
 import addData from './addData';
+import deleteData from './deleteData';
 
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   auth,
   getData,
   addData,
+  deleteData,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

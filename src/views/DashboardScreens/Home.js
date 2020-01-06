@@ -1,6 +1,11 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { OnAuth, OnGetData, OnAddData } from '../../store/actions/actions';
+import {
+  OnAuth,
+  OnGetData,
+  OnAddData,
+  OnDeleteData
+} from '../../store/actions/actions';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Card, Skeleton, Button } from 'antd';
@@ -409,11 +414,27 @@ class Home extends Component {
   componentDidMount() {}
 
   render() {
-    console.log('Here in Home after new redux', this.props.getData);
-    console.log('Here in Home after new redux', this.props.addData);
+    // console.log('Here in Home after new redux', this.props.getData);
+    // console.log('Here in Home after new redux', this.props.addData);
+    // console.log('Here in Home after new redux', this.props.deleteData);
     return (
       <div>
-        <Button onClick={() => this.props.OnGetData({ collection: 'wingA' })}>
+        {/* <Button
+          onClick={() =>
+            this.props.OnDeleteData({
+              collection: 'dummy',
+              deleteDataID: '2',
+              deleteDataObj: {
+                name: '0',
+                amount: 0,
+                description: '000'
+              }
+            })
+          }
+        >
+          CLick Delete Data
+        </Button> */}
+        {/* <Button onClick={() => this.props.OnGetData({ collection: 'wingA' })}>
           CLick get Data
         </Button>
         <Button
@@ -425,7 +446,7 @@ class Home extends Component {
           }
         >
           CLick add Data
-        </Button>
+        </Button> */}
       </div>
     );
     // return (
@@ -661,12 +682,13 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const { firebase, auth, getData, addData } = state;
+  const { firebase, auth, getData, addData, deleteData } = state;
   return {
     firebase,
     auth,
     getData,
-    addData
+    addData,
+    deleteData
   };
 }
 
@@ -674,7 +696,8 @@ export default compose(
   connect(mapStateToProps, {
     OnAuth,
     OnGetData,
-    OnAddData
+    OnAddData,
+    OnDeleteData
   })
 )(Home);
 
