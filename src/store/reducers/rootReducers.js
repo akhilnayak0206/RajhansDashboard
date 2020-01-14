@@ -1,5 +1,6 @@
 import auth from './auth';
 import getData from './getData';
+import setData from './setData';
 import addData from './addData';
 import deleteData from './deleteData';
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   getData,
   addData,
   deleteData,
+  setData,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

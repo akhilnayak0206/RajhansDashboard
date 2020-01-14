@@ -1,14 +1,25 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { OnAuth } from "../store/actions/actions";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
-import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRupeeSign, faUserEdit, faHome, faEdit,  faDownload, faPlus, faUsers, faUserAlt, faFileInvoiceDollar, faUsersCog } from "@fortawesome/free-solid-svg-icons";
-import "../styles/Dashboard.css";
-import DashboardRouter from "../routers/DashboardRouter";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { OnAuth } from '../store/actions/actions';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faRupeeSign,
+  faUserEdit,
+  faHome,
+  faEdit,
+  faDownload,
+  faPlus,
+  faUsers,
+  faUserAlt,
+  faFileInvoiceDollar,
+  faUsersCog
+} from '@fortawesome/free-solid-svg-icons';
+import '../styles/Dashboard.css';
+import DashboardRouter from '../routers/DashboardRouter';
 // import firebase from "../config/fbConfig"; //for data of JMM excel
 
 const { Header, Content, Sider } = Layout;
@@ -20,7 +31,7 @@ class Dashboard extends Component {
     this.state = {
       collapsed: false
     };
-    console.log("inHoe",this.props);
+    console.log('inHoe', this.props);
   }
 
   onCollapse = collapsed => {
@@ -44,8 +55,8 @@ class Dashboard extends Component {
   //       if (snapshot.empty) {
   //         console.log('No matching documents.');
   //         return;
-  //       }  
-    
+  //       }
+
   //       snapshot.forEach(doc => {
   //         data.push(doc.data())
   //         // console.log(doc.id, '=>', doc.data());
@@ -59,71 +70,87 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Layout style={{ width: "100%", height: "100%" }}>
+      <Layout style={{ width: '100%', height: '100%' }}>
         <Sider
-          style={{ overflow: "auto" }}
+          style={{ overflow: 'auto' }}
           trigger={null}
-          breakpoint="md"
+          breakpoint='md'
           onBreakpoint={broken => {
             this.setState({
               collapsed: broken
             });
           }}
-          collapsedWidth="0"
+          collapsedWidth='0'
           collapsible
           collapsed={this.state.collapsed}
         >
-          <div className="logo" />
+          <div className='logo' />
           <Menu
-            theme="dark"
-            mode="inline"
+            theme='dark'
+            mode='inline'
             selectedKeys={[this.props.location.pathname]}
           >
-            <Menu.Item key="/dashboard/home">
-              <NavLink to="/dashboard/home">
-              <Icon><FontAwesomeIcon icon={faHome} /></Icon>
+            <Menu.Item key='/dashboard/home'>
+              <NavLink to='/dashboard/home'>
+                <Icon>
+                  <FontAwesomeIcon icon={faHome} />
+                </Icon>
                 <span>Home</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/wings">
-              <NavLink to="/dashboard/wings">
-               <Icon><FontAwesomeIcon icon={faEdit} /></Icon>
+            <Menu.Item key='/dashboard/wings'>
+              <NavLink to='/dashboard/wings'>
+                <Icon>
+                  <FontAwesomeIcon icon={faEdit} />
+                </Icon>
                 <span>Wings</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/well-wishers">
-              <NavLink to="/dashboard/well-wishers">
-               <Icon><FontAwesomeIcon icon={faPlus} /></Icon>
+            <Menu.Item key='/dashboard/well-wishers'>
+              <NavLink to='/dashboard/well-wishers'>
+                <Icon>
+                  <FontAwesomeIcon icon={faPlus} />
+                </Icon>
                 <span>Well-Wishers</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/expenses">
-              <NavLink to="/dashboard/expenses">
-               <Icon><FontAwesomeIcon icon={faFileInvoiceDollar} /></Icon>
+            <Menu.Item key='/dashboard/expenses'>
+              <NavLink to='/dashboard/expenses'>
+                <Icon>
+                  <FontAwesomeIcon icon={faFileInvoiceDollar} />
+                </Icon>
                 <span>Expenses</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/addeditusers">
-              <NavLink to="/dashboard/addeditusers">
-                <Icon><FontAwesomeIcon icon={faUsersCog} /></Icon>
+            <Menu.Item key='/dashboard/addeditusers'>
+              <NavLink to='/dashboard/addeditusers'>
+                <Icon>
+                  <FontAwesomeIcon icon={faUsersCog} />
+                </Icon>
                 <span>Add/Edit Users</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/downloads">
-              <NavLink to="/dashboard/downloads">
-               <Icon><FontAwesomeIcon icon={faDownload} /></Icon>
+            <Menu.Item key='/dashboard/downloads'>
+              <NavLink to='/dashboard/downloads'>
+                <Icon>
+                  <FontAwesomeIcon icon={faDownload} />
+                </Icon>
                 <span>Download</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/bankbook">
-              <NavLink to="/dashboard/bankbook">
-                <Icon><FontAwesomeIcon icon={faRupeeSign} /></Icon>
+            <Menu.Item key='/dashboard/bankbook'>
+              <NavLink to='/dashboard/bankbook'>
+                <Icon>
+                  <FontAwesomeIcon icon={faRupeeSign} />
+                </Icon>
                 <span>Bank Book</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/account">
-              <NavLink to="/dashboard/account">
-               <Icon><FontAwesomeIcon icon={faUserAlt} /></Icon>
+            <Menu.Item key='/dashboard/account'>
+              <NavLink to='/dashboard/account'>
+                <Icon>
+                  <FontAwesomeIcon icon={faUserAlt} />
+                </Icon>
                 <span>Account</span>
               </NavLink>
             </Menu.Item>
@@ -132,31 +159,31 @@ class Dashboard extends Component {
         <Layout>
           <Header
             style={{
-              background: "#fff",
+              background: '#fff',
               padding: 0,
-              position: "fixed",
+              position: 'fixed',
               zIndex: 10,
-              width: "100%",
-              display: "flex"
+              width: '100%',
+              display: 'flex'
             }}
           >
             <Icon
-              className="trigger"
-              type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+              className='trigger'
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
-              style={{ marginLeft: "5px" }}
+              style={{ marginLeft: '5px' }}
             />
             {this.state.collapsed && (
-              <div className="headerDivLogo">
-                <div className="headerLogo" />
+              <div className='headerDivLogo'>
+                <div className='headerLogo' />
               </div>
             )}
           </Header>
           <Content
             style={{
-              margin: "65px 16px",
+              margin: '65px 16px',
               padding: 12,
-              height: "100%"
+              height: '100%'
             }}
           >
             <DashboardRouter />
@@ -175,21 +202,18 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    {
-      OnAuth
-    }
-  ),
+  connect(mapStateToProps, {
+    OnAuth
+  }),
   firestoreConnect([
     {
-      collection: "auth"
+      collection: 'auth'
     }
   ])
 )(Dashboard);
 
-
-{/* <SubMenu
+{
+  /* <SubMenu
               key="sub1"
               title={
                 <span>
@@ -222,4 +246,5 @@ export default compose(
               <span>Reset Database</span>
               </NavLink>
             </Menu.Item>
-            </SubMenu> */}
+            </SubMenu> */
+}
