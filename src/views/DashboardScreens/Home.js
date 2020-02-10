@@ -5,9 +5,9 @@ import {
   OnGetData,
   OnAddData,
   OnDeleteData,
-  OnSetData
+  OnSetData,
+  OnTotalData
 } from '../../store/actions/actions';
-import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Card, Skeleton, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,16 +24,8 @@ import {
   PieChart,
   Pie,
   Sector,
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
   Treemap
 } from 'recharts';
-// import {
-//   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-// } from 'recharts';
 import '../../styles/Home.css';
 
 const data = [
@@ -46,7 +38,7 @@ const data = [
     amt: 1
   },
   {
-    name: 'Page B',
+    name: 'Page BB',
     ch: 3,
     tc: 1,
     te: 4,
@@ -87,39 +79,6 @@ const data = [
   }
 ];
 
-const barData = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181
-  }
-];
-
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
     return (
@@ -132,15 +91,6 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-  { name: 'Group E', value: 278 },
-  { name: 'Group F', value: 189 }
-];
-
 const COLORS = [
   '#0088FE',
   '#00C49F',
@@ -151,7 +101,6 @@ const COLORS = [
 ];
 
 const renderActiveShape = props => {
-  const RADIAN = Math.PI / 180;
   const {
     cx,
     cy,
@@ -195,139 +144,6 @@ const renderActiveShape = props => {
     </g>
   );
 };
-
-const treeData = [
-  {
-    name: 'axis',
-    children: [
-      { name: 'Axes', size: 1302 },
-      { name: 'Axis', size: 24593 },
-      { name: 'AxisGridLine', size: 652 },
-      { name: 'AxisLabel', size: 636 },
-      { name: 'CartesianAxes', size: 6703 }
-    ]
-  },
-  {
-    name: 'controls',
-    children: [
-      { name: 'AnchorControl', size: 2138 },
-      { name: 'ClickControl', size: 3824 },
-      { name: 'Control', size: 1353 },
-      { name: 'ControlList', size: 4665 },
-      { name: 'DragControl', size: 2649 },
-      { name: 'ExpandControl', size: 2832 },
-      { name: 'HoverControl', size: 4896 },
-      { name: 'IControl', size: 763 },
-      { name: 'PanZoomControl', size: 5222 },
-      { name: 'SelectionControl', size: 7862 },
-      { name: 'TooltipControl', size: 8435 }
-    ]
-  },
-  {
-    name: 'data',
-    children: [
-      { name: 'Data', size: 20544 },
-      { name: 'DataList', size: 19788 },
-      { name: 'DataSprite', size: 10349 },
-      { name: 'EdgeSprite', size: 3301 },
-      { name: 'NodeSprite', size: 19382 },
-      {
-        name: 'render',
-        children: [
-          { name: 'ArrowType', size: 698 },
-          { name: 'EdgeRenderer', size: 5569 },
-          { name: 'IRenderer', size: 353 },
-          { name: 'ShapeRenderer', size: 2247 }
-        ]
-      },
-      { name: 'ScaleBinding', size: 11275 },
-      { name: 'Tree', size: 7147 },
-      { name: 'TreeBuilder', size: 9930 }
-    ]
-  },
-  {
-    name: 'events',
-    children: [
-      { name: 'DataEvent', size: 7313 },
-      { name: 'SelectionEvent', size: 6880 },
-      { name: 'TooltipEvent', size: 3701 },
-      { name: 'VisualizationEvent', size: 2117 }
-    ]
-  },
-  {
-    name: 'legend',
-    children: [
-      { name: 'Legend', size: 20859 },
-      { name: 'LegendItem', size: 4614 },
-      { name: 'LegendRange', size: 10530 }
-    ]
-  },
-  {
-    name: 'operator',
-    children: [
-      {
-        name: 'distortion',
-        children: [
-          { name: 'BifocalDistortion', size: 4461 },
-          { name: 'Distortion', size: 6314 },
-          { name: 'FisheyeDistortion', size: 3444 }
-        ]
-      },
-      {
-        name: 'encoder',
-        children: [
-          { name: 'ColorEncoder', size: 3179 },
-          { name: 'Encoder', size: 4060 },
-          { name: 'PropertyEncoder', size: 4138 },
-          { name: 'ShapeEncoder', size: 1690 },
-          { name: 'SizeEncoder', size: 1830 }
-        ]
-      },
-      {
-        name: 'filter',
-        children: [
-          { name: 'FisheyeTreeFilter', size: 5219 },
-          { name: 'GraphDistanceFilter', size: 3165 },
-          { name: 'VisibilityFilter', size: 3509 }
-        ]
-      },
-      { name: 'IOperator', size: 1286 },
-      {
-        name: 'label',
-        children: [
-          { name: 'Labeler', size: 9956 },
-          { name: 'RadialLabeler', size: 3899 },
-          { name: 'StackedAreaLabeler', size: 3202 }
-        ]
-      },
-      {
-        name: 'layout',
-        children: [
-          { name: 'AxisLayout', size: 6725 },
-          { name: 'BundledEdgeRouter', size: 3727 },
-          { name: 'CircleLayout', size: 9317 },
-          { name: 'CirclePackingLayout', size: 12003 },
-          { name: 'DendrogramLayout', size: 4853 },
-          { name: 'ForceDirectedLayout', size: 8411 },
-          { name: 'IcicleTreeLayout', size: 4864 },
-          { name: 'IndentedTreeLayout', size: 3174 },
-          { name: 'Layout', size: 7881 },
-          { name: 'NodeLinkTreeLayout', size: 12870 },
-          { name: 'PieLayout', size: 2728 },
-          { name: 'RadialTreeLayout', size: 12348 },
-          { name: 'RandomLayout', size: 870 },
-          { name: 'StackedAreaLayout', size: 9121 },
-          { name: 'TreeMapLayout', size: 9191 }
-        ]
-      },
-      { name: 'Operator', size: 2490 },
-      { name: 'OperatorList', size: 5248 },
-      { name: 'OperatorSequence', size: 4190 },
-      { name: 'OperatorSwitch', size: 2581 },
-      { name: 'SortOperator', size: 2023 }
-    ]
-  }
-];
 
 const TREE_COLORS = [
   '#8889DD',
@@ -402,7 +218,52 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndex: 0
+      activeIndex: 0,
+      totalData: {},
+      barData: [
+        {
+          name: 'Wing A',
+          amt: 0
+        },
+        {
+          name: 'Wing B',
+          amt: 0
+        },
+        {
+          name: 'Wing C',
+          amt: 0
+        },
+        {
+          name: 'Wing D',
+          amt: 0
+        },
+        {
+          name: 'Wing E',
+          amt: 0
+        }
+      ],
+      pieData: [
+        { name: 'Wing A', value: 0 },
+        { name: 'Wing B', value: 0 },
+        { name: 'Wing C', value: 0 },
+        { name: 'Wing D', value: 0 },
+        { name: 'Wing E', value: 0 },
+        { name: 'Well Wishers', value: 0 }
+      ],
+      treeData: [
+        {
+          name: 'Overview',
+          children: [
+            { name: 'wing A', size: 0 },
+            { name: 'wing B', size: 0 },
+            { name: 'Wing C', size: 0 },
+            { name: 'wing D', size: 0 },
+            { name: 'Wing E', size: 0 },
+            { name: 'Well Wishers', size: 0 },
+            { name: 'Expenses', size: 0 }
+          ]
+        }
+      ]
     };
   }
 
@@ -412,275 +273,384 @@ class Home extends Component {
     });
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.OnTotalData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.totalData !== this.props.totalData) {
+      this.setState({
+        totalData: nextProps.totalData,
+        barData: [
+          {
+            name: 'Wing A',
+            amt: nextProps.totalData.totalWingA
+          },
+          {
+            name: 'Wing B',
+            amt: nextProps.totalData.totalWingB
+          },
+          {
+            name: 'Wing C',
+            amt: nextProps.totalData.totalWingC
+          },
+          {
+            name: 'Wing D',
+            amt: nextProps.totalData.totalWingD
+          },
+          {
+            name: 'Wing E',
+            amt: nextProps.totalData.totalWingE
+          }
+        ],
+        pieData: [
+          {
+            name: 'Wing A',
+            value: nextProps.totalData.totalWingA
+          },
+          {
+            name: 'Wing B',
+            value: nextProps.totalData.totalWingB
+          },
+          {
+            name: 'Wing C',
+            value: nextProps.totalData.totalWingC
+          },
+          {
+            name: 'Wing D',
+            value: nextProps.totalData.totalWingD
+          },
+          {
+            name: 'Wing E',
+            value: nextProps.totalData.totalWingE
+          },
+          {
+            name: 'Well Wishers',
+            value: nextProps.totalData.totalWellWishers
+          }
+        ],
+        treeData: [
+          {
+            name: 'wing A',
+            children: [
+              {
+                name: 'Wing A',
+                size: nextProps.totalData.totalWingA
+              }
+            ]
+          },
+          {
+            name: 'wing B',
+            children: [
+              {
+                name: 'Wing B',
+                size: nextProps.totalData.totalWingB
+              }
+            ]
+          },
+          {
+            name: 'wing C',
+            children: [
+              {
+                name: 'Wing C',
+                size: nextProps.totalData.totalWingC
+              }
+            ]
+          },
+          {
+            name: 'wing D',
+            children: [
+              {
+                name: 'Wing D',
+                size: nextProps.totalData.totalWingD
+              }
+            ]
+          },
+          {
+            name: 'wing E',
+            children: [
+              {
+                name: 'Wing E',
+                size: nextProps.totalData.totalWingE
+              }
+            ]
+          },
+          {
+            name: 'Well Wishers',
+            children: [
+              {
+                name: 'Well Wishers',
+                size: nextProps.totalData.totalWellWishers
+              }
+            ]
+          },
+          {
+            name: 'Expenses',
+            children: [
+              {
+                name: 'Expenses',
+                size: nextProps.totalData.totalExpenses
+              }
+            ]
+          }
+        ]
+      });
+    }
+  }
 
   render() {
-    // console.log('Here in Home after new redux', this.props.getData);
-    // console.log('Here in Home after new redux', this.props.addData);
-    // console.log('Here in Home after new redux', this.props.deleteData);
-
     return (
-      <div>
-        <Button
-          onClick={() =>
-            this.props.OnSetData({
-              collection: 'wingE',
-              doc: '999',
-              // Work on below update part
-              setData: {
-                Received: '10',
-                Collected: '10',
-                Amount: 10,
-                description: '000'
-              }
-            })
-          }
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div
+          style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
         >
-          CLick Set Data
-        </Button>
+          <Card
+            style={{
+              flex: '40%',
+              margin: 5,
+              // textAlign: "center",
+              fontFamily: "'Open Sans', sans-serif",
+              backgroundImage:
+                'linear-gradient(45deg, #c31432 , #1832C4, #240b36)'
+            }}
+            // title="Total"
+          >
+            <Skeleton loading={false} paragraph={{ rows: 3 }}>
+              <h1
+                style={{
+                  // textAlign: "center",
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 'lighter',
+                  fontSize: '40px',
+                  margin: '0px',
+                  color: 'white'
+                }}
+              >
+                <FontAwesomeIcon icon={faRupeeSign} />
+                {this.state.totalData.totalCollection}
+              </h1>
+              <p style={{ color: 'white' }}>Total Collection</p>
+              <BarChart width={150} height={40} data={data}>
+                <Bar isAnimationActive={false} dataKey='tc' fill='#fff' />
+              </BarChart>
+            </Skeleton>
+          </Card>
+          <Card
+            style={{
+              flex: '40%',
+              margin: 5,
+              // textAlign: "center",
+              fontFamily: "'Open Sans', sans-serif",
+              backgroundImage:
+                'linear-gradient(45deg, #310F84, #3494E6, #18B7C4)'
+            }}
+            // title="Total"
+          >
+            <Skeleton loading={false} paragraph={{ rows: 3 }}>
+              <h1
+                style={{
+                  // textAlign: "center",
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 'lighter',
+                  fontSize: '40px',
+                  margin: '0px',
+                  color: 'white'
+                }}
+              >
+                <FontAwesomeIcon icon={faRupeeSign} />
+                {this.state.totalData.cashInHand}
+              </h1>
+              <p style={{ color: 'white' }}>Cash In Hand</p>
+              <BarChart width={150} height={40} data={data}>
+                <Bar isAnimationActive={false} dataKey='ch' fill='#fff' />
+              </BarChart>
+            </Skeleton>
+          </Card>
+          <Card
+            style={{
+              flex: '40%',
+              margin: 5,
+              // textAlign: "center",
+              fontFamily: "'Open Sans', sans-serif",
+              backgroundImage:
+                'linear-gradient(45deg, #240b36, #c31432, #cc2b5e)'
+            }}
+            // title="Total"
+          >
+            <Skeleton loading={false} paragraph={{ rows: 3 }}>
+              <h1
+                style={{
+                  // textAlign: "center",
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 'lighter',
+                  fontSize: '40px',
+                  margin: '0px',
+                  color: 'white'
+                }}
+              >
+                <FontAwesomeIcon icon={faRupeeSign} />
+                {this.state.totalData.totalExpenses}
+              </h1>
+              <p style={{ color: 'white' }}>Total Expenses</p>
+              <BarChart width={150} height={40} data={data}>
+                <Bar isAnimationActive={false} dataKey='te' fill='#fff' />
+              </BarChart>
+            </Skeleton>
+          </Card>
+          <Card
+            style={{
+              flex: '40%',
+              margin: 5,
+              // textAlign: "center",
+              fontFamily: "'Open Sans', sans-serif",
+              backgroundImage:
+                'linear-gradient(45deg, #1832C4, #310F84, #592E7C)'
+            }}
+            // title="Total"
+          >
+            <Skeleton loading={false} paragraph={{ rows: 3 }}>
+              <h1
+                style={{
+                  // textAlign: "center",
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 'lighter',
+                  fontSize: '40px',
+                  margin: '0px',
+                  color: 'white'
+                }}
+              >
+                <FontAwesomeIcon icon={faRupeeSign} />
+                {this.state.totalData.totalBankCollection}
+              </h1>
+              <p style={{ color: 'white' }}>Bank Collection</p>
+              <BarChart width={150} height={40} data={data}>
+                <Bar isAnimationActive={false} dataKey='bb' fill='#fff' />
+              </BarChart>
+            </Skeleton>
+          </Card>
+        </div>
+        {/*
+        start below 4 cards
+        remove this after completing the page
+        no use of this comment
+        only for development for Akhil to understand
+         */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Card
+            style={{ margin: 5 }}
+            bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
+          >
+            <Skeleton paragraph={{ rows: 3 }} loading={false}>
+              <h3 style={{ textAlign: 'center' }}>Wing Contribution</h3>
+              <div style={{ display: 'flex', paddingRight: '24px' }}>
+                <ResponsiveContainer width='100%' height={300}>
+                  <BarChart data={this.state.barData}>
+                    <CartesianGrid strokeDasharray='3 3' />
+                    <XAxis dataKey='name' />
+                    <YAxis />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar
+                      isAnimationActive={false}
+                      dataKey='amt'
+                      fill='#3494E6'
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Skeleton>
+          </Card>
+          <div
+            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
+          >
+            <Card className='card-tree'>
+              <Skeleton loading={false} paragraph={{ rows: 3 }}>
+                <h3 style={{ textAlign: 'center' }}>Total Contribution</h3>
+                <ResponsiveContainer width='100%' height={300}>
+                  <Treemap
+                    isAnimationActive={false}
+                    data={this.state.pieData}
+                    dataKey='value'
+                    ratio={4 / 3}
+                    stroke='#fff'
+                    content={<CustomizedContent colors={TREE_COLORS} />}
+                  />
+                </ResponsiveContainer>
+              </Skeleton>
+            </Card>
+            <Card style={{ margin: 5, flex: '40%' }}>
+              <Skeleton paragraph={{ rows: 3 }} loading={false}>
+                <h3 style={{ textAlign: 'center' }}>Total Contribution</h3>
+                <ResponsiveContainer width='90%' height={300}>
+                  <PieChart>
+                    <Pie
+                      isAnimationActive={false}
+                      activeIndex={this.state.activeIndex}
+                      activeShape={renderActiveShape}
+                      dataKey='value'
+                      data={this.state.pieData}
+                      cx={'55%'}
+                      cy={150}
+                      fill='#8884d8'
+                      outerRadius={80}
+                      innerRadius={60}
+                      onMouseEnter={this.onPieEnter}
+                    >
+                      {data.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </Skeleton>
+            </Card>
+          </div>
+          <Card style={{ margin: 5 }}>
+            <Skeleton paragraph={{ rows: 3 }} loading={false}>
+              <h3 style={{ textAlign: 'center' }}>Overview</h3>
+              <div style={{ display: 'flex', paddingRight: '24px' }}>
+                <ResponsiveContainer width='100%' height={300}>
+                  <Treemap
+                    isAnimationActive={false}
+                    width={400}
+                    height={200}
+                    data={this.state.treeData}
+                    dataKey='size'
+                    ratio={4 / 3}
+                    stroke='#fff'
+                    fill='#8884d8'
+                    content={<CustomizedContent colors={TREE_COLORS} />}
+                  />
+                </ResponsiveContainer>
+              </div>
+            </Skeleton>
+          </Card>
+        </div>
       </div>
     );
-    // return (
-    //   <div style={{ display: "flex", flexDirection: "column" }}>
-    //     <div
-    //       style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-    //     >
-    //       <Card
-    //         style={{
-    //           flex: "40%",
-    //           margin: 5,
-    //           // textAlign: "center",
-    //           fontFamily: "'Open Sans', sans-serif",
-    //           backgroundImage:
-    //             "linear-gradient(45deg, #c31432 , #1832C4, #240b36)"
-    //         }}
-    //         // title="Total"
-    //       >
-    //         <Skeleton loading={false} paragraph={{ rows: 3 }}>
-    //           <h1
-    //             style={{
-    //               // textAlign: "center",
-    //               fontFamily: "'Open Sans', sans-serif",
-    //               fontWeight: "lighter",
-    //               fontSize: "40px",
-    //               margin: "0px",
-    //               color: "white"
-    //             }}
-    //           >
-    //             <FontAwesomeIcon icon={faRupeeSign} />
-    //             1234
-    //           </h1>
-    //           <p style={{ color: "white" }}>Total Collection</p>
-    //           <BarChart width={150} height={40} data={data}>
-    //             <Bar dataKey="tc" fill="#fff" />
-    //           </BarChart>
-    //         </Skeleton>
-    //       </Card>
-    //       <Card
-    //         style={{
-    //           flex: "40%",
-    //           margin: 5,
-    //           // textAlign: "center",
-    //           fontFamily: "'Open Sans', sans-serif",
-    //           backgroundImage:
-    //             "linear-gradient(45deg, #310F84, #3494E6, #18B7C4)"
-    //         }}
-    //         // title="Total"
-    //       >
-    //         <Skeleton loading={false} paragraph={{ rows: 3 }}>
-    //           <h1
-    //             style={{
-    //               // textAlign: "center",
-    //               fontFamily: "'Open Sans', sans-serif",
-    //               fontWeight: "lighter",
-    //               fontSize: "40px",
-    //               margin: "0px",
-    //               color: "white"
-    //             }}
-    //           >
-    //             <FontAwesomeIcon icon={faRupeeSign} />
-    //             1234
-    //           </h1>
-    //           <p style={{ color: "white" }}>Cash In Hand</p>
-    //           <BarChart width={150} height={40} data={data}>
-    //             <Bar dataKey="ch" fill="#fff" />
-    //           </BarChart>
-    //         </Skeleton>
-    //       </Card>
-    //       <Card
-    //         style={{
-    //           flex: "40%",
-    //           margin: 5,
-    //           // textAlign: "center",
-    //           fontFamily: "'Open Sans', sans-serif",
-    //           backgroundImage:
-    //             "linear-gradient(45deg, #240b36, #c31432, #cc2b5e)"
-    //         }}
-    //         // title="Total"
-    //       >
-    //         <Skeleton loading={false} paragraph={{ rows: 3 }}>
-    //           <h1
-    //             style={{
-    //               // textAlign: "center",
-    //               fontFamily: "'Open Sans', sans-serif",
-    //               fontWeight: "lighter",
-    //               fontSize: "40px",
-    //               margin: "0px",
-    //               color: "white"
-    //             }}
-    //           >
-    //             <FontAwesomeIcon icon={faRupeeSign} />
-    //             1234
-    //           </h1>
-    //           <p style={{ color: "white" }}>Total Expenses</p>
-    //           <BarChart width={150} height={40} data={data}>
-    //             <Bar dataKey="te" fill="#fff" />
-    //           </BarChart>
-    //         </Skeleton>
-    //       </Card>
-    //       <Card
-    //         style={{
-    //           flex: "40%",
-    //           margin: 5,
-    //           // textAlign: "center",
-    //           fontFamily: "'Open Sans', sans-serif",
-    //           backgroundImage:
-    //             "linear-gradient(45deg, #1832C4, #310F84, #592E7C)"
-    //         }}
-    //         // title="Total"
-    //       >
-    //         <Skeleton loading={false} paragraph={{ rows: 3 }}>
-    //           <h1
-    //             style={{
-    //               // textAlign: "center",
-    //               fontFamily: "'Open Sans', sans-serif",
-    //               fontWeight: "lighter",
-    //               fontSize: "40px",
-    //               margin: "0px",
-    //               color: "white"
-    //             }}
-    //           >
-    //             <FontAwesomeIcon icon={faRupeeSign} />
-    //             1234
-    //           </h1>
-    //           <p style={{ color: "white" }}>Bank Collection</p>
-    //           <BarChart width={150} height={40} data={data}>
-    //             <Bar dataKey="bb" fill="#fff" />
-    //           </BarChart>
-    //         </Skeleton>
-    //       </Card>
-    //     </div>
-    //     {/*
-    //     start below 4 cards
-    //     remove this after completing the page
-    //     no use of this comment
-    //     only for development for Akhil to understand
-    //      */}
-    //     <div style={{ display: "flex", flexDirection: "column" }}>
-    //       <Card
-    //         style={{ margin: 5 }}
-    //         bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
-    //       >
-    //         <Skeleton paragraph={{ rows: 3 }} loading={false}>
-    //           <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
-    //           <div style={{ display: "flex", paddingRight: "24px" }}>
-    //             <ResponsiveContainer width="100%" height={300}>
-    //               <BarChart data={barData}>
-    //                 <CartesianGrid strokeDasharray="3 3" />
-    //                 <XAxis dataKey="name" />
-    //                 <YAxis />
-    //                 <Tooltip content={<CustomTooltip />} />
-    //                 <Bar dataKey="amt" fill="#8884d8" />
-    //               </BarChart>
-    //             </ResponsiveContainer>
-    //           </div>
-    //         </Skeleton>
-    //       </Card>
-    //       {/* Added below */}
-    //       <div
-    //         style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-    //       >
-    //         <Card
-    //           className="card-tree"
-    //         >
-    //         <Skeleton loading={false} paragraph={{ rows: 3 }}>
-    //             <h3 style={{ textAlign: "center" }}>Total Contribution</h3>
-    //             <ResponsiveContainer width="100%" height={300}>
-    //               <Treemap
-    //                 data={pieData}
-    //                 dataKey="value"
-    //                 ratio={4 / 3}
-    //                 stroke="#fff"
-    //                 fill="#8884d8"
-    //               />
-    //             </ResponsiveContainer>
-    //           </Skeleton>
-    //         </Card>
-    //         <Card style={{ margin: 5, flex: "40%" }}>
-    //           <Skeleton paragraph={{ rows: 3 }} loading={false}>
-    //             <h3 style={{ textAlign: "center" }}>Total Contribution</h3>
-    //             <ResponsiveContainer width="90%" height={300}>
-    //               <PieChart>
-    //                 <Pie
-    //                   activeIndex={this.state.activeIndex}
-    //                   activeShape={renderActiveShape}
-    //                   dataKey="value"
-    //                   data={pieData}
-    //                   cx={"55%"}
-    //                   cy={150}
-    //                   fill="#8884d8"
-    //                   outerRadius={80}
-    //                   innerRadius={60}
-    //                   onMouseEnter={this.onPieEnter}
-    //                 >
-    //                   {data.map((entry, index) => (
-    //                     <Cell
-    //                       key={`cell-${index}`}
-    //                       fill={COLORS[index % COLORS.length]}
-    //                     />
-    //                   ))}
-    //                 </Pie>
-    //               </PieChart>
-    //             </ResponsiveContainer>
-    //           </Skeleton>
-    //         </Card>
-    //       </div>
-    //       <Card
-    //         style={{ margin: 5 }}
-    //       >
-    //         <Skeleton paragraph={{ rows: 3 }} loading={false}>
-    //           <h3 style={{ textAlign: "center" }}>Wing Contribution</h3>
-    //           <div style={{ display: "flex", paddingRight: "24px" }}>
-    //             <ResponsiveContainer width="100%" height={300}>
-    //             <Treemap
-    //     width={400}
-    //     height={200}
-    //     data={treeData}
-    //     dataKey="size"
-    //     ratio={4 / 3}
-    //     stroke="#fff"
-    //     fill="#8884d8"
-    //     content={<CustomizedContent colors={TREE_COLORS} />}
-    //   />
-    //             </ResponsiveContainer>
-    //           </div>
-    //         </Skeleton>
-    //       </Card>
-    //     </div>
-    //   </div>
-    // );
   }
 }
 
 function mapStateToProps(state) {
-  const { firebase, auth, getData, addData, deleteData, setData } = state;
+  const {
+    firebase,
+    auth,
+    getData,
+    addData,
+    deleteData,
+    setData,
+    totalData
+  } = state;
   return {
     firebase,
     auth,
     getData,
     addData,
     deleteData,
-    setData
+    setData,
+    totalData
   };
 }
 
@@ -690,60 +660,7 @@ export default compose(
     OnGetData,
     OnAddData,
     OnDeleteData,
-    OnSetData
+    OnSetData,
+    OnTotalData
   })
 )(Home);
-
-// <PieChart>
-// <Pie
-//   dataKey="value"
-//   data={pieData}
-//   cx={"50%"}
-//   cy={150}
-//   fill="#8884d8"
-//   outerRadius={80}
-//   labelLine={false}
-//   label={renderCustomizedLabel}
-// >
-//   {data.map((entry, index) => (
-//     <Cell
-//       key={`cell-${index}`}
-//       fill={COLORS[index % COLORS.length]}
-//     />
-//   ))}
-// </Pie>
-// </PieChart>
-
-// const sin = Math.sin(-RADIAN * midAngle);
-// const cos = Math.cos(-RADIAN * midAngle);
-// const sx = cx + (outerRadius + 10) * cos;
-// const sy = cy + (outerRadius + 10) * sin;
-// const mx = cx + (outerRadius + 30) * cos;
-// const my = cy + (outerRadius + 30) * sin;
-// const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-// const ey = my;
-// const textAnchor = cos >= 0 ? "start" : "end";
-
-{
-  /* <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        textAnchor={textAnchor}
-        fill="#333"
-      >{`₹ ${value}`}</text>
-      <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        dy={18}
-        textAnchor={textAnchor}
-        fill="#999"
-      >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
-      </text> */
-}

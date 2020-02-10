@@ -3,6 +3,7 @@ import getData from './getData';
 import setData from './setData';
 import addData from './addData';
 import deleteData from './deleteData';
+import totalData from './totalData';
 
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   addData,
   deleteData,
   setData,
+  totalData,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

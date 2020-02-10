@@ -156,10 +156,10 @@ class Dashboard extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
+        <Layout style={{ backgroundColor: '#333030' }}>
           <Header
             style={{
-              background: '#fff',
+              background: '#000',
               padding: 0,
               position: 'fixed',
               zIndex: 10,
@@ -171,7 +171,7 @@ class Dashboard extends Component {
               className='trigger'
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
-              style={{ marginLeft: '5px' }}
+              style={{ marginLeft: '5px', color: 'white' }}
             />
             {this.state.collapsed && (
               <div className='headerDivLogo'>
