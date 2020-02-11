@@ -8,6 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.1.7",
     "antd": "^3.22.2",
     "firebase": "^6.5.0",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.9.0",
     "react-csv": "^1.1.2",
     "react-dom": "^16.9.0",

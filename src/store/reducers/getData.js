@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 import types from '../action_types/index';
-const initState = { collectionState: {}, dataChanged: 0 };
+const initState = { collectionData: [], dataChanged: 0 };
 
 const getData = (state = initState, action) => {
   // console.log(state.dataChanged, initState.dataChanged);
@@ -8,7 +8,7 @@ const getData = (state = initState, action) => {
     case types.ON_GET_COLLECTION:
       state.dataChanged += 1;
       let payload = action.payload;
-      return { payload, ...state };
+      return { ...state, ...payload };
     default:
       return state;
   }

@@ -156,10 +156,16 @@ class Dashboard extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout style={{ backgroundColor: '#333030' }}>
+        <Layout
+          style={{
+            background:
+              'linear-gradient(90deg, #373B44, #303F9F, #3F51B5,#4286f4, #3F51B5, #303F9F,  #373B44)'
+          }}
+        >
           <Header
             style={{
-              background: '#000',
+              background:
+                'linear-gradient(90deg, #2A486B, #302b63, #4B637F, #302b63, #2A486B)',
               padding: 0,
               position: 'fixed',
               zIndex: 10,

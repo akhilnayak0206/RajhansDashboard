@@ -24,15 +24,34 @@ const OnSetData = data => {
                 result: 1,
                 message: 'Data set Successfully',
                 collection: data.collection,
-                document: data.doc
+                document: data.doc,
+                error: false
               }
             });
           });
       } else {
-        console.log('No such flats');
+        dispatch({
+          type: types.ON_SET_COLLECTION,
+          payload: {
+            result: 0,
+            message: 'No such flats',
+            collection: data.collection,
+            document: data.doc,
+            error: true
+          }
+        });
       }
     } catch (err) {
-      console.log(err, OnSetData);
+      dispatch({
+        type: types.ON_SET_COLLECTION,
+        payload: {
+          result: 0,
+          message: 'Error while sending request.',
+          collection: data.collection,
+          document: data.doc,
+          error: true
+        }
+      });
     }
   };
 };
