@@ -16,7 +16,12 @@ const OnSetData = data => {
           .firestore()
           .collection(data.collection)
           .doc(data.doc)
-          .update(data.setData)
+          .update({
+            ...data.setData,
+            Receipt: firebase.firestore.FieldValue.arrayUnion({
+              ...data.setData
+            })
+          })
           .then(() => {
             dispatch({
               type: types.ON_SET_COLLECTION,

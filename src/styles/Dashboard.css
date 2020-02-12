@@ -1,4 +1,4 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 .trigger {
   font-size: 18px;
@@ -14,7 +14,7 @@
 
 .logo {
   height: 32px;
-  background-image: url("https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg");
+  background-image: url('https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -26,23 +26,27 @@
   width: 120px;
   height: 40px;
   background-color: transparent;
-  background-image: url("https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg");
+  background-image: url('https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   margin: 16px 24px 16px 0;
 }
 
-.headerDivLogo{
-  display:flex;
-  width:100%;
+.headerDivLogo {
+  display: flex;
+  width: 100%;
   justify-content: center;
 }
 
-.ant-layout-sider{
-  background-image: url("https://res.cloudinary.com/dx0wpoeyu/image/upload/v1575461310/sideBar.jpg");
-  background-size: cover ;
+.ant-layout-sider {
+  background-image: url('https://res.cloudinary.com/dx0wpoeyu/image/upload/v1575461310/sideBar.jpg');
+  background-size: cover;
 }
 
-.ant-menu-dark{
+.ant-menu-dark {
   background-color: transparent;
+}
+
+.layoutScroll {
+  background: linear-gradient(to right, #de6161, #2657eb);
 }

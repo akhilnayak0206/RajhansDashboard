@@ -70,7 +70,13 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Layout style={{ width: '100%', height: '100%' }}>
+      <Layout
+        style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(to right, #de6161, #2657eb)'
+        }}
+      >
         <Sider
           style={{ overflow: 'auto' }}
           trigger={null}
@@ -156,16 +162,10 @@ class Dashboard extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout
-          style={{
-            background:
-              'linear-gradient(90deg, #373B44, #303F9F, #3F51B5,#4286f4, #3F51B5, #303F9F,  #373B44)'
-          }}
-        >
+        <Layout className='layoutScroll'>
           <Header
             style={{
-              background:
-                'linear-gradient(90deg, #2A486B, #302b63, #4B637F, #302b63, #2A486B)',
+              background: 'linear-gradient(to right, #780206, #061161)',
               padding: 0,
               position: 'fixed',
               zIndex: 10,

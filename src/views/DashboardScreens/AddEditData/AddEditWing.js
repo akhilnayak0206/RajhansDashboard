@@ -43,6 +43,7 @@ class AddEditWing extends Component {
       filterDate: '',
       visibleModal: false,
       confirmLoadingModal: false,
+      receiptLoading: false,
       selectedValModal: '',
       gettingData: true,
       setData: {
@@ -52,6 +53,14 @@ class AddEditWing extends Component {
       }
     };
   }
+
+  shareReceipt = () => {
+    this.setState({ receiptLoading: true }, () =>
+      setTimeout(() => {
+        this.setState({ receiptLoading: false });
+      }, 5000)
+    );
+  };
 
   showModal = val => {
     this.setState({
@@ -70,13 +79,21 @@ class AddEditWing extends Component {
       this.setState(
         {
           confirmLoadingModal: true
-        }
-        // () => this.props.OnSetData({})
+        },
+        () =>
+          this.props.OnSetData({
+            setData: {
+              ...this.state.setData,
+              timestamp: new Date(Date.now())
+            },
+            collection: this.state.selectedWings,
+            doc: this.state.selectedValModal.Flatno
+          })
       );
-      jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
-        console.log(err, 'error');
-        console.log(token);
-      });
+      // jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
+      //   console.log(err, 'error');
+      //   console.log(token);
+      // });
     } else {
       console.log(this.state.setData);
       notification['error']({
@@ -88,7 +105,12 @@ class AddEditWing extends Component {
 
   handleCancel = () => {
     this.setState({
-      visibleModal: false
+      visibleModal: false,
+      setData: {
+        Received: '',
+        Collected: '',
+        Amount: ''
+      }
     });
   };
 
@@ -188,14 +210,35 @@ class AddEditWing extends Component {
     }
     if (nextProps.setData !== this.props.setData) {
       if (nextProps.setData.error) {
+        notification['error']({
+          message: 'Error sending Request',
+          description: nextProps.setData.message
+        });
+        this.setState({
+          confirmLoadingModal: false
+        });
+      } else if (
+        nextProps.setData.collection == this.state.selectedWings &&
+        nextProps.setData.document == this.state.selectedValModal.Flatno
+      ) {
         notification['success']({
           message: 'Receipt Made',
           description: nextProps.setData.message
         });
+        this.setState(
+          {
+            confirmLoadingModal: false,
+            gettingData: true
+          },
+          this.props.OnGetData({ collection: this.state.selectedWings })
+        );
       } else {
         notification['error']({
-          message: 'Error sending Request',
+          message: 'Report to admin along with the message',
           description: nextProps.setData.message
+        });
+        this.setState({
+          confirmLoadingModal: false
         });
       }
     }
@@ -203,7 +246,12 @@ class AddEditWing extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         {this.state.selectedValModal && (
           <Modal
             title='Title'
@@ -228,6 +276,7 @@ class AddEditWing extends Component {
           >
             <h3>Donor's Name</h3>
             <Input
+              value={this.state.setData.Received}
               placeholder={
                 this.state.selectedValModal.Received
                   ? `${this.state.selectedValModal.Received}`
@@ -246,6 +295,7 @@ class AddEditWing extends Component {
                   ? `${this.state.selectedValModal.Collected}`
                   : `Collector's Name`
               }
+              value={this.state.setData.Collected}
               onChange={val =>
                 this.setState({
                   setData: {
@@ -257,6 +307,7 @@ class AddEditWing extends Component {
             />
             <h3>Amount Received</h3>
             <Input
+              value={this.state.setData.Amount}
               placeholder={
                 this.state.selectedValModal.Amount != 0
                   ? `${this.state.selectedValModal.Amount}`
@@ -269,7 +320,13 @@ class AddEditWing extends Component {
               }
             />
             <h3>Receipt</h3>
-            <Button>Share</Button>
+            <Button
+              key='shareReceipt'
+              loading={this.state.receiptLoading}
+              onClick={this.shareReceipt}
+            >
+              Share
+            </Button>
           </Modal>
         )}
         <Skeleton loading={this.state.gettingData} active>
@@ -305,7 +362,13 @@ class AddEditWing extends Component {
             </Card>
           </div>
 
-          <div style={{ width: '100%', height: '100%', marginBottom: 20 }}>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              marginBottom: 20
+            }}
+          >
             {this.state.filterCards &&
               this.state.filterCards.map((val, key) =>
                 val.Amount == 0 ? (
@@ -398,7 +461,7 @@ class AddEditWing extends Component {
                 size='large'
                 style={{ background: '#302b63' }}
               >
-                <FontAwesomeIcon icon={faFilter} size={70} color='white' />
+                <FontAwesomeIcon icon={faFilter} size='lg' color='white' />
               </Button>
             </Popover>
             {/* <Button
