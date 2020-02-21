@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { OnAuth } from '../store/actions/actions';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -20,7 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Dashboard.css';
 import DashboardRouter from '../routers/DashboardRouter';
-// import firebase from "../config/fbConfig"; //for data of JMM excel
+import firebase from '../config/fbConfig'; //for data of JMM excel
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -29,7 +29,24 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: false
+      collapsed: false,
+      items: [
+        { path: '/dashboard/home', icon: faHome, name: 'Home' },
+        { path: '/dashboard/wings', icon: faEdit, name: 'Wings' },
+        { path: '/dashboard/well-wishers', icon: faPlus, name: 'Well-Wishers' },
+        {
+          path: '/dashboard/expenses',
+          icon: faFileInvoiceDollar,
+          name: 'Expenses'
+        },
+        {
+          path: '/dashboard/addeditusers',
+          icon: faUsersCog,
+          name: 'Add/Edit Users'
+        },
+        { path: '/dashboard/downloads', icon: faDownload, name: 'Download' },
+        { path: '/dashboard/bankbook', icon: faRupeeSign, name: 'Bank Book' }
+      ]
     };
     console.log('inHoe', this.props);
   }
@@ -44,29 +61,6 @@ class Dashboard extends Component {
       collapsed: !this.state.collapsed
     });
   };
-
-  // for data
-
-  // componentDidMount(){
-  //   let data = []
-  //   let citiesRef = firebase.firestore().collection('expenses').orderBy('timestamp');
-  //   let query = citiesRef.get()
-  //     .then(snapshot => {
-  //       if (snapshot.empty) {
-  //         console.log('No matching documents.');
-  //         return;
-  //       }
-
-  //       snapshot.forEach(doc => {
-  //         data.push(doc.data())
-  //         // console.log(doc.id, '=>', doc.data());
-  //       });
-  //       console.log("data",JSON.stringify(data))
-  //     })
-  //     .catch(err => {
-  //       console.log('Error getting documents', err);
-  //     });
-  // }
 
   render() {
     return (
@@ -96,62 +90,17 @@ class Dashboard extends Component {
             mode='inline'
             selectedKeys={[this.props.location.pathname]}
           >
-            <Menu.Item key='/dashboard/home'>
-              <NavLink to='/dashboard/home'>
-                <Icon>
-                  <FontAwesomeIcon icon={faHome} />
-                </Icon>
-                <span>Home</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/wings'>
-              <NavLink to='/dashboard/wings'>
-                <Icon>
-                  <FontAwesomeIcon icon={faEdit} />
-                </Icon>
-                <span>Wings</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/well-wishers'>
-              <NavLink to='/dashboard/well-wishers'>
-                <Icon>
-                  <FontAwesomeIcon icon={faPlus} />
-                </Icon>
-                <span>Well-Wishers</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/expenses'>
-              <NavLink to='/dashboard/expenses'>
-                <Icon>
-                  <FontAwesomeIcon icon={faFileInvoiceDollar} />
-                </Icon>
-                <span>Expenses</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/addeditusers'>
-              <NavLink to='/dashboard/addeditusers'>
-                <Icon>
-                  <FontAwesomeIcon icon={faUsersCog} />
-                </Icon>
-                <span>Add/Edit Users</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/downloads'>
-              <NavLink to='/dashboard/downloads'>
-                <Icon>
-                  <FontAwesomeIcon icon={faDownload} />
-                </Icon>
-                <span>Download</span>
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key='/dashboard/bankbook'>
-              <NavLink to='/dashboard/bankbook'>
-                <Icon>
-                  <FontAwesomeIcon icon={faRupeeSign} />
-                </Icon>
-                <span>Bank Book</span>
-              </NavLink>
-            </Menu.Item>
+            {firebase.auth().currentUser.emailVerified &&
+              this.state.items.map((val, key) => (
+                <Menu.Item key={val.path}>
+                  <NavLink to={val.path}>
+                    <Icon>
+                      <FontAwesomeIcon icon={val.icon} />
+                    </Icon>
+                    <span>{val.name}</span>
+                  </NavLink>
+                </Menu.Item>
+              ))}
             <Menu.Item key='/dashboard/account'>
               <NavLink to='/dashboard/account'>
                 <Icon>
@@ -253,4 +202,52 @@ export default compose(
               </NavLink>
             </Menu.Item>
             </SubMenu> */
+  //   <Menu.Item key='/dashboard/wings'>
+  //   <NavLink to='/dashboard/wings'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faEdit} />
+  //     </Icon>
+  //     <span>Wings</span>
+  //   </NavLink>
+  // </Menu.Item>
+  // <Menu.Item key='/dashboard/well-wishers'>
+  //   <NavLink to='/dashboard/well-wishers'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faPlus} />
+  //     </Icon>
+  //     <span>Well-Wishers</span>
+  //   </NavLink>
+  // </Menu.Item>
+  // <Menu.Item key='/dashboard/expenses'>
+  //   <NavLink to='/dashboard/expenses'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faFileInvoiceDollar} />
+  //     </Icon>
+  //     <span>Expenses</span>
+  //   </NavLink>
+  // </Menu.Item>
+  // <Menu.Item key='/dashboard/addeditusers'>
+  //   <NavLink to='/dashboard/addeditusers'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faUsersCog} />
+  //     </Icon>
+  //     <span>Add/Edit Users</span>
+  //   </NavLink>
+  // </Menu.Item>
+  // <Menu.Item key='/dashboard/downloads'>
+  //   <NavLink to='/dashboard/downloads'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faDownload} />
+  //     </Icon>
+  //     <span>Download</span>
+  //   </NavLink>
+  // </Menu.Item>
+  // <Menu.Item key='/dashboard/bankbook'>
+  //   <NavLink to='/dashboard/bankbook'>
+  //     <Icon>
+  //       <FontAwesomeIcon icon={faRupeeSign} />
+  //     </Icon>
+  //     <span>Bank Book</span>
+  //   </NavLink>
+  // </Menu.Item>
 }

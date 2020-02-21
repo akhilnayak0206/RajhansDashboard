@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { OnAuth } from "../../store/actions/actions";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { OnAuth } from '../../store/actions/actions';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import {
   Switch,
   Card,
@@ -12,10 +12,10 @@ import {
   Button,
   Skeleton,
   notification
-} from "antd";
-import { NavLink } from "react-router-dom";
-import firebase from "../../config/fbConfig";
-import "../../styles/Account.css";
+} from 'antd';
+import { NavLink } from 'react-router-dom';
+import firebase from '../../config/fbConfig';
+import '../../styles/Account.css';
 
 const { Meta } = Card;
 class Account extends Component {
@@ -25,8 +25,9 @@ class Account extends Component {
       loading: false,
       loadingSign: false,
       btnSignOut: false,
-      email: "",
-      name: ""
+      btnVerify: false,
+      email: '',
+      name: ''
     };
   }
 
@@ -39,16 +40,16 @@ class Account extends Component {
       .signOut()
       .then(function() {
         // Sign-out successful.
-        notification["success"]({
-          message: "Jai Mata Di",
+        notification['success']({
+          message: 'Jai Mata Di',
           description: "Thank You for using Rajhans App's Dashboard."
         });
       })
       .catch(function(error) {
         // An error happened.
-        notification["error"]({
-          message: "Unable to Logout",
-          description: "Please refresh and Logout again"
+        notification['error']({
+          message: 'Unable to Logout',
+          description: 'Please refresh and Logout again'
         });
         //console.log("error in logout: ",error)
         this.setState({
@@ -57,45 +58,83 @@ class Account extends Component {
       });
   };
 
+  verifyUser = () => {
+    this.setState({ btnVerify: true });
+    var user = firebase.auth().currentUser;
+
+    user
+      .sendEmailVerification()
+      .then(() => {
+        // Email sent.
+        this.setState({ btnVerify: false }, () =>
+          notification['success']({
+            message: 'Jai Mata Di',
+            description: 'Email Verification has been sent.'
+          })
+        );
+      })
+      .catch(error => {
+        // An error happened.
+        this.setState({ btnVerify: false }, () =>
+          notification['error']({
+            message: 'Error',
+            description: 'Please let the admin know about this error.'
+          })
+        );
+      });
+  };
+
   componentDidMount() {
     this.props.OnAuth({
-      type: "login_data",
-      email: this.props.firebase.auth.email
+      type: 'email_data'
     });
   }
 
   render() {
-    console.log(this.props.auth.data.Name)
     return (
       <div>
-        <h1 className="heading">Account Settings</h1>
-        <div className="mainDiv">
-          <Card className="cardBoth" style={{ margin: 5 }}>
+        <h1 className='heading'>Account Settings</h1>
+        <div className='mainDiv'>
+          <Card className='cardBoth' style={{ margin: 5 }}>
             <Skeleton loading={this.state.loading} active={true}>
               <h3>Email</h3>
               <Input
-                placeholder="Email is being Loaded"
-                value={this.props.firebase.auth.email}
+                placeholder='Email is being Loaded'
+                value={
+                  firebase.auth().currentUser &&
+                  firebase.auth().currentUser.email
+                }
                 disabled
               />
               <h3>Name</h3>
               <Input
-                placeholder="Name is being Loaded"
-                value={this.props.auth.data.Name}
+                placeholder='Name is being Loaded'
+                value={this.props.auth.dataEmail.Name}
                 disabled
               />
+              {!firebase.auth().currentUser.emailVerified && (
+                <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                  <Button
+                    type='danger'
+                    onClick={() => this.verifyUser()}
+                    disabled={this.state.btnVerify}
+                  >
+                    Verify Email
+                  </Button>
+                </div>
+              )}
             </Skeleton>
           </Card>
-          <Card className="cardBoth" style={{ margin: 5 }}>
+          <Card className='cardBoth' style={{ margin: 5 }}>
             <Skeleton loading={this.state.loadingSign} paragraph={{ rows: 3 }}>
-              <h3 style={{ textAlign: "center" }}>Jai Mitra Mandal</h3>
-              <p style={{ color: "rgba(0,0,0,0.5)" }}>
+              <h3 style={{ textAlign: 'center' }}>Jai Mitra Mandal</h3>
+              <p style={{ color: 'rgba(0,0,0,0.5)' }}>
                 This website is made by Akhil Nayak if you have any doubt or
                 suggestion you can contact me by emailing me to nnewn3@gmail.com
               </p>
-              <div style={{ textAlign: "center" }}>
+              <div style={{ textAlign: 'center' }}>
                 <Button
-                  type="danger"
+                  type='danger'
                   onClick={() => this.onSignOut()}
                   disabled={this.state.btnSignOut}
                 >
@@ -119,10 +158,7 @@ function mapStateToProps(state) {
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    {
-      OnAuth
-    }
-  )
+  connect(mapStateToProps, {
+    OnAuth
+  })
 )(Account);

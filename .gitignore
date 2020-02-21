@@ -29,3 +29,5 @@ yarn-error.log*
 # added by Akhil
 yarn.lock
 */secretToken.js
+
+package-lock.json

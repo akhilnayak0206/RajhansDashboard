@@ -20,7 +20,7 @@ const OnAuth = data => {
               console.log('Document data:', doc.data());
               dispatch({
                 type: types.ON_SEND_LOGIN,
-                payload: { data: doc.data(), message: 'Login action' }
+                payload: { dataLogin: doc.data(), messageLogin: 'Login action' }
               });
             }
           })
@@ -50,29 +50,65 @@ const OnAuth = data => {
       //         });
       //       });
       //     });
-      case 'login_data':
+      case 'email_data':
         let dataRef = firebase
           .firestore()
           .collection('users')
-          .doc(data.email);
+          .doc(
+            firebase.auth().currentUser && firebase.auth().currentUser.email
+          );
         dataRef
           .get()
           .then(doc => {
             if (!doc.exists) {
               console.log('No such document!');
             } else {
-              console.log('Document data:', doc.data());
               dispatch({
-                type: types.ON_SEND_LOGIN_DATA,
+                type: types.ON_EMAIL_DATA,
                 payload: {
-                  data: doc.data(),
-                  message: 'Login action at account'
+                  dataEmail: doc.data(),
+                  messageEmail: 'Email data at account'
                 }
               });
             }
           })
           .catch(err => {
-            console.log('Error getting document', err);
+            dispatch({
+              type: types.ON_EMAIL_DATA,
+              payload: {
+                messageEmail: 'Email data at account invalid',
+                errorEmail: true,
+                errorObjEmail: err
+              }
+            });
+          });
+        break;
+      case 'get_users':
+        let usersData = firebase.firestore().collection('users');
+        usersData
+          .get()
+          .then(snapshot => {
+            let users = [];
+            snapshot.forEach(doc => {
+              users.push(doc.data());
+            });
+            dispatch({
+              type: types.ON_GET_USERS,
+              payload: {
+                users,
+                messageUsers: 'Users data successfully'
+              }
+            });
+          })
+          .catch(err => {
+            dispatch({
+              type: types.ON_GET_USERS,
+              payload: {
+                messageUsers: 'Email data invalid',
+                errorUsers: true,
+                errorObjUsers: err
+              }
+            });
           });
         break;
       //didn't use because unnecessary

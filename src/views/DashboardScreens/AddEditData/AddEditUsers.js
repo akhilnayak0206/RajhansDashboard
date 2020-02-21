@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import { Card, Input, Button, Skeleton, Select, Modal } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import {
+  OnAuth,
+  OnGetData,
+  OnAddData,
+  OnDeleteData,
+  OnSetData,
+  OnTotalData
+} from '../../../store/actions/actions';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -10,44 +20,8 @@ class AddEditUsers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
-        1,
-        2,
-        3,
-        4,
-        56,
-        7,
-        8,
-        9,
-        14,
-        5,
-        6,
-        8,
-        'ak',
-        'sakhcbas',
-        'sygew',
-        'kjbiubc'
-      ],
-      filterCards: [
-        1,
-        2,
-        3,
-        4,
-        56,
-        7,
-        8,
-        9,
-        14,
-        5,
-        6,
-        8,
-        'ak',
-        'sakhcbas',
-        'sygew',
-        'kjbiubc'
-      ],
-      selectedWings: 'wingA',
-      showCards: 'noFil',
+      cards: [],
+      filterCards: [],
       search: '',
       visibleModal: false,
       confirmLoadingModal: false
@@ -78,33 +52,39 @@ class AddEditUsers extends Component {
     });
   };
 
-  filteringCards = () => {
+  filteringSearch = () => {
     let filterCards = this.state.cards.filter(val =>
-      new RegExp(this.state.search, 'i').exec(val)
+      new RegExp(this.state.search, 'i').exec(val.Name)
     );
     this.setState({ filterCards });
   };
 
   handleSearchChange = e => {
-    let value = e.target.value;
-    this.setState({ search: value }, () => this.filteringCards());
-  };
-
-  handleSearchChange = e => {
     if (e.target) {
-      this.setState({ search: e.target.value }, () => this.filteringCards());
+      this.setState({ search: e.target.value }, () => this.filteringSearch());
     }
   };
 
   handleSearchEnter = value => {
     if (value) {
-      this.setState({ search: value }, () => this.filteringCards());
+      this.setState({ search: value }, () => this.filteringSearch());
     }
   };
 
-  handleChangeWings = value => {
-    this.setState({ selectedWings: value }, () => this.filteringCards());
-  };
+  componentDidMount() {
+    this.props.OnAuth({ type: 'email_data' });
+    this.props.OnAuth({ type: 'get_users' });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.cards !== nextProps.auth.users) {
+      this.setState({
+        cards: nextProps.auth.users,
+        filterCards: nextProps.auth.users,
+        search: ''
+      });
+    }
+  }
 
   render() {
     return (
@@ -118,7 +98,7 @@ class AddEditUsers extends Component {
         >
           <p>inside modal</p>
         </Modal>
-        <Skeleton loading={false} paragraph={{ rows: 50 }} active>
+        <Skeleton loading={false} active>
           <div
             style={{
               width: '100%',
@@ -147,76 +127,44 @@ class AddEditUsers extends Component {
                   onChange={e => this.handleSearchChange(e)}
                   enterButton
                 />
-                <Button
-                  type='primary'
-                  shape='round'
-                  style={{ marginLeft: 5 }}
-                  onClick={() =>
-                    this.setState({
-                      visibleModal: true
-                    })
-                  }
-                >
-                  Add User
-                </Button>
-                {/* <Select
-                  defaultValue="wingA"
-                  style={{ marginLeft: 5 }}
-                  onChange={this.handleChangeWings}
-                >
-                  <Option value="wingA">Wing A</Option>
-                  <Option value="wingB">Wing B</Option>
-                  <Option value="wingC">Wing C</Option>
-                  <Option value="wingD">Wing D</Option>
-                  <Option value="wingE">Wing E</Option>
-                  <Option value="wingAll">All Wings</Option>
-                </Select>
-                <Select
-                  defaultValue="noFil"
-                  style={{ marginLeft: 5 }}
-                  onChange={this.handleChangeFilter}
-                  maxTagPlaceholder={5}
-                >
-                  <Option value="noFil">No Filter</Option>
-                  <Option value="coll">Collected</Option>
-                  <Option value="noColl">Not Collected</Option>
-                </Select> */}
+                {this.props.auth.dataEmail.Admin && (
+                  <Button
+                    type='primary'
+                    shape='round'
+                    style={{ marginLeft: 5 }}
+                    onClick={() =>
+                      this.setState({
+                        visibleModal: true
+                      })
+                    }
+                  >
+                    Add User
+                  </Button>
+                )}
               </div>
             </Card>
           </div>
           <div style={{ width: '100%', height: '100%', marginBottom: 20 }}>
-            {this.state.filterCards.map((val, key) =>
-              val % 2 === 0 ? (
-                <Card
-                  size='small'
-                  title={`FlatNo: ${val}`}
-                  style={{
-                    borderRadius: 5,
-                    width: '100%',
-                    marginBottom: 10,
-                    backgroundColor: '#f44336'
-                  }}
-                  key={key}
-                >
-                  <b>Not Collected yet</b>
-                </Card>
-              ) : (
-                <Card
-                  size='small'
-                  title={`FlatNo: ${val}`}
-                  style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
-                  key={key}
-                >
+            {this.state.filterCards.map((val, key) => (
+              <Card
+                size='small'
+                style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
+                key={key}
+              >
+                <p>
+                  <b>Name: </b>
+                  {val.Name}
+                </p>
+                {val.email ? (
                   <p>
-                    <b>Name: </b>
-                    {val}
+                    <b>Email: </b>
+                    {val.email}
                   </p>
-                  <p>
-                    <b>Amount: </b>₹{val}
-                  </p>
-                </Card>
-              )
-            )}
+                ) : (
+                  <p style={{ color: 'red' }}>Ask admin to add email</p>
+                )}
+              </Card>
+            ))}
           </div>
         </Skeleton>
       </div>
@@ -224,4 +172,34 @@ class AddEditUsers extends Component {
   }
 }
 
-export default AddEditUsers;
+function mapStateToProps(state) {
+  const {
+    firebase,
+    auth,
+    getData,
+    addData,
+    deleteData,
+    setData,
+    totalData
+  } = state;
+  return {
+    firebase,
+    auth,
+    getData,
+    addData,
+    deleteData,
+    setData,
+    totalData
+  };
+}
+
+export default compose(
+  connect(mapStateToProps, {
+    OnAuth,
+    OnGetData,
+    OnAddData,
+    OnDeleteData,
+    OnSetData,
+    OnTotalData
+  })
+)(AddEditUsers);
