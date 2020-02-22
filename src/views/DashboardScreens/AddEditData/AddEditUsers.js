@@ -20,7 +20,7 @@ import {
 } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AddUser from '../../../components/AddUser';
+import firebase from '../../../config/fbConfig';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -215,8 +215,9 @@ class AddEditUsers extends Component {
           {this.props.auth.dataEmail.Admin && (
             <p>
               <b>Admin Verification:</b>
+              <br />
               <Button
-                style={{ marginLeft: '5px' }}
+                // style={{ marginLeft: '5px' }}
                 onClick={() =>
                   this.setState(prevState => ({
                     selectedValModal: {
@@ -229,6 +230,34 @@ class AddEditUsers extends Component {
                 {this.state.selectedValModal.adminVerified
                   ? 'Deactivate User'
                   : 'Activate'}
+              </Button>
+            </p>
+          )}
+          {this.props.auth.dataEmail.Admin && (
+            <p>
+              <b>Reset Password:</b>
+              <br />
+              <Button
+                // style={{ marginLeft: '5px' }}
+                onClick={() =>
+                  firebase
+                    .auth()
+                    .sendPasswordResetEmail(this.state.selectedValModal.email)
+                    .then(() => {
+                      notification['success']({
+                        message: 'Successfully Sent',
+                        description: 'Reset Mail sent successfully'
+                      });
+                    })
+                    .catch(error => {
+                      notification['error']({
+                        message: 'Error',
+                        description: 'Error sending Reset Mail'
+                      });
+                    })
+                }
+              >
+                Reset Mail
               </Button>
             </p>
           )}
