@@ -5,9 +5,15 @@ import { OnAuth, OnGetData, OnUploadWings } from '../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import firebase from '../../config/fbConfig';
+import secretSignKey from '../../secretToken';
+import jwt from 'jsonwebtoken';
 
 const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
   const reset = () => {
+    jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
+      console.log(err, 'error');
+      console.log(token);
+    });
     // firebase
     //   .auth()
     //   .createUserWithEmailAndPassword('dumy@gmail.com', 'password')

@@ -11,6 +11,10 @@ const initState = {
   errorObjEmail: {},
   messageUsers: '',
   users: [],
+  dataAddUser: {},
+  messageAddUser: '',
+  errorAddUser: false,
+  errorObjAddUser: {},
   errorUsers: false,
   errorObjUsers: {}
 };
@@ -23,6 +27,8 @@ const auth = (state = initState, action) => {
     case types.ON_EMAIL_DATA:
       return { ...state, ...action.payload };
     case types.ON_GET_USERS:
+      return { ...state, ...action.payload };
+    case types.ON_ADD_USERS:
       return { ...state, ...action.payload };
     case types.ON_SEND_LOGOUT:
       return { ...state, ...action.payload };

@@ -26,6 +26,7 @@ class Account extends Component {
       loadingSign: false,
       btnSignOut: false,
       btnVerify: false,
+      btnReset: false,
       email: '',
       name: ''
     };
@@ -38,14 +39,15 @@ class Account extends Component {
     firebase
       .auth()
       .signOut()
-      .then(function() {
+      .then(() => {
         // Sign-out successful.
+        this.props.OnAuth({ type: 'logout' });
         notification['success']({
           message: 'Jai Mata Di',
           description: "Thank You for using Rajhans App's Dashboard."
         });
       })
-      .catch(function(error) {
+      .catch(error => {
         // An error happened.
         notification['error']({
           message: 'Unable to Logout',
@@ -84,6 +86,34 @@ class Account extends Component {
       });
   };
 
+  resetPassword = () => {
+    this.setState({ btnReset: true });
+    var user = firebase.auth();
+
+    user
+      .sendPasswordResetEmail(
+        firebase.auth().currentUser && firebase.auth().currentUser.email
+      )
+      .then(() => {
+        // Email sent.
+        this.setState({ btnReset: false }, () =>
+          notification['success']({
+            message: 'Jai Mata Di',
+            description: 'Reset Password mail has been sent.'
+          })
+        );
+      })
+      .catch(error => {
+        // An error happened.
+        this.setState({ btnReset: false }, () =>
+          notification['error']({
+            message: 'Error',
+            description: 'Please let the admin know about this error.'
+          })
+        );
+      });
+  };
+
   componentDidMount() {
     this.props.OnAuth({
       type: 'email_data'
@@ -112,7 +142,18 @@ class Account extends Component {
                 value={this.props.auth.dataEmail.Name}
                 disabled
               />
-              {!firebase.auth().currentUser.emailVerified && (
+              {firebase.auth().currentUser &&
+              firebase.auth().currentUser.emailVerified ? (
+                <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                  <Button
+                    type='danger'
+                    onClick={() => this.resetPassword()}
+                    disabled={this.state.btnReset}
+                  >
+                    Reset Password
+                  </Button>
+                </div>
+              ) : (
                 <div style={{ textAlign: 'center', marginTop: '5px' }}>
                   <Button
                     type='danger'

@@ -62,11 +62,20 @@ const OnAuth = data => {
           .then(doc => {
             if (!doc.exists) {
               console.log('No such document!');
+              dispatch({
+                type: types.ON_EMAIL_DATA,
+                payload: {
+                  dataEmail: { adminVerified: false },
+                  errorEmail: true,
+                  messageEmail: 'Email data at account'
+                }
+              });
             } else {
               dispatch({
                 type: types.ON_EMAIL_DATA,
                 payload: {
                   dataEmail: doc.data(),
+                  errorEmail: false,
                   messageEmail: 'Email data at account'
                 }
               });
@@ -96,6 +105,7 @@ const OnAuth = data => {
               type: types.ON_GET_USERS,
               payload: {
                 users,
+                errorUsers: false,
                 messageUsers: 'Users data successfully'
               }
             });
@@ -111,27 +121,45 @@ const OnAuth = data => {
             });
           });
         break;
-      //didn't use because unnecessary
-      // case "logout":
-      //   firebase
-      //     .auth()
-      //     .signOut()
-      //     .then(function() {
-      //       // Sign-out successful.
-      //       dispatch({
-      //         type: types.ON_SEND_LOGOUT,
-      //         payload: {message:"Logging Out"}
-      //       });
-      //     })
-      //     .catch(function(error) {
-      //       // An error happened.
-      //       console.log("Handle Error in OnAuth logout",error)
-      //       dispatch({
-      //         type: types.ON_SEND_LOGOUT_ERROR,
-      //         payload: {message:"Error Logging Out"}
-      //       });
-      //     });
-      // break;
+      case 'add_users':
+        let addUser = firebase
+          .firestore()
+          .collection('users')
+          .doc(data.setData.email);
+        addUser
+          .set(data.setData)
+          .then(snapshot => {
+            dispatch({
+              type: types.ON_ADD_USERS,
+              payload: {
+                dataAddUser: data.setData,
+                messageAddUser: 'User data added successfully',
+                errorAddUser: false
+              }
+            });
+          })
+          .catch(err => {
+            dispatch({
+              type: types.ON_ADD_USERS,
+              payload: {
+                messageAddUser: 'Email data invalid',
+                errorAddUser: true,
+                errorObjAddUser: err
+              }
+            });
+          });
+        break;
+
+      case 'logout':
+        dispatch({
+          type: types.ON_EMAIL_DATA,
+          payload: {
+            dataEmail: { adminVerified: false },
+            errorEmail: false,
+            messageEmail: 'Log Out data at account'
+          }
+        });
+        break;
     }
   };
 };

@@ -62,6 +62,12 @@ class Dashboard extends Component {
     });
   };
 
+  componentDidMount() {
+    this.props.OnAuth({
+      type: 'email_data'
+    });
+  }
+
   render() {
     return (
       <Layout
@@ -90,7 +96,7 @@ class Dashboard extends Component {
             mode='inline'
             selectedKeys={[this.props.location.pathname]}
           >
-            {firebase.auth().currentUser.emailVerified &&
+            {this.props.auth.dataEmail.adminVerified &&
               this.state.items.map((val, key) => (
                 <Menu.Item key={val.path}>
                   <NavLink to={val.path}>
@@ -150,21 +156,17 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-  const { firebase } = state;
+  const { firebase, auth } = state;
   return {
-    firebase
+    firebase,
+    auth
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
     OnAuth
-  }),
-  firestoreConnect([
-    {
-      collection: 'auth'
-    }
-  ])
+  })
 )(Dashboard);
 
 {

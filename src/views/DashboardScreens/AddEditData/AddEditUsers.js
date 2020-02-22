@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Card, Input, Button, Skeleton, Select, Modal } from 'antd';
+import {
+  Card,
+  Input,
+  Button,
+  Skeleton,
+  Select,
+  Modal,
+  notification
+} from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -12,6 +20,7 @@ import {
 } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import AddUser from '../../../components/AddUser';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -24,14 +33,61 @@ class AddEditUsers extends Component {
       filterCards: [],
       search: '',
       visibleModal: false,
-      confirmLoadingModal: false
+      confirmLoadingModal: false,
+      selectedValModal: {},
+      addVisible: false,
+      confirmAddVisible: false,
+      setData: {
+        Name: '',
+        email: '',
+        Admin: false,
+        adminVerified: false
+      }
     };
   }
 
-  showModal = () => {
+  showModal = val => {
     this.setState({
-      visibleModal: true
+      visibleModal: true,
+      selectedValModal: val
     });
+  };
+
+  handleAddCancel = () => {
+    this.setState({
+      addVisible: false
+    });
+  };
+
+  handleAddOk = () => {
+    if (this.state.setData.Name) {
+      if (
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          this.state.setData.email
+        )
+      ) {
+        this.setState(
+          {
+            confirmAddVisible: true
+          },
+          () =>
+            this.props.OnAuth({
+              type: 'add_users',
+              setData: this.state.setData
+            })
+        );
+      } else {
+        notification['error']({
+          message: 'Error',
+          description: 'Enter valid email address.'
+        });
+      }
+    } else {
+      notification['error']({
+        message: 'Error',
+        description: `Enter Member's Name.`
+      });
+    }
   };
 
   handleOk = () => {
@@ -84,19 +140,108 @@ class AddEditUsers extends Component {
         search: ''
       });
     }
+
+    if (
+      this.props.auth.dataAddUser !== nextProps.auth.dataAddUser ||
+      this.props.auth.errorAddUser !== nextProps.auth.errorAddUser
+    ) {
+      if (nextProps.auth.errorAddUser) {
+        this.setState({ confirmAddVisible: false }, () =>
+          notification['error']({
+            message: 'Error',
+            description: nextProps.auth.messageAddUser
+          })
+        );
+      } else {
+        this.setState(
+          {
+            confirmAddVisible: false,
+            addVisible: false,
+            setData: {
+              Name: '',
+              email: '',
+              Admin: false,
+              adminVerified: false
+            }
+          },
+          () =>
+            notification['success']({
+              message: 'Successfully Added',
+              description: nextProps.auth.messageAddUser
+            })
+        );
+      }
+    }
   }
 
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Modal
-          title='Title'
+          title={this.state.selectedValModal}
           visible={this.state.visibleModal}
           onOk={this.handleOk}
           confirmLoading={this.state.confirmLoadingModal}
           onCancel={this.handleCancel}
         >
-          <p>inside modal</p>
+          <p>
+            <b>Name: </b>
+            {this.state.selectedValModal.Name}
+          </p>
+          <p>
+            <b>Email: </b>
+            {this.state.selectedValModal.email
+              ? this.state.selectedValModal.email
+              : 'Inform the admin to add Email.'}
+          </p>
+          <p>
+            <b>Admin Verified: </b>
+            {this.state.selectedValModal.adminVerified
+              ? 'true'
+              : 'Inform the admin to verify.'}
+          </p>
+          {this.props.auth.dataEmail.Admin && (
+            <p>
+              <b>Admin Verification:</b>
+              <Button style={{ marginLeft: '5px' }}>
+                {this.state.selectedValModal.adminVerified
+                  ? 'Deactivate User'
+                  : 'Activate'}
+              </Button>
+            </p>
+          )}
+        </Modal>
+        <Modal
+          title='Add User'
+          visible={this.state.addVisible}
+          onOk={this.handleAddOk}
+          confirmLoading={this.state.confirmAddVisible}
+          onCancel={this.handleAddCancel}
+        >
+          <h3>Member's Name</h3>
+          <Input
+            value={this.state.setData.Name}
+            placeholder={`Enter Member's Name`}
+            onChange={val =>
+              this.setState({
+                setData: { ...this.state.setData, Name: val.target.value }
+              })
+            }
+          />
+          <h3>Member's Email</h3>
+          <Input
+            placeholder={`Enter Member's Email`}
+            value={this.state.setData.email}
+            onChange={val =>
+              this.setState({
+                setData: {
+                  ...this.state.setData,
+                  email: val.target.value
+                }
+              })
+            }
+          />
+          <p style={{ color: 'gray' }}>The initial password is 123456</p>
         </Modal>
         <Skeleton loading={false} active>
           <div
@@ -134,7 +279,7 @@ class AddEditUsers extends Component {
                     style={{ marginLeft: 5 }}
                     onClick={() =>
                       this.setState({
-                        visibleModal: true
+                        addVisible: true
                       })
                     }
                   >
@@ -150,6 +295,7 @@ class AddEditUsers extends Component {
                 size='small'
                 style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
                 key={key}
+                onClick={() => this.showModal(val)}
               >
                 <p>
                   <b>Name: </b>
@@ -162,6 +308,9 @@ class AddEditUsers extends Component {
                   </p>
                 ) : (
                   <p style={{ color: 'red' }}>Ask admin to add email</p>
+                )}
+                {!val.adminVerified && (
+                  <p style={{ color: 'red' }}>Ask admin to verify your email</p>
                 )}
               </Card>
             ))}
