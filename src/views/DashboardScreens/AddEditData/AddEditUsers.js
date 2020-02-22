@@ -91,15 +91,16 @@ class AddEditUsers extends Component {
   };
 
   handleOk = () => {
-    this.setState({
-      confirmLoadingModal: true
-    });
-    setTimeout(() => {
-      this.setState({
-        visibleModal: false,
-        confirmLoadingModal: false
-      });
-    }, 2000);
+    this.setState(
+      {
+        confirmLoadingModal: true
+      },
+      () =>
+        this.props.OnAuth({
+          type: 'add_users',
+          setData: this.state.selectedValModal
+        })
+    );
   };
 
   handleCancel = () => {
@@ -146,15 +147,19 @@ class AddEditUsers extends Component {
       this.props.auth.errorAddUser !== nextProps.auth.errorAddUser
     ) {
       if (nextProps.auth.errorAddUser) {
-        this.setState({ confirmAddVisible: false }, () =>
-          notification['error']({
-            message: 'Error',
-            description: nextProps.auth.messageAddUser
-          })
+        this.setState(
+          { confirmLoadingModal: false, confirmAddVisible: false },
+          () =>
+            notification['error']({
+              message: 'Error',
+              description: nextProps.auth.messageAddUser
+            })
         );
       } else {
         this.setState(
           {
+            confirmLoadingModal: false,
+            visibleModal: false,
             confirmAddVisible: false,
             addVisible: false,
             setData: {
@@ -178,32 +183,49 @@ class AddEditUsers extends Component {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Modal
-          title={this.state.selectedValModal}
+          title={`${this.state.selectedValModal.Name}'s Details`}
           visible={this.state.visibleModal}
           onOk={this.handleOk}
           confirmLoading={this.state.confirmLoadingModal}
           onCancel={this.handleCancel}
         >
+          <h3>Name: </h3>
           <p>
-            <b>Name: </b>
-            {this.state.selectedValModal.Name}
+            <Input
+              value={this.state.selectedValModal.Name}
+              placeholder={`Enter Member's Name`}
+              onChange={val =>
+                this.setState({
+                  selectedValModal: {
+                    ...this.state.selectedValModal,
+                    Name: val.target.value
+                  }
+                })
+              }
+            />
           </p>
+
+          <h3>Email: </h3>
           <p>
-            <b>Email: </b>
             {this.state.selectedValModal.email
               ? this.state.selectedValModal.email
               : 'Inform the admin to add Email.'}
           </p>
-          <p>
-            <b>Admin Verified: </b>
-            {this.state.selectedValModal.adminVerified
-              ? 'true'
-              : 'Inform the admin to verify.'}
-          </p>
+
           {this.props.auth.dataEmail.Admin && (
             <p>
               <b>Admin Verification:</b>
-              <Button style={{ marginLeft: '5px' }}>
+              <Button
+                style={{ marginLeft: '5px' }}
+                onClick={() =>
+                  this.setState(prevState => ({
+                    selectedValModal: {
+                      ...prevState.selectedValModal,
+                      adminVerified: !prevState.selectedValModal.adminVerified
+                    }
+                  }))
+                }
+              >
                 {this.state.selectedValModal.adminVerified
                   ? 'Deactivate User'
                   : 'Activate'}
@@ -307,10 +329,10 @@ class AddEditUsers extends Component {
                     {val.email}
                   </p>
                 ) : (
-                  <p style={{ color: 'red' }}>Ask admin to add email</p>
+                  <p style={{ color: 'red' }}>Ask admin to add the email</p>
                 )}
-                {!val.adminVerified && (
-                  <p style={{ color: 'red' }}>Ask admin to verify your email</p>
+                {this.props.auth.dataEmail.Admin && !val.adminVerified && (
+                  <p style={{ color: 'red' }}>Admin verify the email</p>
                 )}
               </Card>
             ))}
