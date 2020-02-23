@@ -63,10 +63,20 @@ class AddEditWing extends Component {
   };
 
   showModal = val => {
-    this.setState({
-      visibleModal: true,
-      selectedValModal: val
-    });
+    if (val.Collected) {
+      this.setState({
+        visibleModal: true,
+        selectedValModal: val
+      });
+    } else {
+      this.setState({
+        visibleModal: true,
+        selectedValModal: {
+          ...val,
+          Collected: this.props.auth.dataEmail.Name
+        }
+      });
+    }
   };
 
   handleOk = () => {

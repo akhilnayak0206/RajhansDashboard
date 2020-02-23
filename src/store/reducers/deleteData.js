@@ -8,7 +8,7 @@ const deleteData = (state = initState, action) => {
     case types.ON_DELETE_COLLECTION:
       state.deleteDataChanged += 1;
       let payload = action.payload;
-      return { payload, ...state };
+      return { ...state, ...payload };
     default:
       return state;
   }
