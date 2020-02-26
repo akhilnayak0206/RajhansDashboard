@@ -1,166 +1,401 @@
-import React, { Component } from "react";
-import { Card, Input, Button, Skeleton, Select, Popover, DatePicker, Modal } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
+import React, { Component, Fragment } from 'react';
+import {
+  Card,
+  Input,
+  Button,
+  Skeleton,
+  InputNumber,
+  Form,
+  Switch,
+  Radio,
+  notification,
+  Select,
+  Popover,
+  DatePicker,
+  Modal,
+  Popconfirm
+} from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  OnAuth,
+  OnGetData,
+  OnAddData,
+  OnDeleteData,
+  OnSetData,
+  OnTotalData
+} from '../../../store/actions/actions';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
+import secretSignKey from '../../../secretToken.js';
 
-const { Search } = Input;
+const { Search, TextArea } = Input;
 const { Option } = Select;
-
-const content = (
-  <div>
-    <p>Content</p>
-    <p>Content</p>
-  </div>
-);
 
 class AddEditExpense extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
-        1,
-        2,
-        3,
-        4,
-        56,
-        7,
-        8,
-        9,
-        14,
-        5,
-        6,
-        8,
-        "ak",
-        "sakhcbas",
-        "sygew",
-        "kjbiubc"
-      ],
-      filterCards: [
-        1,
-        2,
-        3,
-        4,
-        56,
-        7,
-        8,
-        9,
-        14,
-        5,
-        6,
-        8,
-        "ak",
-        "sakhcbas",
-        "sygew",
-        "kjbiubc"
-      ],
-      selectedWings: "wingA",
-      showCards: "noFil",
-      search: "",
+      cards: [],
+      filterCards: [],
+      selectedWings: 'wingA',
+      showCards: 'noFil',
+      search: '',
       visiblePopover: false,
-      filterDate:"",
-    visibleModal: false,
-    confirmLoadingModal: false,
-    selectedValModal:""
+      filterDate: '',
+      visibleModal: false,
+      confirmLoadingModal: false,
+      receiptLoading: false,
+      selectedValModal: '',
+      gettingData: true,
+      confirmLoadingDelete: false,
+      addAmount: 0
     };
   }
 
-  showModal = (val) => {
-    this.setState({
-      visibleModal: true,
-      selectedValModal:val
-    });
+  shareReceipt = () => {
+    this.setState({ receiptLoading: true }, () =>
+      setTimeout(() => {
+        this.setState({ receiptLoading: false });
+      }, 5000)
+    );
+  };
+
+  showModal = val => {
+    if (val.MadeBy) {
+      this.setState({
+        visibleModal: true,
+        selectedValModal: val,
+        addAmount: 0
+      });
+    } else {
+      this.setState({
+        visibleModal: true,
+        selectedValModal: {
+          ...val,
+          MadeBy: this.props.auth.dataEmail.Name
+        },
+        addAmount: 0
+      });
+    }
   };
 
   handleOk = () => {
-    this.setState({
-      confirmLoadingModal: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        visibleModal: false,
-        confirmLoadingModal: false,
+    if (
+      this.state.selectedValModal.Title &&
+      this.state.selectedValModal.Description &&
+      this.state.selectedValModal.MadeBy
+    ) {
+      if (this.state.selectedValModal.doc) {
+        this.setState(
+          {
+            confirmLoadingModal: true
+          },
+          () =>
+            this.props.OnSetData({
+              setData: {
+                ...this.state.selectedValModal,
+                Amount:
+                  Number(this.state.selectedValModal.Amount) +
+                  Number(this.state.addAmount),
+                timestamp: new Date(Date.now())
+              },
+              collection: 'expenses',
+              doc: this.state.selectedValModal.doc
+            })
+        );
+      } else {
+        this.setState(
+          {
+            confirmLoadingModal: true
+          },
+          () =>
+            this.props.OnSetData({
+              setData: {
+                ...this.state.selectedValModal,
+                Amount: this.state.addAmount,
+                timestamp: new Date(Date.now())
+              },
+              collection: 'expenses'
+            })
+        );
+        // jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
+        //   console.log(err, 'error');
+        //   console.log(token);
+        // });
+      }
+    } else {
+      console.log(this.state.selectedValModal);
+      notification['error']({
+        message: 'Invalid Inputs',
+        description: 'Please fill all the details'
       });
-    }, 2000);
+    }
   };
 
   handleCancel = () => {
     this.setState({
       visibleModal: false,
+      addAmount: 0
     });
   };
 
-  onChangeDate = (date, dateString) => {
-    this.setState({filterDate:dateString})
-  }
-
-  handlePopoverChange = visiblePopover => {
-    this.setState({ visiblePopover });
-  };
-
-  filteringCards = () => {
+  filteringSearch = () => {
     let filterCards = this.state.cards.filter(val =>
-      new RegExp(this.state.search, "i").exec(val)
+      new RegExp(this.state.search, 'i').exec(val.Title)
     );
     this.setState({ filterCards });
   };
 
   handleSearchChange = e => {
     if (e.target) {
-      this.setState({ search: e.target.value }, () => this.filteringCards());
+      this.setState({ search: e.target.value }, () => this.filteringSearch());
     }
   };
 
   handleSearchEnter = value => {
     if (value) {
-      this.setState({ search: value }, () => this.filteringCards());
+      this.setState({ search: value }, () => this.filteringSearch());
     }
   };
 
-  handleChangeFilter = value => {
-    this.setState({ showCards: value }, () => this.filteringCards());
-  };
+  componentDidMount() {
+    this.setState({ gettingData: true }, () =>
+      this.props.OnGetData({ collection: 'expenses' })
+    );
+  }
 
-  handleChangeWings = value => {
-    this.setState({ selectedWings: value }, () => this.filteringCards());
-  };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.getData !== this.props.getData) {
+      let sortedData = nextProps.getData.collectionData;
+      sortedData.sort((a, b) => {
+        return b.timestamp.seconds - a.timestamp.seconds;
+      });
+      this.setState({
+        cards: sortedData,
+        filterCards: sortedData,
+        gettingData: false
+      });
+    }
+    if (nextProps.deleteData !== this.props.deleteData) {
+      if (nextProps.deleteData.collection == 'expenses') {
+        notification['success']({
+          message: 'Delete Successful',
+          description: nextProps.deleteData.message
+        });
+        this.setState(
+          {
+            confirmLoadingDelete: false,
+            gettingData: true,
+            visibleModal: false
+          },
+          this.props.OnGetData({ collection: 'expenses' })
+        );
+      }
+    }
+    if (nextProps.setData !== this.props.setData) {
+      if (nextProps.setData.error) {
+        notification['error']({
+          message: 'Error sending Request',
+          description: nextProps.setData.message
+        });
+        this.setState({
+          confirmLoadingModal: false
+        });
+      } else if (
+        nextProps.setData.collection == 'expenses' &&
+        nextProps.setData.document
+      ) {
+        notification['success']({
+          message: 'Expense Made',
+          description: nextProps.setData.message
+        });
+        this.setState(
+          {
+            confirmLoadingModal: false,
+            gettingData: true
+          },
+          this.props.OnGetData({ collection: 'expenses' })
+        );
+        this.handleCancel();
+      } else {
+        notification['error']({
+          message: 'Report to admin along with the message',
+          description: nextProps.setData.message
+        });
+        this.setState({
+          confirmLoadingModal: false
+        });
+      }
+    }
+  }
 
   render() {
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
-      <Modal
-          title="Title"
-          visible={this.state.visibleModal}
-          onOk={this.handleOk}
-          confirmLoading={this.state.confirmLoadingModal}
-          onCancel={this.handleCancel}
-        >
-          <p>{JSON.stringify(this.state.selectedValModal)}</p>
-        </Modal>
-        <Skeleton loading={false} paragraph={{ rows: 50 }} active>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
+        {this.state.selectedValModal && (
+          <Modal
+            title={
+              this.state.selectedValModal.Title
+                ? `${this.state.selectedValModal.Title}`
+                : `Add Expense`
+            }
+            visible={this.state.visibleModal}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <Button key='back' onClick={this.handleCancel}>
+                Cancel
+              </Button>,
+              this.state.selectedValModal.hasOwnProperty('doc') && (
+                <Popconfirm
+                  key='delete'
+                  title='Are you sure delete this expense?'
+                  onConfirm={() =>
+                    this.setState(
+                      {
+                        confirmLoadingDelete: true
+                      },
+                      () =>
+                        this.props.OnDeleteData({
+                          ...this.state.selectedValModal,
+                          collection: 'expenses',
+                          documentTimestamp: this.state.selectedValModal
+                            .timestamp,
+                          timestamp: new Date(Date.now())
+                        })
+                    )
+                  }
+                  onCancel={() => alert('ok')}
+                  okText='Yes'
+                  cancelText='No'
+                >
+                  <Button
+                    type='danger'
+                    loading={this.state.confirmLoadingDelete}
+                  >
+                    Delete Expense
+                  </Button>
+                </Popconfirm>
+              ),
+              <Button
+                key='submit'
+                type='primary'
+                loading={this.state.confirmLoadingModal}
+                onClick={this.handleOk}
+              >
+                {this.state.selectedValModal.hasOwnProperty('doc')
+                  ? 'Replace Expense'
+                  : 'Add Expense'}
+              </Button>
+            ]}
+          >
+            <h3>Title</h3>
+            <Input
+              value={this.state.selectedValModal.Title}
+              placeholder={`Expense Title`}
+              onChange={val =>
+                this.setState({
+                  selectedValModal: {
+                    ...this.state.selectedValModal,
+                    Title: val.target.value
+                  }
+                })
+              }
+            />
+            <h3>Made By:</h3>
+            <Input
+              value={this.state.selectedValModal.MadeBy}
+              placeholder={`Expense Made by`}
+              onChange={val =>
+                this.setState({
+                  selectedValModal: {
+                    ...this.state.selectedValModal,
+                    MadeBy: val.target.value
+                  }
+                })
+              }
+            />
+            <h3>Description:</h3>
+            <TextArea
+              rows={4}
+              value={this.state.selectedValModal.Description}
+              placeholder={`Add Description`}
+              onChange={val =>
+                this.setState({
+                  selectedValModal: {
+                    ...this.state.selectedValModal,
+                    Description: val.target.value
+                  }
+                })
+              }
+            />
+
+            {this.state.selectedValModal.Amount ? (
+              <Fragment>
+                <h3>Add Amount:</h3>
+                <InputNumber
+                  value={this.state.addAmount}
+                  placeholder={`Amount to be added`}
+                  onChange={val =>
+                    this.setState({
+                      addAmount: val
+                    })
+                  }
+                />
+                <h3>Total Amount:</h3>
+                <InputNumber
+                  disabled
+                  value={this.state.selectedValModal.Amount}
+                />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <h3>Amount:</h3>
+                <InputNumber
+                  value={this.state.addAmount}
+                  placeholder={`Amount to be added`}
+                  onChange={value =>
+                    this.setState({
+                      addAmount: value
+                    })
+                  }
+                />
+              </Fragment>
+            )}
+          </Modal>
+        )}
+        <Skeleton loading={this.state.gettingData} active>
           <div
             style={{
-              width: "100%",
+              width: '100%',
               marginBottom: 20,
-              position: "sticky",
+              position: 'sticky',
               zIndex: 5,
               top: 65
             }}
           >
             <Card
-              size="small"
-              style={{ borderRadius: 5, width: "100%" }}
-              bodyStyle={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)" }}
+              size='small'
+              style={{ borderRadius: 5, width: '100%' }}
+              bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
               hoverable
             >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-around"
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around'
                 }}
               >
                 <Search
-                  placeholder="input search text"
+                  placeholder={`Enter Expense Title`}
                   onSearch={value => this.handleSearchChange(value)}
                   onChange={e => this.handleSearchChange(e)}
                   enterButton
@@ -168,100 +403,57 @@ class AddEditExpense extends Component {
               </div>
             </Card>
           </div>
-          <div style={{ width: "100%", height: "100%", marginBottom: 20 }}>
-            {this.state.filterCards.map((val, key) =>
-              val % 2 === 0 ? (
+
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              marginBottom: 20
+            }}
+          >
+            {this.state.filterCards &&
+              this.state.filterCards.map((val, key) => (
                 <Card
-                  size="small"
-                  title={`FlatNo: ${val}`}
-                  style={{
-                    borderRadius: 5,
-                    width: "100%",
-                    marginBottom: 10,
-                    backgroundColor: "#f44336"
-                  }}
+                  size='small'
+                  title={`${val.Title}`}
+                  style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
                   key={key}
-                  onClick={()=>this.showModal(val)}
-                >
-                  <b>Not Collected yet</b>
-                </Card>
-              ) : (
-                <Card
-                  size="small"
-                  title={`FlatNo: ${val}`}
-                  style={{ borderRadius: 5, width: "100%", marginBottom: 10 }}
-                  key={key}
-                  onClick={()=>this.showModal(val)}
+                  onClick={() => this.showModal(val)}
                 >
                   <p>
-                    <b>Name: </b>
-                    {val}
+                    <b>Amount: </b>₹{val.Amount}
                   </p>
                   <p>
-                    <b>Amount: </b>₹{val}
+                    <b>Date: </b>
+                    {`${new Date(
+                      val.timestamp.seconds * 1000
+                    ).getDate()}/${new Date(
+                      val.timestamp.seconds * 1000
+                    ).getMonth() + 1}/${new Date(
+                      val.timestamp.seconds * 1000
+                    ).getFullYear()}`}
                   </p>
                 </Card>
-              )
-            )}
+              ))}
           </div>
           <div
             style={{
-              flexDirection: "column",
-              display: "flex",
+              flexDirection: 'column',
+              display: 'flex',
               zIndex: 15,
-              position: "fixed",
+              position: 'fixed',
               bottom: 62,
               right: 38
             }}
           >
-            <Popover
-              placement="leftTop"
-              content={
-                <div style={{display:'flex', flexDirection:'column'}} >
-                  <Select
-                  size="large"
-                  defaultValue="wingA"
-                  style={{ marginBottom: 5 }}
-                  onChange={this.handleChangeWings}
-                >
-                  <Option value="wingA">Wing A</Option>
-                  <Option value="wingB">Wing B</Option>
-                  <Option value="wingC">Wing C</Option>
-                  <Option value="wingD">Wing D</Option>
-                  <Option value="wingE">Wing E</Option>
-                  <Option value="wingAll">All Wings</Option>
-                </Select>
-                  <Select
-                  size="large"
-                    defaultValue="noFil"
-                    style={{ marginBottom: 5 }}
-                    onChange={this.handleChangeFilter}
-                    maxTagPlaceholder={5}
-                    value={this.state.showCards}
-                  >
-                    <Option value="noFil">No Filter</Option>
-                    <Option value="coll">Collected</Option>
-                    <Option value="noColl">Not Collected</Option>
-                  </Select>
-                  <DatePicker size="large" onChange={this.onChangeDate} format="DD/MM/YYYY" />
-                </div>
-              }
-              title="Select Filters"
-              trigger="click"
-              visible={this.state.visiblePopover}
-              onVisibleChange={this.handlePopoverChange}
-            >
-              <Button type="primary" shape="circle" size="large" style={{}}>
-                <FontAwesomeIcon icon={faFilter} size={70} color="white" />
-              </Button>
-            </Popover>
             <Button
-              type="primary"
-              shape="circle"
-              size="large"
+              type='primary'
+              shape='circle'
+              size='large'
               style={{ marginTop: 10 }}
+              onClick={() => this.showModal({})}
             >
-              <FontAwesomeIcon icon={faPlus} size={70} color="white" />
+              <FontAwesomeIcon icon={faPlus} size='lg' color='white' />
             </Button>
           </div>
         </Skeleton>
@@ -270,4 +462,34 @@ class AddEditExpense extends Component {
   }
 }
 
-export default AddEditExpense;
+function mapStateToProps(state) {
+  const {
+    firebase,
+    auth,
+    getData,
+    addData,
+    deleteData,
+    setData,
+    totalData
+  } = state;
+  return {
+    firebase,
+    auth,
+    getData,
+    addData,
+    deleteData,
+    setData,
+    totalData
+  };
+}
+
+export default compose(
+  connect(mapStateToProps, {
+    OnAuth,
+    OnGetData,
+    OnAddData,
+    OnDeleteData,
+    OnSetData,
+    OnTotalData
+  })
+)(AddEditExpense);

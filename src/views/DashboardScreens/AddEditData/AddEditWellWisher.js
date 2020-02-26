@@ -85,7 +85,7 @@ class AddEditWellWisher extends Component {
       this.state.selectedValModal.Amount > 0 &&
       !isNaN(this.state.selectedValModal.Amount)
     ) {
-      if (this.state.selectedValModal.id) {
+      if (this.state.selectedValModal.doc) {
         this.setState(
           {
             confirmLoadingModal: true
@@ -97,13 +97,13 @@ class AddEditWellWisher extends Component {
                 timestamp: new Date(Date.now())
               },
               collection: 'wellWishers',
-              id: this.state.selectedValModal.id
+              doc: this.state.selectedValModal.doc
             })
         );
-        jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
-          console.log(err, 'error');
-          console.log(token);
-        });
+        // jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
+        //   console.log(err, 'error');
+        //   console.log(token);
+        // });
       } else {
         this.setState(
           {
@@ -250,7 +250,7 @@ class AddEditWellWisher extends Component {
                 Cancel
               </Button>,
 
-              this.state.selectedValModal.hasOwnProperty('id') && (
+              this.state.selectedValModal.hasOwnProperty('doc') && (
                 <Popconfirm
                   key='delete'
                   title='Are you sure delete this task?'
@@ -287,7 +287,7 @@ class AddEditWellWisher extends Component {
                 loading={this.state.confirmLoadingModal}
                 onClick={this.handleOk}
               >
-                {this.state.selectedValModal.hasOwnProperty('id')
+                {this.state.selectedValModal.hasOwnProperty('doc')
                   ? 'Replace Receipt'
                   : 'Make Receipt'}
               </Button>
@@ -339,8 +339,9 @@ class AddEditWellWisher extends Component {
                 <b>Hidden Name: </b>{' '}
                 <Input
                   value={
-                    this.props.auth.dataEmail.Admin &&
-                    this.state.selectedValModal.secretName
+                    this.props.auth.dataEmail.Admin
+                      ? this.state.selectedValModal.secretName
+                      : 'Secret Name'
                   }
                   placeholder={`Secret Donor's Name`}
                   onChange={val =>
@@ -458,11 +459,11 @@ class AddEditWellWisher extends Component {
                   <p>
                     <b>Date: </b>
                     {`${new Date(
-                      Date(val.timestamp.seconds)
+                      val.timestamp.seconds * 1000
                     ).getDate()}/${new Date(
-                      Date(val.timestamp.seconds)
+                      val.timestamp.seconds * 1000
                     ).getMonth() + 1}/${new Date(
-                      Date(val.timestamp.seconds)
+                      val.timestamp.seconds * 1000
                     ).getFullYear()}`}
                   </p>
                 </Card>
@@ -485,7 +486,7 @@ class AddEditWellWisher extends Component {
               style={{ marginTop: 10 }}
               onClick={() => this.showModal({})}
             >
-              <FontAwesomeIcon icon={faPlus} size={70} color='white' />
+              <FontAwesomeIcon icon={faPlus} size='lg' color='white' />
             </Button>
           </div>
         </Skeleton>

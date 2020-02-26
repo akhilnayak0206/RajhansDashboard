@@ -16,7 +16,7 @@ const OnGetData = data => {
         let collectionData = [];
         // console.log(snapshot);
         snapshot.forEach(doc => {
-          let data = { ...doc.data(), id: doc.id };
+          let data = { ...doc.data(), doc: doc.id };
           collectionData.push(data);
         });
         dispatch({

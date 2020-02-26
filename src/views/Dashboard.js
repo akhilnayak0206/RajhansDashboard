@@ -73,8 +73,8 @@ class Dashboard extends Component {
       <Layout
         style={{
           width: '100%',
-          height: '100%',
-          background: 'linear-gradient(to right, #de6161, #2657eb)'
+          height: '100%'
+          // background: 'linear-gradient(to right, #de6161, #2657eb)'
         }}
       >
         <Sider
@@ -120,7 +120,8 @@ class Dashboard extends Component {
         <Layout className='layoutScroll'>
           <Header
             style={{
-              background: 'linear-gradient(to right, #780206, #061161)',
+              // background: 'linear-gradient(to right, #780206, #061161)',
+              background: 'white',
               padding: 0,
               position: 'fixed',
               zIndex: 10,
@@ -132,7 +133,7 @@ class Dashboard extends Component {
               className='trigger'
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
-              style={{ marginLeft: '5px', color: 'white' }}
+              style={{ marginLeft: '5px', color: 'black' }}
             />
             {this.state.collapsed && (
               <div className='headerDivLogo'>

@@ -5,7 +5,61 @@ const OnSetData = data => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     try {
-      if (data.collection === 'wellWishers' || data.collection === 'expenses') {
+      if (data.hasOwnProperty('doc') && data.collection === 'wellWishers') {
+        let docRef = await firebase
+          .firestore()
+          .collection(data.collection)
+          .doc(data.doc)
+          .get();
+        if (docRef.exists) {
+          firebase
+            .firestore()
+            .collection(data.collection)
+            .doc(data.doc)
+            .update({
+              ...data.setData
+            })
+            .then(() => {
+              dispatch({
+                type: types.ON_SET_COLLECTION,
+                payload: {
+                  result: 1,
+                  message: 'Well Wisher Data replaced Successfully',
+                  collection: data.collection,
+                  document: data.doc,
+                  error: false
+                }
+              });
+            });
+        }
+      } else if (data.hasOwnProperty('doc') && data.collection === 'expenses') {
+        let docRef = await firebase
+          .firestore()
+          .collection(data.collection)
+          .doc(data.doc)
+          .get();
+        if (docRef.exists) {
+          firebase
+            .firestore()
+            .collection(data.collection)
+            .doc(data.doc)
+            .update({
+              ...data.setData
+            })
+            .then(() => {
+              dispatch({
+                type: types.ON_SET_COLLECTION,
+                payload: {
+                  result: 1,
+                  message: 'Expense replaced Successfully',
+                  collection: data.collection,
+                  document: data.doc,
+                  error: false
+                }
+              });
+            });
+        }
+      } else if (data.collection === 'wellWishers') {
         firebase
           .firestore()
           .collection(data.collection)
@@ -15,14 +69,31 @@ const OnSetData = data => {
               type: types.ON_SET_COLLECTION,
               payload: {
                 result: 1,
-                message: 'Data set Successfully',
+                message: 'Receipt made Successfully',
                 collection: data.collection,
                 document: ref.id,
                 error: false
               }
             });
           });
-      } else if (data.doc) {
+      } else if (data.collection === 'expenses') {
+        firebase
+          .firestore()
+          .collection(data.collection)
+          .add(data.setData)
+          .then(ref => {
+            dispatch({
+              type: types.ON_SET_COLLECTION,
+              payload: {
+                result: 1,
+                message: 'Expense added Successfully',
+                collection: data.collection,
+                document: ref.id,
+                error: false
+              }
+            });
+          });
+      } else if (data.hasOwnProperty('doc')) {
         let docRef = await firebase
           .firestore()
           .collection(data.collection)
