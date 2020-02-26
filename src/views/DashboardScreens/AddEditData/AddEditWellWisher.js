@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Card,
   Input,
@@ -215,6 +215,7 @@ class AddEditWellWisher extends Component {
           },
           this.props.OnGetData({ collection: 'wellWishers' })
         );
+        this.handleCancel();
       } else {
         notification['error']({
           message: 'Report to admin along with the message',
@@ -246,14 +247,15 @@ class AddEditWellWisher extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             footer={[
-              <Button key='back' onClick={this.handleCancel}>
-                Cancel
-              </Button>,
-
+              !this.state.selectedValModal.hasOwnProperty('doc') && (
+                <Button key='back' onClick={this.handleCancel}>
+                  Cancel
+                </Button>
+              ),
               this.state.selectedValModal.hasOwnProperty('doc') && (
                 <Popconfirm
                   key='delete'
-                  title='Are you sure delete this task?'
+                  title='Are you sure delete this well wisher?'
                   onConfirm={() =>
                     this.setState(
                       {
@@ -390,14 +392,18 @@ class AddEditWellWisher extends Component {
                 })
               }
             />
-            <h3>Receipt</h3>
-            <Button
-              key='shareReceipt'
-              loading={this.state.receiptLoading}
-              onClick={this.shareReceipt}
-            >
-              Share
-            </Button>
+            {this.state.selectedValModal.hasOwnProperty('doc') && (
+              <Fragment>
+                <h3>Receipt</h3>
+                <Button
+                  key='shareReceipt'
+                  loading={this.state.receiptLoading}
+                  onClick={this.shareReceipt}
+                >
+                  Share
+                </Button>
+              </Fragment>
+            )}
           </Modal>
         )}
         <Skeleton loading={this.state.gettingData} active>

@@ -250,9 +250,11 @@ class AddEditExpense extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             footer={[
-              <Button key='back' onClick={this.handleCancel}>
-                Cancel
-              </Button>,
+              !this.state.selectedValModal.hasOwnProperty('doc') && (
+                <Button key='back' onClick={this.handleCancel}>
+                  Cancel
+                </Button>
+              ),
               this.state.selectedValModal.hasOwnProperty('doc') && (
                 <Popconfirm
                   key='delete'
