@@ -10,8 +10,14 @@ const OnGetData = data => {
       .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          console.log('No matching documents.');
-          return;
+          return dispatch({
+            type: types.ON_GET_COLLECTION,
+            payload: {
+              collectionData: [],
+              message: 'No matching documents.',
+              collection: data.collection
+            }
+          });
         }
         let collectionData = [];
         // console.log(snapshot);
@@ -21,8 +27,11 @@ const OnGetData = data => {
         });
         dispatch({
           type: types.ON_GET_COLLECTION,
-          collection: data.collection,
-          payload: { collectionData }
+          payload: {
+            collectionData,
+            message: 'Documents Found',
+            collection: data.collection
+          }
         });
       })
       .catch(err => {

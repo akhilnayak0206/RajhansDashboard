@@ -62,7 +62,7 @@ const OnAuth = data => {
           .then(doc => {
             if (!doc.exists) {
               console.log('No such document!');
-              dispatch({
+              return dispatch({
                 type: types.ON_EMAIL_DATA,
                 payload: {
                   dataEmail: { adminVerified: false },
@@ -82,7 +82,7 @@ const OnAuth = data => {
             }
           })
           .catch(err => {
-            dispatch({
+            return dispatch({
               type: types.ON_EMAIL_DATA,
               payload: {
                 messageEmail: 'Email data at account invalid',
@@ -101,7 +101,7 @@ const OnAuth = data => {
             snapshot.forEach(doc => {
               users.push(doc.data());
             });
-            dispatch({
+            return dispatch({
               type: types.ON_GET_USERS,
               payload: {
                 users,
@@ -129,7 +129,7 @@ const OnAuth = data => {
         addUser
           .set(data.setData)
           .then(snapshot => {
-            dispatch({
+            return dispatch({
               type: types.ON_ADD_USERS,
               payload: {
                 dataAddUser: data.setData,
@@ -151,7 +151,7 @@ const OnAuth = data => {
         break;
 
       case 'logout':
-        dispatch({
+        return dispatch({
           type: types.ON_EMAIL_DATA,
           payload: {
             dataEmail: { adminVerified: false },
@@ -159,7 +159,6 @@ const OnAuth = data => {
             messageEmail: 'Log Out data at account'
           }
         });
-        break;
     }
   };
 };

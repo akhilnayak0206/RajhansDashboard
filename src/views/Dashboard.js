@@ -62,11 +62,11 @@ class Dashboard extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.OnAuth({
-      type: 'email_data'
-    });
-  }
+  // componentDidMount() {
+  //   this.props.OnAuth({
+  //     type: 'email_data'
+  //   });
+  // }
 
   render() {
     return (
