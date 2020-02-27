@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Home from '../views/DashboardScreens/Home';
 import Account from '../views/DashboardScreens/Account';
-import CashAtHand from '../views/DashboardScreens/CashAtHand';
+import BankBook from '../views/DashboardScreens/BankBook';
 import Downloads from '../views/DashboardScreens/Downloads';
 import AddEditExpense from '../views/DashboardScreens/AddEditData/AddEditExpense';
 import AddEditUsers from '../views/DashboardScreens/AddEditData/AddEditUsers';
@@ -77,7 +77,7 @@ class DashboardRouter extends PureComponent {
         />
         <PrivateRoute
           path='/dashboard/bankbook'
-          component={CashAtHand}
+          component={BankBook}
           auth={this.state.auth}
         />
         {/* <Route exact path="/dashboard/home" component={Home} />

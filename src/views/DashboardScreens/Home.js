@@ -520,7 +520,7 @@ class Home extends Component {
                 }}
               >
                 <FontAwesomeIcon icon={faRupeeSign} />
-                {this.state.totalData.totalBankCollection}
+                {this.state.totalData.totalBankBook}
               </h1>
               <p style={{ color: 'white' }}>Bank Collection</p>
               <BarChart width={150} height={40} data={data}>

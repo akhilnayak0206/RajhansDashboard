@@ -76,6 +76,50 @@ const OnSetData = data => {
               }
             });
           });
+      } else if (data.hasOwnProperty('doc') && data.collection === 'bankBook') {
+        let docRef = await firebase
+          .firestore()
+          .collection(data.collection)
+          .doc(data.doc)
+          .get();
+        if (docRef.exists) {
+          firebase
+            .firestore()
+            .collection(data.collection)
+            .doc(data.doc)
+            .update({
+              ...data.setData
+            })
+            .then(() => {
+              dispatch({
+                type: types.ON_SET_COLLECTION,
+                payload: {
+                  result: 1,
+                  message: 'Amount replaced Successfully',
+                  collection: data.collection,
+                  document: data.doc,
+                  error: false
+                }
+              });
+            });
+        }
+      } else if (data.collection === 'bankBook') {
+        firebase
+          .firestore()
+          .collection(data.collection)
+          .add(data.setData)
+          .then(ref => {
+            dispatch({
+              type: types.ON_SET_COLLECTION,
+              payload: {
+                result: 1,
+                message: `Amount successfully ${data.setData.type}`,
+                collection: data.collection,
+                document: ref.id,
+                error: false
+              }
+            });
+          });
       } else if (data.collection === 'expenses') {
         firebase
           .firestore()

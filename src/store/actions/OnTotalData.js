@@ -18,6 +18,8 @@ const OnTotalData = () => {
     let totalWellWishers = 0;
     let expenses = firebase.firestore().collection('expenses');
     let totalExpenses = 0;
+    let bankBook = firebase.firestore().collection('bankBook');
+    let totalBankBook = 0;
 
     let promiseWingA = () =>
       wingA
@@ -153,6 +155,24 @@ const OnTotalData = () => {
           console.log('Error getting expenses total', err);
         });
 
+    let promiseBankBook = () =>
+      bankBook
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            return;
+          }
+          snapshot.forEach(doc => {
+            if (doc.data().Amount) {
+              totalBankBook += Number(doc.data().Amount);
+            }
+          });
+          return totalBankBook;
+        })
+        .catch(err => {
+          console.log('Error getting bank Book total', err);
+        });
+
     Promise.all([
       promiseWingA(),
       promiseWingB(),
@@ -160,11 +180,13 @@ const OnTotalData = () => {
       promiseWingD(),
       promiseWingE(),
       promiseWellWishers(),
-      promiseExpenses()
+      promiseExpenses(),
+      promiseBankBook()
     ]).then(values => {
       dispatch({
         type: types.ON_GET_TOTAL_DATA,
         payload: {
+          totalBankBook,
           totalExpenses,
           totalWellWishers,
           totalWingA,

@@ -8,6 +8,7 @@ const initState = {
   totalWingE: 0,
   totalWellWishers: 0,
   totalExpenses: 0,
+  totalBankBook: 0,
   totalCollection: 0,
   cashInHand: 0
 };
