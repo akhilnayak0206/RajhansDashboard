@@ -123,9 +123,9 @@ class Account extends Component {
   render() {
     return (
       <div>
-        <h1 className='heading'>Account Settings</h1>
-        <div className='mainDiv'>
-          <Card className='cardBoth' style={{ margin: 5 }}>
+        <h1 className='headingAccount'>Account Settings</h1>
+        <div className='mainDivAccount'>
+          <Card className='cardBothAccount'>
             <Skeleton loading={this.state.loading} active={true}>
               <h3>Email</h3>
               <Input
@@ -166,14 +166,14 @@ class Account extends Component {
               )}
             </Skeleton>
           </Card>
-          <Card className='cardBoth' style={{ margin: 5 }}>
+          <Card className='cardBothAccount'>
             <Skeleton loading={this.state.loadingSign} paragraph={{ rows: 3 }}>
               <h3 style={{ textAlign: 'center' }}>Jai Mitra Mandal</h3>
               <p style={{ color: 'rgba(0,0,0,0.5)' }}>
                 This website is made by Akhil Nayak if you have any doubt or
                 suggestion you can contact me by emailing me to nnewn3@gmail.com
               </p>
-              <div style={{ textAlign: 'center' }}>
+              <div className='textCenterAccount'>
                 <Button
                   type='danger'
                   onClick={() => this.onSignOut()}

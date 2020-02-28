@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRupeeSign,
   faUserEdit,
+  faDatabase,
   faHome,
   faEdit,
   faDownload,
@@ -46,9 +47,16 @@ class Dashboard extends Component {
         },
         { path: '/dashboard/downloads', icon: faDownload, name: 'Download' },
         { path: '/dashboard/bankbook', icon: faRupeeSign, name: 'Bank Book' }
+      ],
+      adminItems: [
+        {
+          path: '/dashboard/resetdatabase',
+          icon: faDatabase,
+          name: 'Reset Database'
+        }
       ]
     };
-    console.log('inHoe', this.props);
+    // console.log('inHoe', this.props);
   }
 
   onCollapse = collapsed => {
@@ -100,7 +108,19 @@ class Dashboard extends Component {
               this.state.items.map((val, key) => (
                 <Menu.Item key={val.path}>
                   <NavLink to={val.path}>
-                    <Icon>
+                    <Icon viewBox='0 0 1024 1024'>
+                      <FontAwesomeIcon icon={val.icon} />
+                    </Icon>
+                    <span>{val.name}</span>
+                  </NavLink>
+                </Menu.Item>
+              ))}
+            {this.props.auth.dataEmail.adminVerified &&
+              this.props.auth.dataEmail.Admin &&
+              this.state.adminItems.map((val, key) => (
+                <Menu.Item key={val.path}>
+                  <NavLink to={val.path}>
+                    <Icon viewBox='0 0 1024 1024'>
                       <FontAwesomeIcon icon={val.icon} />
                     </Icon>
                     <span>{val.name}</span>
@@ -109,7 +129,7 @@ class Dashboard extends Component {
               ))}
             <Menu.Item key='/dashboard/account'>
               <NavLink to='/dashboard/account'>
-                <Icon>
+                <Icon viewBox='0 0 1024 1024'>
                   <FontAwesomeIcon icon={faUserAlt} />
                 </Icon>
                 <span>Account</span>

@@ -6,6 +6,7 @@ import Home from '../views/DashboardScreens/Home';
 import Account from '../views/DashboardScreens/Account';
 import BankBook from '../views/DashboardScreens/BankBook';
 import Downloads from '../views/DashboardScreens/Downloads';
+import ResetDatabase from '../views/DashboardScreens/ResetDatabase';
 import AddEditExpense from '../views/DashboardScreens/AddEditData/AddEditExpense';
 import AddEditUsers from '../views/DashboardScreens/AddEditData/AddEditUsers';
 import AddEditWellWisher from '../views/DashboardScreens/AddEditData/AddEditWellWisher';
@@ -21,12 +22,22 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
     />
   );
 };
+const PrivateRouteAdmin = ({ component: Component, auth, admin, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={props => auth && admin && <Component {...props} />}
+      // : <Redirect to='/dashboard/account' />
+    />
+  );
+};
 
 class DashboardRouter extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false
+      auth: false,
+      admin: false
     };
   }
 
@@ -38,7 +49,10 @@ class DashboardRouter extends PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.auth.dataEmail.adminVerified !== prevState.auth) {
-      return { auth: nextProps.auth.dataEmail.adminVerified };
+      return {
+        auth: nextProps.auth.dataEmail.adminVerified,
+        admin: nextProps.auth.dataEmail.Admin
+      };
     } else return null; // Triggers no change in the state
   }
 
@@ -87,6 +101,12 @@ class DashboardRouter extends PureComponent {
         <Route exact path="/dashboard/addeditusers" component={AddEditUsers} />
         <Route exact path="/dashboard/downloads" component={Downloads} />
         <Route exact path="/dashboard/bankbook" component={CashAtHand} /> */}
+        <PrivateRouteAdmin
+          path='/dashboard/resetdatabase'
+          component={ResetDatabase}
+          auth={this.state.auth}
+          admin={this.state.admin}
+        />
         <Route exact path='/dashboard/account' component={Account} />
         <Redirect to='/dashboard/account' />
       </Switch>

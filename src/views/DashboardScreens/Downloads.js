@@ -8,12 +8,13 @@ import firebase from '../../config/fbConfig';
 import secretSignKey from '../../secretToken';
 import jwt from 'jsonwebtoken';
 
+// console.log(process.env.REACT_APP_SECRET_SIGN_KEY);
 const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
   const reset = () => {
-    jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
-      console.log(err, 'error');
-      console.log(token);
-    });
+    // jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
+    //   console.log(err, 'error');
+    //   console.log(token);
+    // });
     // firebase
     //   .auth()
     //   .createUserWithEmailAndPassword('dumy@gmail.com', 'password')

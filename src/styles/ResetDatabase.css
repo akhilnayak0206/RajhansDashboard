@@ -1,21 +1,32 @@
 @import '~antd/dist/antd.css';
 
-.headingAccount {
+.heading {
   font-size: xx-large;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.7);
   text-align: center;
 }
-.mainDivAccount {
+.mainDiv {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.cardBothAccount {
+.cardBoth {
   flex: 40%;
   margin: 5px;
+  display: flex;
+  justify-content: center;
 }
-.textCenterAccount {
+.downloadButtonDiv {
+  text-align: center;
+  margin-top: 5px;
+  display: flex;
+}
+.downloadInnerButton {
+  flex: 50%;
+  text-align: left;
+}
+.textCenter {
   text-align: center;
 }
