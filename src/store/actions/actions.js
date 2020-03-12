@@ -5,6 +5,7 @@ import OnAddData from './OnAddData';
 import OnDeleteData from './OnDeleteData';
 import OnTotalData from './OnTotalData';
 import OnUploadWings from './OnUploadWings';
+import OnDownload from './OnDownload';
 
 export {
   OnAuth,
@@ -13,5 +14,6 @@ export {
   OnDeleteData,
   OnSetData,
   OnTotalData,
-  OnUploadWings
+  OnUploadWings,
+  OnDownload
 };
