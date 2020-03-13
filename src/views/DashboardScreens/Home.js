@@ -96,8 +96,8 @@ const COLORS = [
   '#00C49F',
   '#FFBB28',
   '#FF8042',
-  '#008800',
-  '#FBFB28'
+  '#00cc00',
+  '#008800'
 ];
 
 const renderActiveShape = props => {
