@@ -141,5 +141,3 @@ export default compose(
     OnAuth
   })
 )(LoginPage);
-
-// export default compose(connect(mapStateToProps))(LoginPage);

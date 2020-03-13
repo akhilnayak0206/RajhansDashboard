@@ -1,15 +1,8 @@
 import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
-import {
-  OnAuth,
-  OnGetData,
-  OnAddData,
-  OnDeleteData,
-  OnSetData,
-  OnTotalData
-} from '../../store/actions/actions';
+import { OnTotalData } from '../../store/actions/actions';
 import { compose } from 'redux';
-import { Card, Skeleton, Button } from 'antd';
+import { Card } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -96,7 +89,7 @@ const COLORS = [
   '#00C49F',
   '#FFBB28',
   '#FF8042',
-  '#00cc00',
+  '#996600',
   '#008800'
 ];
 
@@ -104,15 +97,12 @@ const renderActiveShape = props => {
   const {
     cx,
     cy,
-    midAngle,
     innerRadius,
     outerRadius,
     startAngle,
     endAngle,
     fill,
-    payload,
-    percent,
-    value
+    payload
   } = props;
 
   return (
@@ -164,9 +154,7 @@ class CustomizedContent extends PureComponent {
       width,
       height,
       index,
-      payload,
       colors,
-      rank,
       name
     } = this.props;
 
@@ -400,232 +388,144 @@ class Home extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div
-          style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
-        >
-          <Card
-            style={{
-              flex: '40%',
-              margin: 5,
-              // textAlign: "center",
-              fontFamily: "'Open Sans', sans-serif",
-              backgroundImage:
-                'linear-gradient(45deg, #c31432 , #1832C4, #240b36)'
-            }}
-            // title="Total"
-          >
-            <Skeleton loading={false} paragraph={{ rows: 3 }}>
-              <h1
-                style={{
-                  // textAlign: "center",
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 'lighter',
-                  fontSize: '40px',
-                  margin: '0px',
-                  color: 'white'
-                }}
-              >
-                <FontAwesomeIcon icon={faRupeeSign} />
-                {this.state.totalData.totalCollection}
-              </h1>
-              <p style={{ color: 'white' }}>Total Collection</p>
-              <BarChart width={150} height={40} data={data}>
-                <Bar isAnimationActive={false} dataKey='tc' fill='#fff' />
-              </BarChart>
-            </Skeleton>
+      <div className='MainApp'>
+        <div className='overViewCards'>
+          <Card className='collectionCard'>
+            <h1 className='collectionCardH1'>
+              <FontAwesomeIcon icon={faRupeeSign} />{' '}
+              {this.state.totalData.totalCollection}
+            </h1>
+            <p className='colorWhite'>Total Collection</p>
+            <BarChart width={150} height={40} data={data}>
+              <Bar isAnimationActive={false} dataKey='tc' fill='#fff' />
+            </BarChart>
           </Card>
           <Card
             style={{
-              flex: '40%',
-              margin: 5,
-              // textAlign: "center",
-              fontFamily: "'Open Sans', sans-serif",
               backgroundImage:
                 'linear-gradient(45deg, #310F84, #3494E6, #18B7C4)'
             }}
-            // title="Total"
+            className='collectionCard'
           >
-            <Skeleton loading={false} paragraph={{ rows: 3 }}>
-              <h1
-                style={{
-                  // textAlign: "center",
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 'lighter',
-                  fontSize: '40px',
-                  margin: '0px',
-                  color: 'white'
-                }}
-              >
-                <FontAwesomeIcon icon={faRupeeSign} />
-                {this.state.totalData.cashInHand}
-              </h1>
-              <p style={{ color: 'white' }}>Cash In Hand</p>
-              <BarChart width={150} height={40} data={data}>
-                <Bar isAnimationActive={false} dataKey='ch' fill='#fff' />
-              </BarChart>
-            </Skeleton>
+            <h1 className='collectionCardH1'>
+              <FontAwesomeIcon icon={faRupeeSign} />{' '}
+              {this.state.totalData.cashInHand}
+            </h1>
+            <p className='colorWhite'>Cash In Hand</p>
+            <BarChart width={150} height={40} data={data}>
+              <Bar isAnimationActive={false} dataKey='ch' fill='#fff' />
+            </BarChart>
           </Card>
           <Card
             style={{
-              flex: '40%',
-              margin: 5,
-              // textAlign: "center",
-              fontFamily: "'Open Sans', sans-serif",
               backgroundImage:
                 'linear-gradient(45deg, #240b36, #c31432, #cc2b5e)'
             }}
-            // title="Total"
+            className='collectionCard'
           >
-            <Skeleton loading={false} paragraph={{ rows: 3 }}>
-              <h1
-                style={{
-                  // textAlign: "center",
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 'lighter',
-                  fontSize: '40px',
-                  margin: '0px',
-                  color: 'white'
-                }}
-              >
-                <FontAwesomeIcon icon={faRupeeSign} />
-                {this.state.totalData.totalExpenses}
-              </h1>
-              <p style={{ color: 'white' }}>Total Expenses</p>
-              <BarChart width={150} height={40} data={data}>
-                <Bar isAnimationActive={false} dataKey='te' fill='#fff' />
-              </BarChart>
-            </Skeleton>
+            <h1 className='collectionCardH1'>
+              <FontAwesomeIcon icon={faRupeeSign} />{' '}
+              {this.state.totalData.totalExpenses}
+            </h1>
+            <p className='colorWhite'>Total Expenses</p>
+            <BarChart width={150} height={40} data={data}>
+              <Bar isAnimationActive={false} dataKey='te' fill='#fff' />
+            </BarChart>
           </Card>
           <Card
             style={{
-              flex: '40%',
-              margin: 5,
-              // textAlign: "center",
-              fontFamily: "'Open Sans', sans-serif",
               backgroundImage:
                 'linear-gradient(45deg, #1832C4, #310F84, #592E7C)'
             }}
-            // title="Total"
+            className='collectionCard'
           >
-            <Skeleton loading={false} paragraph={{ rows: 3 }}>
-              <h1
-                style={{
-                  // textAlign: "center",
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 'lighter',
-                  fontSize: '40px',
-                  margin: '0px',
-                  color: 'white'
-                }}
-              >
-                <FontAwesomeIcon icon={faRupeeSign} />
-                {this.state.totalData.totalBankBook}
-              </h1>
-              <p style={{ color: 'white' }}>Bank Collection</p>
-              <BarChart width={150} height={40} data={data}>
-                <Bar isAnimationActive={false} dataKey='bb' fill='#fff' />
-              </BarChart>
-            </Skeleton>
+            <h1 className='collectionCardH1'>
+              <FontAwesomeIcon icon={faRupeeSign} />{' '}
+              {this.state.totalData.totalBankBook}
+            </h1>
+            <p className='colorWhite'>Bank Collection</p>
+            <BarChart width={150} height={40} data={data}>
+              <Bar isAnimationActive={false} dataKey='bb' fill='#fff' />
+            </BarChart>
           </Card>
         </div>
-        {/*
-        start below 4 cards
-        remove this after completing the page
-        no use of this comment
-        only for development for Akhil to understand
-         */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className='mainApp'>
           <Card
             style={{ margin: 5 }}
             bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
           >
-            <Skeleton paragraph={{ rows: 3 }} loading={false}>
-              <h3 style={{ textAlign: 'center' }}>Wing Contribution</h3>
-              <div style={{ display: 'flex', paddingRight: '24px' }}>
-                <ResponsiveContainer width='100%' height={300}>
-                  <BarChart data={this.state.barData}>
-                    <CartesianGrid strokeDasharray='3 3' />
-                    <XAxis dataKey='name' />
-                    <YAxis />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Bar
-                      isAnimationActive={false}
-                      dataKey='amt'
-                      fill='#3494E6'
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </Skeleton>
+            <h3 className='textCenterChart'>Wing Contribution</h3>
+            <div className='barChart'>
+              <ResponsiveContainer width='100%' height={300}>
+                <BarChart data={this.state.barData}>
+                  <CartesianGrid strokeDasharray='3 3' />
+                  <XAxis dataKey='name' />
+                  <YAxis />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar isAnimationActive={false} dataKey='amt' fill='#3494E6' />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Card>
-          <div
-            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
-          >
+          <div className='overViewCards'>
             <Card className='card-tree'>
-              <Skeleton loading={false} paragraph={{ rows: 3 }}>
-                <h3 style={{ textAlign: 'center' }}>Total Contribution</h3>
-                <ResponsiveContainer width='100%' height={300}>
-                  <Treemap
-                    isAnimationActive={false}
-                    data={this.state.pieData}
-                    dataKey='value'
-                    ratio={4 / 3}
-                    stroke='#fff'
-                    content={<CustomizedContent colors={TREE_COLORS} />}
-                  />
-                </ResponsiveContainer>
-              </Skeleton>
+              <h3 className='textCenterChart'>Total Contribution</h3>
+              <ResponsiveContainer width='100%' height={300}>
+                <Treemap
+                  isAnimationActive={false}
+                  data={this.state.pieData}
+                  dataKey='value'
+                  ratio={4 / 3}
+                  stroke='#fff'
+                  content={<CustomizedContent colors={TREE_COLORS} />}
+                />
+              </ResponsiveContainer>
             </Card>
             <Card style={{ margin: 5, flex: '40%' }}>
-              <Skeleton paragraph={{ rows: 3 }} loading={false}>
-                <h3 style={{ textAlign: 'center' }}>Total Contribution</h3>
-                <ResponsiveContainer width='90%' height={300}>
-                  <PieChart>
-                    <Pie
-                      isAnimationActive={false}
-                      activeIndex={this.state.activeIndex}
-                      activeShape={renderActiveShape}
-                      dataKey='value'
-                      data={this.state.pieData}
-                      cx={'55%'}
-                      cy={150}
-                      fill='#8884d8'
-                      outerRadius={80}
-                      innerRadius={60}
-                      onMouseEnter={this.onPieEnter}
-                    >
-                      {data.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </Skeleton>
+              <h3 className='textCenterChart'>Total Contribution</h3>
+              <ResponsiveContainer width='90%' height={300}>
+                <PieChart>
+                  <Pie
+                    isAnimationActive={false}
+                    activeIndex={this.state.activeIndex}
+                    activeShape={renderActiveShape}
+                    dataKey='value'
+                    data={this.state.pieData}
+                    cx={'55%'}
+                    cy={150}
+                    fill='#8884d8'
+                    outerRadius={80}
+                    innerRadius={60}
+                    onMouseEnter={this.onPieEnter}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
             </Card>
           </div>
           <Card style={{ margin: 5 }}>
-            <Skeleton paragraph={{ rows: 3 }} loading={false}>
-              <h3 style={{ textAlign: 'center' }}>Overview</h3>
-              <div style={{ display: 'flex', paddingRight: '24px' }}>
-                <ResponsiveContainer width='100%' height={300}>
-                  <Treemap
-                    isAnimationActive={false}
-                    width={400}
-                    height={200}
-                    data={this.state.treeData}
-                    dataKey='size'
-                    ratio={4 / 3}
-                    stroke='#fff'
-                    fill='#8884d8'
-                    content={<CustomizedContent colors={TREE_COLORS} />}
-                  />
-                </ResponsiveContainer>
-              </div>
-            </Skeleton>
+            <h3 className='textCenterChart'>Overview</h3>
+            <div className='barChart'>
+              <ResponsiveContainer width='100%' height={300}>
+                <Treemap
+                  isAnimationActive={false}
+                  width={400}
+                  height={200}
+                  data={this.state.treeData}
+                  dataKey='size'
+                  ratio={4 / 3}
+                  stroke='#fff'
+                  fill='#8884d8'
+                  content={<CustomizedContent colors={TREE_COLORS} />}
+                />
+              </ResponsiveContainer>
+            </div>
           </Card>
         </div>
       </div>
@@ -634,33 +534,14 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    firebase,
-    auth,
-    getData,
-    addData,
-    deleteData,
-    setData,
-    totalData
-  } = state;
+  const { totalData } = state;
   return {
-    firebase,
-    auth,
-    getData,
-    addData,
-    deleteData,
-    setData,
     totalData
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
-    OnAuth,
-    OnGetData,
-    OnAddData,
-    OnDeleteData,
-    OnSetData,
     OnTotalData
   })
 )(Home);
