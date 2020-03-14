@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { OnGetData, OnSetData } from '../../../store/actions/actions';
+import { OnGetData, OnSetData, OnShare } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 // import jwt from 'jsonwebtoken';
@@ -48,9 +48,10 @@ class AddEditWing extends Component {
 
   shareReceipt = () => {
     this.setState({ receiptLoading: true }, () =>
-      setTimeout(() => {
-        this.setState({ receiptLoading: false });
-      }, 5000)
+      this.props.OnShare({
+        collection: this.state.selectedWings,
+        doc: JSON.stringify(this.state.selectedValModal.Flatno)
+      })
     );
   };
 
@@ -333,7 +334,6 @@ class AddEditWing extends Component {
             />
             <h3>Receipt</h3>
             <Button
-              key='shareReceipt'
               loading={this.state.receiptLoading}
               onClick={this.shareReceipt}
             >
@@ -458,6 +458,7 @@ function mapStateToProps(state) {
 export default compose(
   connect(mapStateToProps, {
     OnGetData,
-    OnSetData
+    OnSetData,
+    OnShare
   })
 )(AddEditWing);
