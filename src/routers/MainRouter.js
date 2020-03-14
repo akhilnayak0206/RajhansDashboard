@@ -1,20 +1,22 @@
-import React, { Component, PureComponent } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import LoginPage from "../views/LoginPage";
-import Dashboard from "../views/Dashboard";
+import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import LoginPage from '../views/LoginPage';
+import Dashboard from '../views/Dashboard';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
   return (
-  <Route
-    {...rest}
-    render={props => ( auth ? <Component {...props} /> : <Redirect to="/login" />)}
-  />
-)};
+    <Route
+      {...rest}
+      render={props =>
+        auth ? <Component {...props} /> : <Redirect to='/login' />
+      }
+    />
+  );
+};
 
-class MainRouter extends PureComponent {
-
+class MainRouter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,18 +33,17 @@ class MainRouter extends PureComponent {
   render() {
     return (
       <Switch>
-        <Route exact path="/login" component={LoginPage} />
+        <Route exact path='/login' component={LoginPage} />
         {/* <Route path="/dashboard" component={Dashboard} /> */}
         <PrivateRoute
-          path="/dashboard"
+          path='/dashboard'
           component={Dashboard}
           auth={this.state.auth}
         />
-        <Redirect to="/login" />
+        <Redirect to='/login' />
       </Switch>
     );
   }
-
 }
 
 function mapStateToProps(state) {

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -32,7 +32,7 @@ const PrivateRouteAdmin = ({ component: Component, auth, admin, ...rest }) => {
   );
 };
 
-class DashboardRouter extends PureComponent {
+class DashboardRouter extends Component {
   constructor(props) {
     super(props);
     this.state = {

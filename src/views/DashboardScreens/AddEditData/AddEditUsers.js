@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Card,
-  Input,
-  Button,
-  Skeleton,
-  Select,
-  Modal,
-  notification
-} from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { Card, Input, Button, Skeleton, Modal, notification } from 'antd';
 import {
   OnAuth,
   OnGetData,
@@ -23,7 +13,6 @@ import { connect } from 'react-redux';
 import firebase from '../../../config/fbConfig';
 
 const { Search } = Input;
-const { Option } = Select;
 
 class AddEditUsers extends Component {
   constructor(props) {
@@ -62,6 +51,7 @@ class AddEditUsers extends Component {
   handleAddOk = () => {
     if (this.state.setData.Name) {
       if (
+        // eslint-disable-next-line
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
           this.state.setData.email
         )
@@ -181,7 +171,7 @@ class AddEditUsers extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className='mainApp'>
         <Modal
           title={`${this.state.selectedValModal.Name}'s Details`}
           visible={this.state.visibleModal}
@@ -217,7 +207,6 @@ class AddEditUsers extends Component {
               <b>Admin Verification:</b>
               <br />
               <Button
-                // style={{ marginLeft: '5px' }}
                 onClick={() =>
                   this.setState(prevState => ({
                     selectedValModal: {
@@ -238,7 +227,6 @@ class AddEditUsers extends Component {
               <b>Reset Password:</b>
               <br />
               <Button
-                // style={{ marginLeft: '5px' }}
                 onClick={() =>
                   firebase
                     .auth()
@@ -295,15 +283,7 @@ class AddEditUsers extends Component {
           <p style={{ color: 'gray' }}>The initial password is 123456</p>
         </Modal>
         <Skeleton loading={false} active>
-          <div
-            style={{
-              width: '100%',
-              marginBottom: 20,
-              position: 'sticky',
-              zIndex: 5,
-              top: 65
-            }}
-          >
+          <div className='searchSticky'>
             <Card
               size='small'
               style={{ borderRadius: 5, width: '100%' }}
@@ -340,11 +320,11 @@ class AddEditUsers extends Component {
               </div>
             </Card>
           </div>
-          <div style={{ width: '100%', height: '100%', marginBottom: 20 }}>
+          <div className='showAllCards'>
             {this.state.filterCards.map((val, key) => (
               <Card
                 size='small'
-                style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
+                className='singleCards'
                 key={key}
                 onClick={() => this.showModal(val)}
               >
@@ -358,10 +338,10 @@ class AddEditUsers extends Component {
                     {val.email}
                   </p>
                 ) : (
-                  <p style={{ color: 'red' }}>Ask admin to add the email</p>
+                  <p className='colorRed'>Ask admin to add the email</p>
                 )}
                 {this.props.auth.dataEmail.Admin && !val.adminVerified && (
-                  <p style={{ color: 'red' }}>Admin verify the email</p>
+                  <p className='colorRed'>Admin verify the email</p>
                 )}
               </Card>
             ))}

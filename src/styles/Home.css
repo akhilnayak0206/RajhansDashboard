@@ -48,8 +48,10 @@
 }
 
 .textCenterChart {
-  font-family: 'Brush Script MT', cursive;
+  font-family: 'Franklin Gothic Medium', 'Franklin Gothic',
+    'ITC Franklin Gothic', Arial, sans-serif;
   text-align: center;
+  font-weight: 900;
 }
 
 @media only screen and (min-width: 486px) {

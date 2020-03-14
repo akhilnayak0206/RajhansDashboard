@@ -4,8 +4,6 @@ import {
   Input,
   Button,
   Skeleton,
-  Form,
-  Radio,
   notification,
   Select,
   Popover,
@@ -13,19 +11,13 @@ import {
   Modal
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
-import {
-  OnAuth,
-  OnGetData,
-  OnAddData,
-  OnDeleteData,
-  OnSetData,
-  OnTotalData
-} from '../../../store/actions/actions';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { OnGetData, OnSetData } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import jwt from 'jsonwebtoken';
-import secretSignKey from '../../../secretToken.js';
+// import jwt from 'jsonwebtoken';
+// import secretSignKey from '../../../secretToken.js';
+import '../../../styles/AddEdit.css';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -127,6 +119,7 @@ class AddEditWing extends Component {
   onChangeDate = (date, dateString) => {
     if (dateString) {
       let filterCards = this.state.filterCards.filter(val => {
+        // eslint-disable-next-line
         if (val.Amount != 0) {
           return (
             `${new Date(
@@ -135,11 +128,14 @@ class AddEditWing extends Component {
               val.Receipt[val.Receipt.length - 1].timestamp
             ).getMonth()}/${new Date(
               val.Receipt[val.Receipt.length - 1].timestamp
+              // eslint-disable-next-line
             ).getFullYear()}` ==
             `${new Date(date).getDate()}/${new Date(
               date
             ).getMonth()}/${new Date(date).getFullYear()}`
           );
+        } else {
+          return false;
         }
       });
       this.setState({ filterCards, filterDate: dateString, showCards: 'coll' });
@@ -176,10 +172,14 @@ class AddEditWing extends Component {
   };
 
   handleChangeFilter = value => {
+    // eslint-disable-next-line
     if (value == 'coll') {
+      // eslint-disable-next-line
       let filterCards = this.state.cards.filter(val => val.Amount != 0);
       this.setState({ filterCards, showCards: value, filterDate: '' });
+      // eslint-disable-next-line
     } else if (value == 'noColl') {
+      // eslint-disable-next-line
       let filterCards = this.state.cards.filter(val => val.Amount == 0);
       this.setState({ filterCards, showCards: value, filterDate: '' });
     } else {
@@ -206,6 +206,7 @@ class AddEditWing extends Component {
     );
   }
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps) {
     if (nextProps.getData !== this.props.getData) {
       let sortedData = nextProps.getData.collectionData;
@@ -228,7 +229,9 @@ class AddEditWing extends Component {
           confirmLoadingModal: false
         });
       } else if (
+        // eslint-disable-next-line
         nextProps.setData.collection == this.state.selectedWings &&
+        // eslint-disable-next-line
         nextProps.setData.document == this.state.selectedValModal.Flatno
       ) {
         notification['success']({
@@ -256,15 +259,12 @@ class AddEditWing extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
+      <div className='mainApp'>
         {this.state.selectedValModal && (
           <Modal
-            title='Title'
+            title={`Flat Number: ${JSON.stringify(
+              this.state.selectedValModal.Flatno
+            )}`}
             visible={this.state.visibleModal}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
@@ -278,6 +278,7 @@ class AddEditWing extends Component {
                 loading={this.state.confirmLoadingModal}
                 onClick={this.handleOk}
               >
+                {/* eslint-disable-next-line */}
                 {this.state.selectedValModal.Amount == 0
                   ? 'Make Receipt'
                   : 'Replace Receipt'}
@@ -319,6 +320,7 @@ class AddEditWing extends Component {
             <Input
               value={this.state.setData.Amount}
               placeholder={
+                // eslint-disable-next-line
                 this.state.selectedValModal.Amount != 0
                   ? `${this.state.selectedValModal.Amount}`
                   : `Amount Received`
@@ -340,95 +342,63 @@ class AddEditWing extends Component {
           </Modal>
         )}
         <Skeleton loading={this.state.gettingData} active>
-          <div
-            style={{
-              width: '100%',
-              marginBottom: 20,
-              position: 'sticky',
-              zIndex: 5,
-              top: 65
-            }}
-          >
+          <div className='searchSticky'>
             <Card
               size='small'
               style={{ borderRadius: 5, width: '100%' }}
               bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
               hoverable
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around'
-                }}
-              >
-                <Search
-                  placeholder='Enter Flat Number'
-                  onSearch={value => this.handleSearchChange(value)}
-                  onChange={e => this.handleSearchChange(e)}
-                  enterButton
-                />
-              </div>
+              <Search
+                placeholder='Enter Flat Number'
+                onSearch={value => this.handleSearchChange(value)}
+                onChange={e => this.handleSearchChange(e)}
+                enterButton
+              />
             </Card>
           </div>
 
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              marginBottom: 20
-            }}
-          >
+          <div className='showCards'>
             {this.state.filterCards &&
               this.state.filterCards.map((val, key) =>
+                // eslint-disable-next-line
                 val.Amount == 0 ? (
                   <Card
                     size='small'
-                    title={`FlatNo: ${val.Flatno}`}
+                    title={`Flat Number: ${val.Flatno}`}
                     style={{
-                      borderRadius: 5,
-                      width: '100%',
-                      marginBottom: 10,
                       backgroundColor: '#f44336'
                     }}
+                    className='singleCards'
                     key={key}
                     onClick={() => this.showModal(val)}
                   >
-                    <b>Not Collected yet</b>
+                    <b className='cardsDescription'>Not Collected yet</b>
                   </Card>
                 ) : (
                   <Card
                     size='small'
-                    title={`FlatNo: ${val.Flatno}`}
-                    style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
+                    title={`Flat Number: ${val.Flatno}`}
+                    className='singleCards'
                     key={key}
                     onClick={() => this.showModal(val)}
                   >
-                    <p>
+                    <p className='cardsDescription'>
                       <b>Donor: </b>
                       {val.Received}
                     </p>
-                    <p>
+                    <p className='cardsDescription'>
                       <b>Amount: </b>₹{val.Amount}
                     </p>
                   </Card>
                 )
               )}
           </div>
-          <div
-            style={{
-              flexDirection: 'column',
-              display: 'flex',
-              zIndex: 15,
-              position: 'fixed',
-              bottom: 62,
-              right: 38
-            }}
-          >
+          <div className='bottomButton'>
             <Popover
               placement='leftTop'
               content={
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className='mainApp'>
                   <Select
                     size='large'
                     defaultValue='wingA'
@@ -469,14 +439,6 @@ class AddEditWing extends Component {
                 <FontAwesomeIcon icon={faFilter} size='lg' color='white' />
               </Button>
             </Popover>
-            {/* <Button
-              type="primary"
-              shape="circle"
-              size="large"
-              style={{ marginTop: 10 }}
-            >
-              <FontAwesomeIcon icon={faPlus} size={70} color="white" />
-            </Button> */}
           </div>
         </Skeleton>
       </div>
@@ -485,33 +447,17 @@ class AddEditWing extends Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    firebase,
-    auth,
-    getData,
-    addData,
-    deleteData,
-    setData,
-    totalData
-  } = state;
+  const { getData, setData, auth } = state;
   return {
-    firebase,
     auth,
     getData,
-    addData,
-    deleteData,
-    setData,
-    totalData
+    setData
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
-    OnAuth,
     OnGetData,
-    OnAddData,
-    OnDeleteData,
-    OnSetData,
-    OnTotalData
+    OnSetData
   })
 )(AddEditWing);

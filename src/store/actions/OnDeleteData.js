@@ -4,6 +4,7 @@ const OnDeleteData = data => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const { collection, doc } = data;
+    // eslint-disable-next-line
     let deleteDoc = await firebase
       .firestore()
       .collection(collection)

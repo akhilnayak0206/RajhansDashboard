@@ -4,6 +4,7 @@ import types from '../action_types/index';
 const OnAuth = data => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
+    // eslint-disable-next-line
     const firestore = getFirestore();
     switch (data.type) {
       case 'login':
@@ -11,6 +12,7 @@ const OnAuth = data => {
           .firestore()
           .collection('users')
           .doc(data.email);
+        // eslint-disable-next-line
         let getDoc = cityRef
           .get()
           .then(doc => {
@@ -159,6 +161,8 @@ const OnAuth = data => {
             messageEmail: 'Log Out data at account'
           }
         });
+      default:
+        break;
     }
   };
 };

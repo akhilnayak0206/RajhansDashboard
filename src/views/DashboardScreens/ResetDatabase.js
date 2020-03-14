@@ -1,38 +1,14 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { OnAuth, OnDownload } from '../../store/actions/actions';
 import { compose } from 'redux';
-import { CSVLink, CSVDownload } from 'react-csv';
-import {
-  Switch,
-  Card,
-  Icon,
-  Avatar,
-  Input,
-  Button,
-  Skeleton,
-  notification
-} from 'antd';
+import { CSVLink } from 'react-csv';
+import { Card, Icon, Button, notification, Skeleton } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faRupeeSign,
-  faUserEdit,
-  faDatabase,
-  faHome,
-  faEdit,
-  faDownload,
-  faPlus,
-  faUsers,
-  faUserAlt,
-  faFileInvoiceDollar,
-  faUsersCog,
-  faFileDownload
-} from '@fortawesome/free-solid-svg-icons';
-import { NavLink } from 'react-router-dom';
-import firebase from '../../config/fbConfig';
+import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import '../../styles/ResetDatabase.css';
 
-const ResetDatabase = ({ OnAuth, OnDownload, download, auth }) => {
+const ResetDatabase = ({ OnDownload, download, auth }) => {
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [downloadWings, setDownloadWings] = useState(false);
@@ -58,6 +34,7 @@ const ResetDatabase = ({ OnAuth, OnDownload, download, auth }) => {
         });
       }
     }
+    // eslint-disable-next-line
   }, [download.dataChanged]);
 
   useEffect(() => {
@@ -104,12 +81,13 @@ const ResetDatabase = ({ OnAuth, OnDownload, download, auth }) => {
 
   useEffect(() => {
     if (auth.dataEmail.Admin) {
-      return setLoadingSkeleton(true);
+      return setLoadingSkeleton(false);
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <Fragment>
+    <Skeleton loading={loadingSkeleton} active>
       <h1 className='heading'>Database Settings</h1>
       <div className='mainDiv'>
         <Card className='cardBoth'>
@@ -238,7 +216,7 @@ const ResetDatabase = ({ OnAuth, OnDownload, download, auth }) => {
           </div>
         </Card>
       </div>
-    </Fragment>
+    </Skeleton>
   );
 };
 
@@ -257,28 +235,3 @@ export default compose(
     OnDownload
   })
 )(ResetDatabase);
-
-{
-  /* <Card className='cardBoth'>
-      <h3 className='textCenter'>Jai Mitra Mandal</h3>
-      <p style={{ color: 'rgba(0,0,0,0.5)' }}>
-        Backing up the data of the same year replaces the previous data with
-        the current data of that year(e.g. if there already exists 2019 in
-        downloads then if you are trying to backup the data of 2019 then it
-        will get replaced. If the data is of the year that doesn't exist in
-        the Downloads then there is no worries.)
-        <br />
-        So have a talk with Akhil if you want to get any doubts cleared.
-        <br />
-      </p>
-      <div style={{ textAlign: 'center', marginBottom: '5px' }}>
-        <Button
-          style={{ backgroundColor: '#e6b800', color: 'white' }}
-          // onClick={() => this.onSignOut()}
-          // disabled={this.state.btnSignOut}
-        >
-          Backup Database
-        </Button>
-      </div>
-    </Card> */
-}

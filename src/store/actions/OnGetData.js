@@ -6,6 +6,7 @@ const OnGetData = data => {
     const firebase = getFirebase();
     // const firestore = getFirestore();
     let dataRef = firebase.firestore().collection(data.collection);
+    // eslint-disable-next-line
     let query = dataRef
       .get()
       .then(snapshot => {

@@ -1,7 +1,7 @@
 import types from '../action_types/index';
 
 const OnDownload = data => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     const { type } = data;
     switch (type) {
@@ -10,6 +10,7 @@ const OnDownload = data => {
           .firestore()
           .collection(type)
           .orderBy('timestamp');
+        // eslint-disable-next-line
         let queryWellWisher = dataWellWisherRef
           .get()
           .then(snapshot => {
@@ -102,6 +103,7 @@ const OnDownload = data => {
           .firestore()
           .collection(type)
           .orderBy('timestamp');
+        // eslint-disable-next-line
         let queryExpenses = dataExpensesRef
           .get()
           .then(snapshot => {
@@ -366,6 +368,8 @@ const OnDownload = data => {
             });
           });
         }
+        break;
+      default:
         break;
     }
   };

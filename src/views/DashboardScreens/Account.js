@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { OnAuth } from '../../store/actions/actions';
-import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import {
-  Switch,
-  Card,
-  Icon,
-  Avatar,
-  Input,
-  Button,
-  Skeleton,
-  notification
-} from 'antd';
-import { NavLink } from 'react-router-dom';
+import { Card, Input, Button, Skeleton, notification } from 'antd';
 import firebase from '../../config/fbConfig';
 import '../../styles/Account.css';
-
-const { Meta } = Card;
 class Account extends Component {
   constructor(props) {
     super(props);
@@ -144,7 +131,7 @@ class Account extends Component {
               />
               {firebase.auth().currentUser &&
               firebase.auth().currentUser.emailVerified ? (
-                <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                <div className='textMargin'>
                   <Button
                     type='danger'
                     onClick={() => this.resetPassword()}
@@ -154,7 +141,7 @@ class Account extends Component {
                   </Button>
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                <div className='textMargin'>
                   <Button
                     type='danger'
                     onClick={() => this.verifyUser()}
@@ -168,7 +155,7 @@ class Account extends Component {
           </Card>
           <Card className='cardBothAccount'>
             <Skeleton loading={this.state.loadingSign} paragraph={{ rows: 3 }}>
-              <h3 style={{ textAlign: 'center' }}>Jai Mitra Mandal</h3>
+              <h3 className='textCenterAccount'>Jai Mitra Mandal</h3>
               <p style={{ color: 'rgba(0,0,0,0.5)' }}>
                 This website is made by Akhil Nayak if you have any doubt or
                 suggestion you can contact me by emailing me to nnewn3@gmail.com

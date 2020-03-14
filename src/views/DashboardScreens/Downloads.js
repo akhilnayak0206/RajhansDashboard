@@ -1,36 +1,15 @@
-import React, { Component, Fragment, useEffect, useState } from 'react';
-import {
-  Upload,
-  message,
-  Button,
-  Card,
-  Input,
-  Skeleton,
-  InputNumber,
-  Form,
-  Switch,
-  Radio,
-  notification,
-  Select,
-  Popover,
-  DatePicker,
-  Modal,
-  Popconfirm
-} from 'antd';
-
+import React, { useEffect, useState } from 'react';
+import { Upload, message, Button, Card, Skeleton, notification } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { OnAuth, OnGetData, OnUploadWings } from '../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-// import firebase from '../../config/fbConfig';
 import { storage } from 'firebase';
-import secretSignKey from '../../secretToken';
-import jwt from 'jsonwebtoken';
 
-// console.log(process.env.REACT_APP_SECRET_SIGN_KEY);
-const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
+import '../../styles/Download.css';
+
+const Downloads = () => {
   const listRef = storage().ref();
 
   const [allFiles, setAllFiles] = useState([]);
@@ -87,6 +66,8 @@ const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
         // Uh-oh, an error occurred!
         console.log(error);
       });
+
+    // eslint-disable-next-line
   }, []);
 
   let downloadURL = itemRef => {
@@ -106,14 +87,8 @@ const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          marginBottom: 20
-        }}
-      >
+    <div className='mainApp'>
+      <div className='showAllCards'>
         <Skeleton loading={showFiles} active>
           {allFiles &&
             allFiles.map((items, key) => (
@@ -130,22 +105,13 @@ const Downloads = ({ OnUploadWings, auth, OnAuth }) => {
             ))}
         </Skeleton>
       </div>
-      <div
-        style={{
-          flexDirection: 'column',
-          display: 'flex',
-          zIndex: 15,
-          position: 'fixed',
-          bottom: 62,
-          right: 38
-        }}
-      >
+      <div className='bottomButton'>
         <Upload {...props}>
           <Button
             type='primary'
             shape='circle'
             size='large'
-            style={{ marginTop: 10 }}
+            className='marginTop10'
             onClick={() =>
               notification['warning']({
                 message: 'Rename before Upload',
@@ -177,32 +143,3 @@ export default compose(
     OnUploadWings
   })
 )(Downloads);
-
-// jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
-//   console.log(err, 'error');
-//   console.log(token);
-// });
-// firebase
-//   .auth()
-//   .createUserWithEmailAndPassword('dumy@gmail.com', 'password')
-//   .then(a => {
-//     alert('ok');
-//     console.log(a);
-//   })
-//   .catch(function(error) {
-//     // Handle Errors here.
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // ...
-//   });
-// reset password
-// auth
-//   .sendPasswordResetEmail(emailAddress)
-//   .then(function() {
-//     // Email sent.
-//     alert('ok');
-//   })
-//   .catch(function(error) {
-//     // An error happened.
-//     alert(JSON.stringify(error));
-//   });

@@ -5,33 +5,26 @@ import {
   Button,
   Skeleton,
   InputNumber,
-  Form,
   Switch,
-  Radio,
   notification,
-  Select,
-  Popover,
-  DatePicker,
   Modal,
   Popconfirm
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {
-  OnAuth,
   OnGetData,
-  OnAddData,
   OnDeleteData,
-  OnSetData,
-  OnTotalData
+  OnSetData
 } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import jwt from 'jsonwebtoken';
-import secretSignKey from '../../../secretToken.js';
+// import jwt from 'jsonwebtoken';
+// import secretSignKey from '../../../secretToken.js';
+
+import '../../../styles/AddEdit.css';
 
 const { Search } = Input;
-const { Option } = Select;
 
 class AddEditWellWisher extends Component {
   constructor(props) {
@@ -39,7 +32,6 @@ class AddEditWellWisher extends Component {
     this.state = {
       cards: [],
       filterCards: [],
-      selectedWings: 'wingA',
       showCards: 'noFil',
       search: '',
       visiblePopover: false,
@@ -163,7 +155,8 @@ class AddEditWellWisher extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.getData !== this.props.getData) {
       let sortedData = nextProps.getData.collectionData;
       sortedData.sort((a, b) => {
@@ -176,6 +169,7 @@ class AddEditWellWisher extends Component {
       });
     }
     if (nextProps.deleteData !== this.props.deleteData) {
+      // eslint-disable-next-line
       if (nextProps.deleteData.collection == 'wellWishers') {
         notification['success']({
           message: 'Delete Successful',
@@ -201,6 +195,7 @@ class AddEditWellWisher extends Component {
           confirmLoadingModal: false
         });
       } else if (
+        // eslint-disable-next-line
         nextProps.setData.collection == 'wellWishers' &&
         nextProps.setData.document
       ) {
@@ -230,12 +225,7 @@ class AddEditWellWisher extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
+      <div className='mainApp'>
         {this.state.selectedValModal && (
           <Modal
             title={
@@ -313,7 +303,7 @@ class AddEditWellWisher extends Component {
               }
               disabled={this.state.selectedValModal.secret}
             />
-            <p style={{ marginTop: '5px' }}>
+            <p className='marginTop5'>
               <b>Hidden: </b>{' '}
               <Switch
                 checked={this.state.selectedValModal.secret}
@@ -337,7 +327,7 @@ class AddEditWellWisher extends Component {
               />
             </p>
             {this.state.selectedValModal.secret && (
-              <p style={{ marginTop: '5px' }}>
+              <p className='marginTop5'>
                 <b>Hidden Name: </b>{' '}
                 <Input
                   value={
@@ -407,45 +397,23 @@ class AddEditWellWisher extends Component {
           </Modal>
         )}
         <Skeleton loading={this.state.gettingData} active>
-          <div
-            style={{
-              width: '100%',
-              marginBottom: 20,
-              position: 'sticky',
-              zIndex: 5,
-              top: 65
-            }}
-          >
+          <div className='searchSticky'>
             <Card
               size='small'
               style={{ borderRadius: 5, width: '100%' }}
               bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
               hoverable
             >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-around'
-                }}
-              >
-                <Search
-                  placeholder={`Enter Donor's Name`}
-                  onSearch={value => this.handleSearchChange(value)}
-                  onChange={e => this.handleSearchChange(e)}
-                  enterButton
-                />
-              </div>
+              <Search
+                placeholder={`Enter Donor's Name`}
+                onSearch={value => this.handleSearchChange(value)}
+                onChange={e => this.handleSearchChange(e)}
+                enterButton
+              />
             </Card>
           </div>
 
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              marginBottom: 20
-            }}
-          >
+          <div className='showAllCards'>
             {this.state.filterCards &&
               this.state.filterCards.map((val, key) => (
                 <Card
@@ -455,14 +423,14 @@ class AddEditWellWisher extends Component {
                       ? val.secretName
                       : val.Received
                   }`}
-                  style={{ borderRadius: 5, width: '100%', marginBottom: 10 }}
+                  className='singleCards'
                   key={key}
                   onClick={() => this.showModal(val)}
                 >
-                  <p>
+                  <p className='cardsDescription'>
                     <b>Amount: </b>₹{val.Amount}
                   </p>
-                  <p>
+                  <p className='cardsDescription'>
                     <b>Date: </b>
                     {`${new Date(
                       val.timestamp.seconds * 1000
@@ -475,16 +443,7 @@ class AddEditWellWisher extends Component {
                 </Card>
               ))}
           </div>
-          <div
-            style={{
-              flexDirection: 'column',
-              display: 'flex',
-              zIndex: 15,
-              position: 'fixed',
-              bottom: 62,
-              right: 38
-            }}
-          >
+          <div className='bottomButton'>
             <Button
               type='primary'
               shape='circle'
@@ -502,33 +461,20 @@ class AddEditWellWisher extends Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    firebase,
-    auth,
-    getData,
-    addData,
-    deleteData,
-    setData,
-    totalData
-  } = state;
+  const { auth, getData, deleteData, setData } = state;
   return {
-    firebase,
     auth,
     getData,
-    addData,
     deleteData,
-    setData,
-    totalData
+    setData
   };
 }
 
 export default compose(
+  // eslint-disable-next-line
   connect(mapStateToProps, {
-    OnAuth,
     OnGetData,
-    OnAddData,
     OnDeleteData,
-    OnSetData,
-    OnTotalData
+    OnSetData
   })
 )(AddEditWellWisher);
