@@ -13,5 +13,6 @@
         "rajhansapp",
         "resetdatabase",
         "webfonts"
-    ]
+    ],
+    "editor.formatOnSave": true
 }

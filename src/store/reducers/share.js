@@ -6,7 +6,9 @@ const initState = {
   collection: '',
   document: '',
   token: '',
-  dataChanged: 0
+  dataChanged: 0,
+  mail: false,
+  url: ''
 };
 
 const share = (state = initState, action) => {
@@ -14,7 +16,6 @@ const share = (state = initState, action) => {
     case types.ON_SHARE_RECEIPT:
       state.dataChanged += 1;
       let payload = action.payload;
-      console.log({ ...state, ...payload }, 'hello');
       return { ...state, ...payload };
     default:
       return state;

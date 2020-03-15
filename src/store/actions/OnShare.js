@@ -25,7 +25,8 @@ const OnShare = data => {
             description: 'Bhai Amount to daal de',
             collection: data.collection,
             document: data.doc,
-            token: ''
+            token: '',
+            mail: false
           }
         });
       } else {
@@ -47,17 +48,55 @@ const OnShare = data => {
               //     // err
               //     console.log('error verify', err);
               //   }
-              return dispatch({
-                type: types.ON_SHARE_RECEIPT,
-                payload: {
-                  error: false,
-                  message: 'Receipt Found',
-                  description: 'Bhai Receipt share kar de',
-                  collection: data.collection,
-                  document: data.doc,
-                  token
-                }
-              });
+              if (data.mail) {
+                return dispatch({
+                  type: types.ON_SHARE_RECEIPT,
+                  payload: {
+                    error: false,
+                    message: 'Receipt Found',
+                    description: 'Bhai Receipt share kar de',
+                    collection: data.collection,
+                    document: data.doc,
+                    token,
+                    mail: data.mail,
+                    url: `mailto:${data.personal}?subject=Thank You for contribution in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs. ${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Reagrds,<br>JMM`
+                  }
+                });
+              } else if (Number(data.personal)) {
+                return dispatch({
+                  type: types.ON_SHARE_RECEIPT,
+                  payload: {
+                    error: false,
+                    message: 'Receipt Found',
+                    description: 'Bhai Receipt share kar de',
+                    collection: data.collection,
+                    document: data.doc,
+                    token,
+                    mail: data.mail,
+                    url: `https://wa.me/91${Number(
+                      data.personal
+                    )}?text=Jai Mitra Mandal thanks ${
+                      jsonData.Received
+                    } for the contribution of Rs. ${
+                      jsonData.Amount
+                    }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} .%0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
+                  }
+                });
+              } else {
+                return dispatch({
+                  type: types.ON_SHARE_RECEIPT,
+                  payload: {
+                    error: false,
+                    message: 'Receipt Found',
+                    description: 'Bhai Receipt share kar de',
+                    collection: data.collection,
+                    document: data.doc,
+                    token,
+                    mail: data.mail,
+                    url: `https://wa.me/?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs. ${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} .%0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
+                  }
+                });
+              }
             } else if (err) {
               console.log(err);
             } else {
@@ -75,7 +114,8 @@ const OnShare = data => {
           message: 'No Receipt Found',
           collection: data.collection,
           document: data.doc,
-          token: ''
+          token: '',
+          mail: false
         }
       });
     }

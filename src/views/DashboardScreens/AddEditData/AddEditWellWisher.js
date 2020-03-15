@@ -15,7 +15,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {
   OnGetData,
   OnDeleteData,
-  OnSetData
+  OnSetData,
+  OnShare
 } from '../../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -41,15 +42,19 @@ class AddEditWellWisher extends Component {
       receiptLoading: false,
       selectedValModal: '',
       gettingData: true,
-      confirmLoadingDelete: false
+      confirmLoadingDelete: false,
+      personalData: ''
     };
   }
 
-  shareReceipt = () => {
+  shareReceipt = val => {
     this.setState({ receiptLoading: true }, () =>
-      setTimeout(() => {
-        this.setState({ receiptLoading: false });
-      }, 5000)
+      this.props.OnShare({
+        collection: 'wellWishers',
+        doc: this.state.selectedValModal.doc,
+        personal: this.state.personalData,
+        ...val
+      })
     );
   };
 
@@ -126,7 +131,8 @@ class AddEditWellWisher extends Component {
 
   handleCancel = () => {
     this.setState({
-      visibleModal: false
+      visibleModal: false,
+      personalData: ''
     });
   };
 
@@ -219,6 +225,25 @@ class AddEditWellWisher extends Component {
         this.setState({
           confirmLoadingModal: false
         });
+      }
+    }
+    if (nextProps.share !== this.props.share) {
+      if (nextProps.share.error) {
+        this.setState({ receiptLoading: false });
+        notification['error']({
+          message: nextProps.share.message,
+          description: nextProps.share.description
+        });
+      } else if (nextProps.share.url) {
+        this.setState({
+          receiptLoading: false,
+          personalData: '',
+          visibleModal: false
+        });
+        const win = window.open(nextProps.share.url, '_blank');
+        if (win != null) {
+          win.focus();
+        }
       }
     }
   }
@@ -384,13 +409,29 @@ class AddEditWellWisher extends Component {
             />
             {this.state.selectedValModal.hasOwnProperty('doc') && (
               <Fragment>
-                <h3>Receipt</h3>
+                <h3>Phone/ E-Mail</h3>
+                <Input
+                  placeholder='Entering Phone Number or Email Address is optional'
+                  value={this.state.personalData}
+                  onChange={val =>
+                    this.setState({
+                      personalData: val.target.value
+                    })
+                  }
+                />
+                <h3>Share Receipt</h3>
                 <Button
-                  key='shareReceipt'
                   loading={this.state.receiptLoading}
-                  onClick={this.shareReceipt}
+                  onClick={() => this.shareReceipt({ mail: false })}
                 >
-                  Share
+                  WhatsApp
+                </Button>
+                <Button
+                  style={{ marginLeft: '5px' }}
+                  loading={this.state.receiptLoading}
+                  onClick={() => this.shareReceipt({ mail: true })}
+                >
+                  Mail
                 </Button>
               </Fragment>
             )}
@@ -461,12 +502,13 @@ class AddEditWellWisher extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, getData, deleteData, setData } = state;
+  const { auth, getData, deleteData, setData, share } = state;
   return {
     auth,
     getData,
     deleteData,
-    setData
+    setData,
+    share
   };
 }
 
@@ -475,6 +517,7 @@ export default compose(
   connect(mapStateToProps, {
     OnGetData,
     OnDeleteData,
-    OnSetData
+    OnSetData,
+    OnShare
   })
 )(AddEditWellWisher);

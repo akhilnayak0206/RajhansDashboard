@@ -42,15 +42,18 @@ class AddEditWing extends Component {
         Received: '',
         Collected: '',
         Amount: ''
-      }
+      },
+      personalData: ''
     };
   }
 
-  shareReceipt = () => {
+  shareReceipt = val => {
     this.setState({ receiptLoading: true }, () =>
       this.props.OnShare({
         collection: this.state.selectedWings,
-        doc: JSON.stringify(this.state.selectedValModal.Flatno)
+        doc: JSON.stringify(this.state.selectedValModal.Flatno),
+        personal: this.state.personalData,
+        ...val
       })
     );
   };
@@ -113,7 +116,8 @@ class AddEditWing extends Component {
         Received: '',
         Collected: '',
         Amount: ''
-      }
+      },
+      personalData: ''
     });
   };
 
@@ -256,6 +260,25 @@ class AddEditWing extends Component {
         });
       }
     }
+    if (nextProps.share !== this.props.share) {
+      if (nextProps.share.error) {
+        this.setState({ receiptLoading: false });
+        notification['error']({
+          message: nextProps.share.message,
+          description: nextProps.share.description
+        });
+      } else if (nextProps.share.url) {
+        this.setState({
+          receiptLoading: false,
+          personalData: '',
+          visibleModal: false
+        });
+        const win = window.open(nextProps.share.url, '_blank');
+        if (win != null) {
+          win.focus();
+        }
+      }
+    }
   }
 
   render() {
@@ -332,12 +355,29 @@ class AddEditWing extends Component {
                 })
               }
             />
+            <h3>Phone/ E-Mail</h3>
+            <Input
+              placeholder='Entering Phone Number or Email Address is optional'
+              value={this.state.personalData}
+              onChange={val =>
+                this.setState({
+                  personalData: val.target.value
+                })
+              }
+            />
             <h3>Receipt</h3>
             <Button
               loading={this.state.receiptLoading}
-              onClick={this.shareReceipt}
+              onClick={() => this.shareReceipt({ mail: false })}
             >
-              Share
+              WhatsApp
+            </Button>
+            <Button
+              style={{ marginLeft: '5px' }}
+              loading={this.state.receiptLoading}
+              onClick={() => this.shareReceipt({ mail: true })}
+            >
+              Mail
             </Button>
           </Modal>
         )}
@@ -447,11 +487,12 @@ class AddEditWing extends Component {
 }
 
 function mapStateToProps(state) {
-  const { getData, setData, auth } = state;
+  const { getData, setData, auth, share } = state;
   return {
     auth,
     getData,
-    setData
+    setData,
+    share
   };
 }
 

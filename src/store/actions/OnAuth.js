@@ -19,7 +19,6 @@ const OnAuth = data => {
             if (!doc.exists) {
               console.log('No such document!');
             } else {
-              console.log('Document data:', doc.data());
               dispatch({
                 type: types.ON_SEND_LOGIN,
                 payload: { dataLogin: doc.data(), messageLogin: 'Login action' }
