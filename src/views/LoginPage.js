@@ -72,7 +72,7 @@ class NormalLoginForm extends Component {
       <div className='login-div'>
         <Form onSubmit={this.handleSubmit} className='login-form'>
           <img
-            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1567675657/JMMLogo.jpg'
+            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1584280791/Dashboard%20Online/JMMLogoTransparent.png'
             alt='Jai Mitra Mandal'
           />
           <Form.Item>

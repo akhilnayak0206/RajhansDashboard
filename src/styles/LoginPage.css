@@ -1,4 +1,4 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 .login-form {
   display: flex !important ;
@@ -18,45 +18,45 @@
   background-size: cover;
 }
 
-@media only screen and (max-width:320px){
-    img {
-        width:60%;
-        height:10%;
-        margin-bottom: 5px;
-    }
+@media only screen and (max-width: 320px) {
+  img {
+    width: 60%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
 }
-@media only screen and (min-width:321px){
-    img {
-        width:40%;
-        height:10%;
-        margin-bottom: 5px;
-    }
-} 
-@media only screen and (min-width:480px){
-    img {
-        width:30%;
-        height:10%;
-        margin-bottom: 5px;
-    }
+@media only screen and (min-width: 321px) {
+  img {
+    width: 40%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
 }
-@media only screen and (min-width:650px){
-    img {
-        width:20%;
-        height:10%;
-        margin-bottom: 5px;
-    }
+@media only screen and (min-width: 480px) {
+  img {
+    width: 30%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
 }
-@media only screen and (min-width:721px){
-    img {
-        width:20%;
-        height:10%;
-        margin-bottom: 5px;
-    }
+@media only screen and (min-width: 650px) {
+  img {
+    width: 20%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
 }
-@media only screen and (min-width:1001px){
-    img {
-        width:16%;
-        height:10%;
-        margin-bottom: 5px;
-    }
+@media only screen and (min-width: 721px) {
+  img {
+    width: 20%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
+}
+@media only screen and (min-width: 1001px) {
+  img {
+    width: 16%;
+    height: 10%;
+    margin-bottom: 5px;
+  }
 }
