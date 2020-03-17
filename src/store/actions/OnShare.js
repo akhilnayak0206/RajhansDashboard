@@ -52,7 +52,7 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `mailto:${data.personal}?subject=Thank You for contribution in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM`
+                    url: `mailto:${data.personal}?subject=Thank You for contributing in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM<br>Nav Rajhans<br>Borivali West`
                   }
                 });
               } else if (Number(data.personal)) {
