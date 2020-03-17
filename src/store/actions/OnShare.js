@@ -41,13 +41,6 @@ const OnShare = data => {
           secretSignKey,
           (err, token) => {
             if (token) {
-              //   try {
-              //     var decoded = jwt.verify(token, 'secretSignKey');
-              //     console.log('went here decoded', decoded);
-              //   } catch (err) {
-              //     // err
-              //     console.log('error verify', err);
-              //   }
               if (data.mail) {
                 return dispatch({
                   type: types.ON_SHARE_RECEIPT,
@@ -59,7 +52,7 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `mailto:${data.personal}?subject=Thank You for contribution in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs. ${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Reagrds,<br>JMM`
+                    url: `mailto:${data.personal}?subject=Thank You for contribution in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM`
                   }
                 });
               } else if (Number(data.personal)) {
@@ -79,7 +72,7 @@ const OnShare = data => {
                       jsonData.Received
                     } for the contribution of Rs. ${
                       jsonData.Amount
-                    }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} .%0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
+                    }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
                   }
                 });
               } else {
