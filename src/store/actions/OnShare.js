@@ -70,7 +70,7 @@ const OnShare = data => {
                       data.personal
                     )}?text=Jai Mitra Mandal thanks ${
                       jsonData.Received
-                    } for the contribution of Rs. ${
+                    } for the contribution of Rs.${
                       jsonData.Amount
                     }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
                   }
@@ -86,7 +86,7 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `https://wa.me/?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs. ${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} .%0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
+                    url: `https://wa.me/?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
                   }
                 });
               }
