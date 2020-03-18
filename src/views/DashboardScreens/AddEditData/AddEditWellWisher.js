@@ -132,7 +132,8 @@ class AddEditWellWisher extends Component {
   handleCancel = () => {
     this.setState({
       visibleModal: false,
-      personalData: ''
+      personalData: '',
+      selectedValModal: {}
     });
   };
 
@@ -354,22 +355,34 @@ class AddEditWellWisher extends Component {
             {this.state.selectedValModal.secret && (
               <p className='marginTop5'>
                 <b>Hidden Name: </b>{' '}
-                <Input
-                  value={
-                    this.props.auth.dataEmail.Admin
-                      ? this.state.selectedValModal.secretName
-                      : 'Secret Name'
-                  }
-                  placeholder={`Secret Donor's Name`}
-                  onChange={val =>
-                    this.setState({
-                      selectedValModal: {
-                        ...this.state.selectedValModal,
-                        secretName: val.target.value
-                      }
-                    })
-                  }
-                />
+                {this.props.auth.dataEmail.Admin ? (
+                  <Input
+                    placeholder={`Secret Donor's Name`}
+                    value={this.state.selectedValModal.secretName}
+                    onChange={val =>
+                      this.setState({
+                        selectedValModal: {
+                          ...this.state.selectedValModal,
+                          Collected: this.props.auth.dataEmail.Name,
+                          secretName: val.target.value
+                        }
+                      })
+                    }
+                  />
+                ) : (
+                  <Input
+                    placeholder={`Secret Name`}
+                    onChange={val =>
+                      this.setState({
+                        selectedValModal: {
+                          ...this.state.selectedValModal,
+                          Collected: this.props.auth.dataEmail.Name,
+                          secretName: val.target.value
+                        }
+                      })
+                    }
+                  />
+                )}
               </p>
             )}
             <h3>Collector's Name</h3>
