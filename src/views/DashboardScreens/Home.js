@@ -262,7 +262,126 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.props.OnTotalData();
+    if (this.props.totalData.dataChanged === 0) {
+      this.props.OnTotalData();
+    } else {
+      this.setState({
+        totalData: this.props.totalData,
+        barData: [
+          {
+            name: 'Wing A',
+            amt: this.props.totalData.totalWingA
+          },
+          {
+            name: 'Wing B',
+            amt: this.props.totalData.totalWingB
+          },
+          {
+            name: 'Wing C',
+            amt: this.props.totalData.totalWingC
+          },
+          {
+            name: 'Wing D',
+            amt: this.props.totalData.totalWingD
+          },
+          {
+            name: 'Wing E',
+            amt: this.props.totalData.totalWingE
+          }
+        ],
+        pieData: [
+          {
+            name: 'Wing A',
+            value: this.props.totalData.totalWingA
+          },
+          {
+            name: 'Wing B',
+            value: this.props.totalData.totalWingB
+          },
+          {
+            name: 'Wing C',
+            value: this.props.totalData.totalWingC
+          },
+          {
+            name: 'Wing D',
+            value: this.props.totalData.totalWingD
+          },
+          {
+            name: 'Wing E',
+            value: this.props.totalData.totalWingE
+          },
+          {
+            name: 'Well Wishers',
+            value: this.props.totalData.totalWellWishers
+          }
+        ],
+        treeData: [
+          {
+            name: 'wing A',
+            children: [
+              {
+                name: 'Wing A',
+                size: this.props.totalData.totalWingA
+              }
+            ]
+          },
+          {
+            name: 'wing B',
+            children: [
+              {
+                name: 'Wing B',
+                size: this.props.totalData.totalWingB
+              }
+            ]
+          },
+          {
+            name: 'wing C',
+            children: [
+              {
+                name: 'Wing C',
+                size: this.props.totalData.totalWingC
+              }
+            ]
+          },
+          {
+            name: 'wing D',
+            children: [
+              {
+                name: 'Wing D',
+                size: this.props.totalData.totalWingD
+              }
+            ]
+          },
+          {
+            name: 'wing E',
+            children: [
+              {
+                name: 'Wing E',
+                size: this.props.totalData.totalWingE
+              }
+            ]
+          },
+          {
+            name: 'Well Wishers',
+            children: [
+              {
+                name: 'Well Wishers',
+                size: this.props.totalData.totalWellWishers
+              }
+            ]
+          },
+          {
+            name: 'Expenses',
+            children: [
+              {
+                name: 'Expenses',
+                size: this.props.totalData.totalExpenses
+              }
+            ]
+          }
+        ]
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

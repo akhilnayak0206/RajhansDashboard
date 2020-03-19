@@ -119,8 +119,18 @@ class AddEditUsers extends Component {
   };
 
   componentDidMount() {
-    this.props.OnAuth({ type: 'email_data' });
-    this.props.OnAuth({ type: 'get_users' });
+    if (this.props.auth.dataEmail.Admin) {
+      this.props.OnAuth({ type: 'get_users' });
+    } else if (this.props.auth.users.length) {
+      this.props.OnAuth({ type: 'email_data' });
+      this.props.OnAuth({ type: 'get_users' });
+    } else {
+      this.setState({
+        cards: this.props.auth.users,
+        filterCards: this.props.auth.users,
+        search: ''
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

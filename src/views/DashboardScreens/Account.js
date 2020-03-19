@@ -102,9 +102,11 @@ class Account extends Component {
   };
 
   componentDidMount() {
-    this.props.OnAuth({
-      type: 'email_data'
-    });
+    if (!this.props.auth.dataEmail.Name) {
+      this.props.OnAuth({
+        type: 'email_data'
+      });
+    }
   }
 
   render() {
