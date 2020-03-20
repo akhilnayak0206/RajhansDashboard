@@ -475,7 +475,12 @@ class AddEditWing extends Component {
               visible={this.state.visiblePopover}
               onVisibleChange={this.handlePopoverChange}
             >
-              <Button type='primary' shape='circle' size='large'>
+              <Button
+                type='primary'
+                shape='circle'
+                size='large'
+                className='buttonShape'
+              >
                 <FontAwesomeIcon icon={faFilter} size='lg' color='white' />
               </Button>
             </Popover>

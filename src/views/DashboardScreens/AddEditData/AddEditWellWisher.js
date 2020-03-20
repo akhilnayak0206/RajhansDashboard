@@ -502,7 +502,7 @@ class AddEditWellWisher extends Component {
               type='primary'
               shape='circle'
               size='large'
-              style={{ marginTop: 10 }}
+              className='buttonShape marginTop'
               onClick={() => this.showModal({})}
             >
               <FontAwesomeIcon icon={faPlus} size='lg' color='white' />

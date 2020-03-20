@@ -111,11 +111,11 @@ const Downloads = () => {
             type='primary'
             shape='circle'
             size='large'
-            className='marginTop10'
+            className='buttonShape marginTop'
             onClick={() =>
               notification['warning']({
                 message: 'Rename before Upload',
-                description: 'Remember to rename file before uploading'
+                description: 'Remember to Rename file before uploading'
               })
             }
           >

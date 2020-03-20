@@ -4,6 +4,10 @@
   margin-top: 5px;
 }
 
+.marginTop10 {
+  margin-top: 10px;
+}
+
 .colorRed {
   color: red;
 }
@@ -38,8 +42,13 @@
   display: flex;
   z-index: 15;
   position: fixed;
-  bottom: 60px;
+  bottom: 40px;
   right: 30px;
+}
+
+.buttonShape {
+  width: 70px;
+  height: 70px;
 }
 
 .cardsDescription {

@@ -1,7 +1,3 @@
 @import '~antd/dist/antd.css';
 
 @import './AddEdit.css';
-
-.marginTop10 {
-  margin-top: 10px;
-}
