@@ -468,7 +468,7 @@ class BankBook extends Component {
               type='primary'
               shape='circle'
               size='large'
-              className='marginTop10'
+              className='buttonShape marginTop10'
               onClick={() => this.showModal({})}
             >
               <FontAwesomeIcon icon={faPlus} size='lg' color='white' />

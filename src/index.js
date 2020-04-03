@@ -11,12 +11,13 @@ import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import { reduxFirestore, getFirestore } from 'redux-firestore';
 import fbConfig from './config/fbConfig';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // use this one in production and remove composeEnhancers
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // use this one in production and remove composeEnhancers
 
 const store = createStore(
   rootReducer,
-  // compose(  // use this one in production and remove composeEnhancers below
-  composeEnhancers(
+  compose(
+    // use this one in production and remove composeEnhancers below
+    // composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
     reduxFirestore(fbConfig),
     reactReduxFirebase(fbConfig, { attachAuthIsReady: true })

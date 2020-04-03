@@ -14,20 +14,13 @@ import AddEditWing from '../views/DashboardScreens/AddEditData/AddEditWing';
 import { OnAuth } from '../store/actions/actions';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props => auth && <Component {...props} />}
-      // : <Redirect to='/dashboard/account' />
-    />
-  );
+  return <Route {...rest} render={props => auth && <Component {...props} />} />;
 };
 const PrivateRouteAdmin = ({ component: Component, auth, admin, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props => auth && admin && <Component {...props} />}
-      // : <Redirect to='/dashboard/account' />
     />
   );
 };
@@ -94,13 +87,6 @@ class DashboardRouter extends Component {
           component={BankBook}
           auth={this.state.auth}
         />
-        {/* <Route exact path="/dashboard/home" component={Home} />
-        <Route exact path="/dashboard/wings" component={AddEditWing} />
-        <Route exact path="/dashboard/well-wishers" component={AddEditWellWisher} />
-        <Route exact path="/dashboard/expenses" component={AddEditExpense} />
-        <Route exact path="/dashboard/addeditusers" component={AddEditUsers} />
-        <Route exact path="/dashboard/downloads" component={Downloads} />
-        <Route exact path="/dashboard/bankbook" component={CashAtHand} /> */}
         <PrivateRouteAdmin
           path='/dashboard/resetdatabase'
           component={ResetDatabase}
