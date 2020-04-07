@@ -16,7 +16,7 @@ import fbConfig from './config/fbConfig';
 const store = createStore(
   rootReducer,
   compose(
-    // use this one in production and remove composeEnhancers below
+    // use this one in development and remove composeEnhancers below
     // composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
     reduxFirestore(fbConfig),
