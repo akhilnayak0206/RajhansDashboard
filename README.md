@@ -1,7 +1,8 @@
 # RajhansDashboard
 
 This is a website for members of (JMM) to get updates of all the donations made and also to create and share donation receipt.  
-Only admin can create user or revoke access the access of the user and also reset database.  
+The website's Home page will give an Overview of all the donations.  
+Only admin can create user or revoke access of the user and also reset database.  
 All the users can get all the data of donors in CSV format.  
 The screenshots of website in desktop and mobile will be attached in a folder `screenshots/`.  
 
