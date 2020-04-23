@@ -5,6 +5,7 @@ The website's Home page will give an Overview of all the donations.
 Only admin can create user or revoke access of the user and also reset database.  
 All the users can get all the data of donors in CSV format.  
 The screenshots of website in desktop and mobile will be attached in a folder `screenshots/`.  
+This is a website only for JMM members to see public website visit this website [JMM-RAJHANS](https://jmmrajhans.firebaseapp.com/) the repository of the same is this [JMM-Rajhans-Repository](https://github.com/akhilnayak0206/JMMRajhans)
 
 ## Quick Start
 
