@@ -5,7 +5,8 @@ The website's Home page will give an Overview of all the donations.
 Only admin can create user or revoke access of the user and also reset database.  
 All the users can get all the data of donors in CSV format.  
 The screenshots of website in desktop and mobile will be attached in a folder `screenshots/`.  
-This is a website only for JMM members to see public website visit this website [JMM-RAJHANS](https://jmmrajhans.firebaseapp.com/) the repository of the same is this [JMM-Rajhans-Repository](https://github.com/akhilnayak0206/JMMRajhans)
+This is a website only for **JMM members**.  
+To see public website visit this website [JMM-RAJHANS](https://jmmrajhans.firebaseapp.com/) the repository of the same is this [JMM-Rajhans-Repository](https://github.com/akhilnayak0206/JMMRajhans)
 
 ## Quick Start
 
@@ -38,17 +39,17 @@ Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.  
-You will also see any lint errors in the console.  
+You will also see any lint errors in the console.
 
 ### npm build
 
-Makes a build folder which can be used to deploy your website.  
+Makes a build folder which can be used to deploy your website.
 
-*Note: The script for build is edited so that the code is not directly visible from the source folder.*
+_Note: The script for build is edited so that the code is not directly visible from the source folder._
 
 ### firebase deploy
 
-Deploys the build folder for hosting.  
+Deploys the build folder for hosting.
 
 ## Packages Installed
 
