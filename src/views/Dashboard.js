@@ -14,7 +14,8 @@ import {
   faPlus,
   faUserAlt,
   faFileInvoiceDollar,
-  faUsersCog
+  faUsersCog,
+  faTasks,
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Dashboard.css';
 import DashboardRouter from '../routers/DashboardRouter';
@@ -33,34 +34,35 @@ class Dashboard extends Component {
         {
           path: '/dashboard/expenses',
           icon: faFileInvoiceDollar,
-          name: 'Expenses'
+          name: 'Expenses',
         },
+        { path: '/dashboard/tasks', icon: faTasks, name: 'To-Do Task' },
         {
           path: '/dashboard/addeditusers',
           icon: faUsersCog,
-          name: 'Add/Edit Users'
+          name: 'Add/Edit Users',
         },
         { path: '/dashboard/downloads', icon: faDownload, name: 'Download' },
-        { path: '/dashboard/bankbook', icon: faRupeeSign, name: 'Bank Book' }
+        { path: '/dashboard/bankbook', icon: faRupeeSign, name: 'Bank Book' },
       ],
       adminItems: [
         {
           path: '/dashboard/resetdatabase',
           icon: faDatabase,
-          name: 'Reset Database'
-        }
-      ]
+          name: 'Reset Database',
+        },
+      ],
     };
   }
 
-  onCollapse = collapsed => {
+  onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
@@ -71,9 +73,9 @@ class Dashboard extends Component {
           className='overflowAuto'
           trigger={null}
           breakpoint='md'
-          onBreakpoint={broken => {
+          onBreakpoint={(broken) => {
             this.setState({
-              collapsed: broken
+              collapsed: broken,
             });
           }}
           collapsedWidth='0'
@@ -144,12 +146,12 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
   const { auth } = state;
   return {
-    auth
+    auth,
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
-    OnAuth
+    OnAuth,
   })
 )(Dashboard);

@@ -7,6 +7,7 @@ import Account from '../views/DashboardScreens/Account';
 import BankBook from '../views/DashboardScreens/BankBook';
 import Downloads from '../views/DashboardScreens/Downloads';
 import ResetDatabase from '../views/DashboardScreens/ResetDatabase';
+import ToDo from '../views/DashboardScreens/ToDo';
 import AddEditExpense from '../views/DashboardScreens/AddEditData/AddEditExpense';
 import AddEditUsers from '../views/DashboardScreens/AddEditData/AddEditUsers';
 import AddEditWellWisher from '../views/DashboardScreens/AddEditData/AddEditWellWisher';
@@ -14,13 +15,15 @@ import AddEditWing from '../views/DashboardScreens/AddEditData/AddEditWing';
 import { OnAuth } from '../store/actions/actions';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  return <Route {...rest} render={props => auth && <Component {...props} />} />;
+  return (
+    <Route {...rest} render={(props) => auth && <Component {...props} />} />
+  );
 };
 const PrivateRouteAdmin = ({ component: Component, auth, admin, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => auth && admin && <Component {...props} />}
+      render={(props) => auth && admin && <Component {...props} />}
     />
   );
 };
@@ -30,13 +33,13 @@ class DashboardRouter extends Component {
     super(props);
     this.state = {
       auth: false,
-      admin: false
+      admin: false,
     };
   }
 
   componentDidMount() {
     this.props.OnAuth({
-      type: 'email_data'
+      type: 'email_data',
     });
   }
 
@@ -44,7 +47,7 @@ class DashboardRouter extends Component {
     if (nextProps.auth.dataEmail.adminVerified !== prevState.auth) {
       return {
         auth: nextProps.auth.dataEmail.adminVerified,
-        admin: nextProps.auth.dataEmail.Admin
+        admin: nextProps.auth.dataEmail.Admin,
       };
     } else return null; // Triggers no change in the state
   }
@@ -70,6 +73,11 @@ class DashboardRouter extends Component {
         <PrivateRoute
           path='/dashboard/expenses'
           component={AddEditExpense}
+          auth={this.state.auth}
+        />
+        <PrivateRoute
+          path='/dashboard/tasks'
+          component={ToDo}
           auth={this.state.auth}
         />
         <PrivateRoute
@@ -104,7 +112,7 @@ function mapStateToProps(state) {
   const { firebase, auth } = state;
   return {
     firebase,
-    auth
+    auth,
   };
 }
 
