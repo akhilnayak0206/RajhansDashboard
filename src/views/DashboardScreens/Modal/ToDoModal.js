@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Skeleton, Card, Input, Avatar, Collapse, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 
 const ToDoModal = ({ showTask, passStateFunc, taskProp }) => {
   return (
@@ -14,9 +14,21 @@ const ToDoModal = ({ showTask, passStateFunc, taskProp }) => {
       ]}
     >
       <h4>Title</h4>
+      <Input
+        // value={this.state.selectedValModal.Received}
+        disabled={true}
+      />
       <h4>Task Coordinator</h4>
+      <Input
+        // value={this.state.selectedValModal.Received}
+        disabled={true}
+      />
       <h4>Description</h4>
-      {/* <h2>{taskProp}</h2> */}
+      <Input
+        // value={this.state.selectedValModal.Received}
+        disabled={true}
+      />
+      {taskProp.title && <h2>don't show me</h2>}
     </Modal>
   );
 };
