@@ -15,17 +15,17 @@ const ToDoModal = ({ showTask, passStateFunc, taskProp }) => {
     >
       <h4>Title</h4>
       <Input
-        // value={this.state.selectedValModal.Received}
+        // value={taskProp.title}
         disabled={true}
       />
       <h4>Task Coordinator</h4>
       <Input
-        // value={this.state.selectedValModal.Received}
+        // value={taskProp.title}
         disabled={true}
       />
       <h4>Description</h4>
       <Input
-        // value={this.state.selectedValModal.Received}
+        // value={taskProp.title}
         disabled={true}
       />
       {taskProp.title && <h2>don't show me</h2>}
