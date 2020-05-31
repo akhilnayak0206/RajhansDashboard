@@ -12,13 +12,13 @@ class NormalLoginForm extends Component {
     super(props);
     this.state = {
       auth: props.firebase.auth.email,
-      btnLogIn: false
+      btnLogIn: false,
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     this.setState({
-      btnLogIn: true
+      btnLogIn: true,
     });
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -34,24 +34,24 @@ class NormalLoginForm extends Component {
                 notification['success']({
                   message: 'Jai Mata Di',
                   description:
-                    "Let's get started with the Rajhans App's Dashboard."
+                    "Let's get started with the Rajhans App's Dashboard.",
                 });
                 this.props.OnAuth({ type: 'login', email: values.username });
               })
-              .catch(err => {
+              .catch((err) => {
                 this.setState({
-                  btnLogIn: false
+                  btnLogIn: false,
                 });
                 notification['error']({
                   message: 'Error',
-                  description: `${err.message}`
+                  description: `${err.message}`,
                 });
                 // console.log('error', err);
               });
           });
       } else {
         this.setState({
-          btnLogIn: false
+          btnLogIn: false,
         });
       }
     });
@@ -72,14 +72,15 @@ class NormalLoginForm extends Component {
       <div className='login-div'>
         <Form onSubmit={this.handleSubmit} className='login-form'>
           <img
-            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1584280791/Dashboard%20Online/JMMLogoTransparent.png'
+            // change the below logo image with transparent new logo
+            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1590912972/Dashboard%20Online/JMM_new_Logo.jpg'
             alt='Jai Mitra Mandal'
           />
           <Form.Item>
             {getFieldDecorator('username', {
               rules: [
-                { required: true, message: 'Please input your username!' }
-              ]
+                { required: true, message: 'Please input your username!' },
+              ],
             })(
               <Input
                 prefix={
@@ -100,8 +101,8 @@ class NormalLoginForm extends Component {
           <Form.Item>
             {getFieldDecorator('password', {
               rules: [
-                { required: true, message: 'Please input your Password!' }
-              ]
+                { required: true, message: 'Please input your Password!' },
+              ],
             })(
               <Input.Password
                 prefix={
@@ -133,11 +134,11 @@ const LoginPage = Form.create({})(NormalLoginForm);
 function mapStateToProps(state) {
   const { firebase } = state;
   return {
-    firebase
+    firebase,
   };
 }
 export default compose(
   connect(mapStateToProps, {
-    OnAuth
+    OnAuth,
   })
 )(LoginPage);
