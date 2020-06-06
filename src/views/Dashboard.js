@@ -128,11 +128,7 @@ class Dashboard extends Component {
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
-            {this.state.collapsed && (
-              <div className='headerDivLogo'>
-                <div className='headerLogo' />
-              </div>
-            )}
+            {this.state.collapsed && <div className='headerDivLogo' />}
           </Header>
           <Content className='layoutContent'>
             <DashboardRouter />
