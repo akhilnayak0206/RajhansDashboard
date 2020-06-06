@@ -73,8 +73,9 @@ class NormalLoginForm extends Component {
         <Form onSubmit={this.handleSubmit} className='login-form'>
           <img
             // change the below logo image with transparent new logo
-            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1590912972/Dashboard%20Online/JMM_new_Logo.jpg'
+            src='https://res.cloudinary.com/dx0wpoeyu/image/upload/v1591423480/Dashboard%20Online/jmm_png.png'
             alt='Jai Mitra Mandal'
+            className='jmmLogo'
           />
           <Form.Item>
             {getFieldDecorator('username', {

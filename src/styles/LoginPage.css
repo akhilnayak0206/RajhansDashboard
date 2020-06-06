@@ -18,6 +18,11 @@
   background-size: cover;
 }
 
+.jmmLogo {
+  width: 200px;
+  height: 150px;
+}
+
 @media only screen and (max-width: 320px) {
   img {
     width: 60%;
