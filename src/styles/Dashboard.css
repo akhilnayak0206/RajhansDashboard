@@ -8,6 +8,7 @@
   transition: color 0.3s;
   margin-left: 5px;
   color: black;
+  z-index: 10;
 }
 
 .trigger:hover {
@@ -26,6 +27,7 @@
 }
 
 .headerDivLogo {
+  position: absolute;
   display: flex;
   width: 100%;
   height: 100%;

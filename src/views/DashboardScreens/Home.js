@@ -17,7 +17,7 @@ import {
   PieChart,
   Pie,
   Sector,
-  Treemap
+  Treemap,
 } from 'recharts';
 import '../../styles/Home.css';
 
@@ -28,7 +28,7 @@ const data = [
     tc: 4,
     te: 7,
     bb: 2,
-    amt: 1
+    amt: 1,
   },
   {
     name: 'Page BB',
@@ -36,7 +36,7 @@ const data = [
     tc: 1,
     te: 4,
     bb: 4,
-    amt: 2
+    amt: 2,
   },
   {
     name: 'Page C',
@@ -44,7 +44,7 @@ const data = [
     tc: 2,
     te: 1,
     bb: 6,
-    amt: 3
+    amt: 3,
   },
   {
     name: 'Page D',
@@ -52,7 +52,7 @@ const data = [
     tc: 5,
     te: 5,
     bb: 1,
-    amt: 4
+    amt: 4,
   },
   {
     name: 'Page E',
@@ -60,7 +60,7 @@ const data = [
     tc: 3,
     te: 1,
     bb: 3,
-    amt: 5
+    amt: 5,
   },
   {
     name: 'Page F',
@@ -68,8 +68,8 @@ const data = [
     tc: 6,
     te: 6,
     bb: 4,
-    amt: 6
-  }
+    amt: 6,
+  },
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -90,10 +90,10 @@ const COLORS = [
   '#FFBB28',
   '#FF8042',
   '#996600',
-  '#008800'
+  '#008800',
 ];
 
-const renderActiveShape = props => {
+const renderActiveShape = (props) => {
   const {
     cx,
     cy,
@@ -102,7 +102,7 @@ const renderActiveShape = props => {
     startAngle,
     endAngle,
     fill,
-    payload
+    payload,
   } = props;
 
   return (
@@ -141,7 +141,7 @@ const TREE_COLORS = [
   '#8DC77B',
   '#A5D297',
   '#E2CF45',
-  '#F8C12D'
+  '#F8C12D',
 ];
 
 class CustomizedContent extends PureComponent {
@@ -155,7 +155,7 @@ class CustomizedContent extends PureComponent {
       height,
       index,
       colors,
-      name
+      name,
     } = this.props;
 
     return (
@@ -172,7 +172,7 @@ class CustomizedContent extends PureComponent {
                 : 'none',
             stroke: '#fff',
             strokeWidth: 2 / (depth + 1e-10),
-            strokeOpacity: 1 / (depth + 1e-10)
+            strokeOpacity: 1 / (depth + 1e-10),
           }}
         />
         {depth === 1 ? (
@@ -210,54 +210,54 @@ class Home extends Component {
       totalData: {},
       barData: [
         {
-          name: 'Wing A',
-          amt: 0
+          name: 'A Wing',
+          amt: 0,
         },
         {
-          name: 'Wing B',
-          amt: 0
+          name: 'B Wing',
+          amt: 0,
         },
         {
-          name: 'Wing C',
-          amt: 0
+          name: 'C Wing',
+          amt: 0,
         },
         {
-          name: 'Wing D',
-          amt: 0
+          name: 'D Wing',
+          amt: 0,
         },
         {
-          name: 'Wing E',
-          amt: 0
-        }
+          name: 'E Wing',
+          amt: 0,
+        },
       ],
       pieData: [
-        { name: 'Wing A', value: 0 },
-        { name: 'Wing B', value: 0 },
-        { name: 'Wing C', value: 0 },
-        { name: 'Wing D', value: 0 },
-        { name: 'Wing E', value: 0 },
-        { name: 'Well Wishers', value: 0 }
+        { name: 'A Wing', value: 0 },
+        { name: 'B Wing', value: 0 },
+        { name: 'C Wing', value: 0 },
+        { name: 'D Wing', value: 0 },
+        { name: 'E Wing', value: 0 },
+        { name: 'Well Wishers', value: 0 },
       ],
       treeData: [
         {
           name: 'Overview',
           children: [
-            { name: 'wing A', size: 0 },
-            { name: 'wing B', size: 0 },
-            { name: 'Wing C', size: 0 },
-            { name: 'wing D', size: 0 },
-            { name: 'Wing E', size: 0 },
+            { name: 'A Wing', size: 0 },
+            { name: 'B Wing', size: 0 },
+            { name: 'C Wing', size: 0 },
+            { name: 'D Wing', size: 0 },
+            { name: 'E Wing', size: 0 },
             { name: 'Well Wishers', size: 0 },
-            { name: 'Expenses', size: 0 }
-          ]
-        }
-      ]
+            { name: 'Expenses', size: 0 },
+          ],
+        },
+      ],
     };
   }
 
   onPieEnter = (data, index) => {
     this.setState({
-      activeIndex: index
+      activeIndex: index,
     });
   };
 
@@ -269,117 +269,117 @@ class Home extends Component {
         totalData: this.props.totalData,
         barData: [
           {
-            name: 'Wing A',
-            amt: this.props.totalData.totalWingA
+            name: 'A Wing',
+            amt: this.props.totalData.totalWingA,
           },
           {
-            name: 'Wing B',
-            amt: this.props.totalData.totalWingB
+            name: 'B Wing',
+            amt: this.props.totalData.totalWingB,
           },
           {
-            name: 'Wing C',
-            amt: this.props.totalData.totalWingC
+            name: 'C Wing',
+            amt: this.props.totalData.totalWingC,
           },
           {
-            name: 'Wing D',
-            amt: this.props.totalData.totalWingD
+            name: 'D Wing',
+            amt: this.props.totalData.totalWingD,
           },
           {
-            name: 'Wing E',
-            amt: this.props.totalData.totalWingE
-          }
+            name: 'E Wing',
+            amt: this.props.totalData.totalWingE,
+          },
         ],
         pieData: [
           {
-            name: 'Wing A',
-            value: this.props.totalData.totalWingA
+            name: 'A Wing',
+            value: this.props.totalData.totalWingA,
           },
           {
-            name: 'Wing B',
-            value: this.props.totalData.totalWingB
+            name: 'B Wing',
+            value: this.props.totalData.totalWingB,
           },
           {
-            name: 'Wing C',
-            value: this.props.totalData.totalWingC
+            name: 'C Wing',
+            value: this.props.totalData.totalWingC,
           },
           {
-            name: 'Wing D',
-            value: this.props.totalData.totalWingD
+            name: 'D Wing',
+            value: this.props.totalData.totalWingD,
           },
           {
-            name: 'Wing E',
-            value: this.props.totalData.totalWingE
+            name: 'E Wing',
+            value: this.props.totalData.totalWingE,
           },
           {
             name: 'Well Wishers',
-            value: this.props.totalData.totalWellWishers
-          }
+            value: this.props.totalData.totalWellWishers,
+          },
         ],
         treeData: [
           {
-            name: 'wing A',
+            name: 'A Wing',
             children: [
               {
-                name: 'Wing A',
-                size: this.props.totalData.totalWingA
-              }
-            ]
+                name: 'A Wing',
+                size: this.props.totalData.totalWingA,
+              },
+            ],
           },
           {
-            name: 'wing B',
+            name: 'B Wing',
             children: [
               {
-                name: 'Wing B',
-                size: this.props.totalData.totalWingB
-              }
-            ]
+                name: 'B Wing',
+                size: this.props.totalData.totalWingB,
+              },
+            ],
           },
           {
-            name: 'wing C',
+            name: 'C Wing',
             children: [
               {
-                name: 'Wing C',
-                size: this.props.totalData.totalWingC
-              }
-            ]
+                name: 'C Wing',
+                size: this.props.totalData.totalWingC,
+              },
+            ],
           },
           {
-            name: 'wing D',
+            name: 'D Wing',
             children: [
               {
-                name: 'Wing D',
-                size: this.props.totalData.totalWingD
-              }
-            ]
+                name: 'D Wing',
+                size: this.props.totalData.totalWingD,
+              },
+            ],
           },
           {
-            name: 'wing E',
+            name: 'E Wing',
             children: [
               {
-                name: 'Wing E',
-                size: this.props.totalData.totalWingE
-              }
-            ]
+                name: 'E Wing',
+                size: this.props.totalData.totalWingE,
+              },
+            ],
           },
           {
             name: 'Well Wishers',
             children: [
               {
                 name: 'Well Wishers',
-                size: this.props.totalData.totalWellWishers
-              }
-            ]
+                size: this.props.totalData.totalWellWishers,
+              },
+            ],
           },
           {
             name: 'Expenses',
             children: [
               {
                 name: 'Expenses',
-                size: this.props.totalData.totalExpenses
-              }
-            ]
-          }
-        ]
+                size: this.props.totalData.totalExpenses,
+              },
+            ],
+          },
+        ],
       });
     }
   }
@@ -390,117 +390,117 @@ class Home extends Component {
         totalData: nextProps.totalData,
         barData: [
           {
-            name: 'Wing A',
-            amt: nextProps.totalData.totalWingA
+            name: 'A Wing',
+            amt: nextProps.totalData.totalWingA,
           },
           {
-            name: 'Wing B',
-            amt: nextProps.totalData.totalWingB
+            name: 'B Wing',
+            amt: nextProps.totalData.totalWingB,
           },
           {
-            name: 'Wing C',
-            amt: nextProps.totalData.totalWingC
+            name: 'C Wing',
+            amt: nextProps.totalData.totalWingC,
           },
           {
-            name: 'Wing D',
-            amt: nextProps.totalData.totalWingD
+            name: 'D Wing',
+            amt: nextProps.totalData.totalWingD,
           },
           {
-            name: 'Wing E',
-            amt: nextProps.totalData.totalWingE
-          }
+            name: 'E Wing',
+            amt: nextProps.totalData.totalWingE,
+          },
         ],
         pieData: [
           {
-            name: 'Wing A',
-            value: nextProps.totalData.totalWingA
+            name: 'A Wing',
+            value: nextProps.totalData.totalWingA,
           },
           {
-            name: 'Wing B',
-            value: nextProps.totalData.totalWingB
+            name: 'B Wing',
+            value: nextProps.totalData.totalWingB,
           },
           {
-            name: 'Wing C',
-            value: nextProps.totalData.totalWingC
+            name: 'C Wing',
+            value: nextProps.totalData.totalWingC,
           },
           {
-            name: 'Wing D',
-            value: nextProps.totalData.totalWingD
+            name: 'D Wing',
+            value: nextProps.totalData.totalWingD,
           },
           {
-            name: 'Wing E',
-            value: nextProps.totalData.totalWingE
+            name: 'E Wing',
+            value: nextProps.totalData.totalWingE,
           },
           {
             name: 'Well Wishers',
-            value: nextProps.totalData.totalWellWishers
-          }
+            value: nextProps.totalData.totalWellWishers,
+          },
         ],
         treeData: [
           {
-            name: 'wing A',
+            name: 'A Wing',
             children: [
               {
-                name: 'Wing A',
-                size: nextProps.totalData.totalWingA
-              }
-            ]
+                name: 'A Wing',
+                size: nextProps.totalData.totalWingA,
+              },
+            ],
           },
           {
-            name: 'wing B',
+            name: 'B Wing',
             children: [
               {
-                name: 'Wing B',
-                size: nextProps.totalData.totalWingB
-              }
-            ]
+                name: 'B Wing',
+                size: nextProps.totalData.totalWingB,
+              },
+            ],
           },
           {
-            name: 'wing C',
+            name: 'C Wing',
             children: [
               {
-                name: 'Wing C',
-                size: nextProps.totalData.totalWingC
-              }
-            ]
+                name: 'C Wing',
+                size: nextProps.totalData.totalWingC,
+              },
+            ],
           },
           {
-            name: 'wing D',
+            name: 'D Wing',
             children: [
               {
-                name: 'Wing D',
-                size: nextProps.totalData.totalWingD
-              }
-            ]
+                name: 'D Wing',
+                size: nextProps.totalData.totalWingD,
+              },
+            ],
           },
           {
-            name: 'wing E',
+            name: 'E Wing',
             children: [
               {
-                name: 'Wing E',
-                size: nextProps.totalData.totalWingE
-              }
-            ]
+                name: 'E Wing',
+                size: nextProps.totalData.totalWingE,
+              },
+            ],
           },
           {
             name: 'Well Wishers',
             children: [
               {
                 name: 'Well Wishers',
-                size: nextProps.totalData.totalWellWishers
-              }
-            ]
+                size: nextProps.totalData.totalWellWishers,
+              },
+            ],
           },
           {
             name: 'Expenses',
             children: [
               {
                 name: 'Expenses',
-                size: nextProps.totalData.totalExpenses
-              }
-            ]
-          }
-        ]
+                size: nextProps.totalData.totalExpenses,
+              },
+            ],
+          },
+        ],
       });
     }
   }
@@ -522,7 +522,7 @@ class Home extends Component {
           <Card
             style={{
               backgroundImage:
-                'linear-gradient(45deg, #310F84, #3494E6, #18B7C4)'
+                'linear-gradient(45deg, #310F84, #3494E6, #18B7C4)',
             }}
             className='collectionCard'
           >
@@ -538,7 +538,7 @@ class Home extends Component {
           <Card
             style={{
               backgroundImage:
-                'linear-gradient(45deg, #240b36, #c31432, #cc2b5e)'
+                'linear-gradient(45deg, #240b36, #c31432, #cc2b5e)',
             }}
             className='collectionCard'
           >
@@ -554,7 +554,7 @@ class Home extends Component {
           <Card
             style={{
               backgroundImage:
-                'linear-gradient(45deg, #1832C4, #310F84, #592E7C)'
+                'linear-gradient(45deg, #1832C4, #310F84, #592E7C)',
             }}
             className='collectionCard'
           >
@@ -588,7 +588,7 @@ class Home extends Component {
           </Card>
           <div className='overViewCards'>
             <Card className='card-tree'>
-              <h3 className='textCenterChart'>Total Contribution</h3>
+              <h3 className='textCenterChart'>Total Income</h3>
               <ResponsiveContainer width='100%' height={300}>
                 <Treemap
                   isAnimationActive={false}
@@ -655,12 +655,12 @@ class Home extends Component {
 function mapStateToProps(state) {
   const { totalData } = state;
   return {
-    totalData
+    totalData,
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
-    OnTotalData
+    OnTotalData,
   })
 )(Home);

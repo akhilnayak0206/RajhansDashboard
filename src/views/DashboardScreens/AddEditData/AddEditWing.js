@@ -8,7 +8,7 @@ import {
   Select,
   Popover,
   DatePicker,
-  Modal
+  Modal,
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
@@ -41,36 +41,36 @@ class AddEditWing extends Component {
       setData: {
         Received: '',
         Collected: '',
-        Amount: ''
+        Amount: '',
       },
-      personalData: ''
+      personalData: '',
     };
   }
 
-  shareReceipt = val => {
+  shareReceipt = (val) => {
     this.setState({ receiptLoading: true }, () =>
       this.props.OnShare({
         collection: this.state.selectedWings,
         doc: JSON.stringify(this.state.selectedValModal.Flatno),
         personal: this.state.personalData,
-        ...val
+        ...val,
       })
     );
   };
 
-  showModal = val => {
+  showModal = (val) => {
     if (val.Collected) {
       this.setState({
         visibleModal: true,
-        selectedValModal: val
+        selectedValModal: val,
       });
     } else {
       this.setState({
         visibleModal: true,
         selectedValModal: {
           ...val,
-          Collected: this.props.auth.dataEmail.Name
-        }
+          Collected: this.props.auth.dataEmail.Name,
+        },
       });
     }
   };
@@ -84,16 +84,16 @@ class AddEditWing extends Component {
     ) {
       this.setState(
         {
-          confirmLoadingModal: true
+          confirmLoadingModal: true,
         },
         () =>
           this.props.OnSetData({
             setData: {
               ...this.state.setData,
-              timestamp: new Date(Date.now())
+              timestamp: new Date(Date.now()),
             },
             collection: this.state.selectedWings,
-            doc: this.state.selectedValModal.Flatno
+            doc: this.state.selectedValModal.Flatno,
           })
       );
       // jwt.sign({ foo: 'bar' }, secretSignKey, (err, token) => {
@@ -104,7 +104,7 @@ class AddEditWing extends Component {
       console.log(this.state.setData);
       notification['error']({
         message: 'Invalid Inputs',
-        description: 'Please fill all the details'
+        description: 'Please fill all the details',
       });
     }
   };
@@ -115,15 +115,15 @@ class AddEditWing extends Component {
       setData: {
         Received: '',
         Collected: '',
-        Amount: ''
+        Amount: '',
       },
-      personalData: ''
+      personalData: '',
     });
   };
 
   onChangeDate = (date, dateString) => {
     if (dateString) {
-      let filterCards = this.state.filterCards.filter(val => {
+      let filterCards = this.state.filterCards.filter((val) => {
         // eslint-disable-next-line
         if (val.Amount != 0) {
           return (
@@ -151,24 +151,24 @@ class AddEditWing extends Component {
     }
   };
 
-  handlePopoverChange = visiblePopover => {
+  handlePopoverChange = (visiblePopover) => {
     this.setState({ visiblePopover });
   };
 
   filteringSearch = () => {
-    let filterCards = this.state.cards.filter(val =>
+    let filterCards = this.state.cards.filter((val) =>
       new RegExp(this.state.search, 'i').exec(val.Flatno)
     );
     this.setState({ filterCards, showCards: 'noFil', filterDate: '' });
   };
 
-  handleSearchChange = e => {
+  handleSearchChange = (e) => {
     if (e.target) {
       this.setState({ search: e.target.value }, () => this.filteringSearch());
     }
   };
 
-  handleSearchEnter = value => {
+  handleSearchEnter = (value) => {
     if (value) {
       this.setState({ search: value, showCards: 'noFil', filterDate: '' }, () =>
         this.filteringSearch()
@@ -176,27 +176,27 @@ class AddEditWing extends Component {
     }
   };
 
-  handleChangeFilter = value => {
+  handleChangeFilter = (value) => {
     // eslint-disable-next-line
     if (value == 'coll') {
       // eslint-disable-next-line
-      let filterCards = this.state.cards.filter(val => val.Amount != 0);
+      let filterCards = this.state.cards.filter((val) => val.Amount != 0);
       this.setState({ filterCards, showCards: value, filterDate: '' });
       // eslint-disable-next-line
     } else if (value == 'noColl') {
       // eslint-disable-next-line
-      let filterCards = this.state.cards.filter(val => val.Amount == 0);
+      let filterCards = this.state.cards.filter((val) => val.Amount == 0);
       this.setState({ filterCards, showCards: value, filterDate: '' });
     } else {
       this.setState({
         filterCards: this.state.cards,
         showCards: value,
-        filterDate: ''
+        filterDate: '',
       });
     }
   };
 
-  handleChangeWings = value => {
+  handleChangeWings = (value) => {
     if (value) {
       this.setState(
         { selectedWings: value, showCards: 'noFil', filterDate: '' },
@@ -221,17 +221,17 @@ class AddEditWing extends Component {
       this.setState({
         cards: sortedData,
         filterCards: sortedData,
-        gettingData: false
+        gettingData: false,
       });
     }
     if (nextProps.setData !== this.props.setData) {
       if (nextProps.setData.error) {
         notification['error']({
           message: 'Error sending Request',
-          description: nextProps.setData.message
+          description: nextProps.setData.message,
         });
         this.setState({
-          confirmLoadingModal: false
+          confirmLoadingModal: false,
         });
       } else if (
         // eslint-disable-next-line
@@ -241,22 +241,22 @@ class AddEditWing extends Component {
       ) {
         notification['success']({
           message: 'Receipt Made',
-          description: nextProps.setData.message
+          description: nextProps.setData.message,
         });
         this.setState(
           {
             confirmLoadingModal: false,
-            gettingData: true
+            gettingData: true,
           },
           this.props.OnGetData({ collection: this.state.selectedWings })
         );
       } else {
         notification['error']({
           message: 'Report to admin along with the message',
-          description: nextProps.setData.message
+          description: nextProps.setData.message,
         });
         this.setState({
-          confirmLoadingModal: false
+          confirmLoadingModal: false,
         });
       }
     }
@@ -265,13 +265,13 @@ class AddEditWing extends Component {
         this.setState({ receiptLoading: false });
         notification['error']({
           message: nextProps.share.message,
-          description: nextProps.share.description
+          description: nextProps.share.description,
         });
       } else if (nextProps.share.url) {
         this.setState({
           receiptLoading: false,
           personalData: '',
-          visibleModal: false
+          visibleModal: false,
         });
         const win = window.open(nextProps.share.url, '_blank');
         if (win != null) {
@@ -306,7 +306,7 @@ class AddEditWing extends Component {
                 {this.state.selectedValModal.Amount == 0
                   ? 'Make Receipt'
                   : 'Replace Receipt'}
-              </Button>
+              </Button>,
             ]}
           >
             <h3>Donor's Name</h3>
@@ -317,9 +317,12 @@ class AddEditWing extends Component {
                   ? `${this.state.selectedValModal.Received}`
                   : `Donor's Name`
               }
-              onChange={val =>
+              onChange={(val) =>
                 this.setState({
-                  setData: { ...this.state.setData, Received: val.target.value }
+                  setData: {
+                    ...this.state.setData,
+                    Received: val.target.value,
+                  },
                 })
               }
             />
@@ -331,12 +334,12 @@ class AddEditWing extends Component {
                   : `Collector's Name`
               }
               value={this.state.setData.Collected}
-              onChange={val =>
+              onChange={(val) =>
                 this.setState({
                   setData: {
                     ...this.state.setData,
-                    Collected: val.target.value
-                  }
+                    Collected: val.target.value,
+                  },
                 })
               }
             />
@@ -349,9 +352,9 @@ class AddEditWing extends Component {
                   ? `${this.state.selectedValModal.Amount}`
                   : `Amount Received`
               }
-              onChange={val =>
+              onChange={(val) =>
                 this.setState({
-                  setData: { ...this.state.setData, Amount: val.target.value }
+                  setData: { ...this.state.setData, Amount: val.target.value },
                 })
               }
             />
@@ -359,9 +362,9 @@ class AddEditWing extends Component {
             <Input
               placeholder='Entering Phone Number or Email Address is optional'
               value={this.state.personalData}
-              onChange={val =>
+              onChange={(val) =>
                 this.setState({
-                  personalData: val.target.value
+                  personalData: val.target.value,
                 })
               }
             />
@@ -391,8 +394,8 @@ class AddEditWing extends Component {
             >
               <Search
                 placeholder='Enter Flat Number'
-                onSearch={value => this.handleSearchChange(value)}
-                onChange={e => this.handleSearchChange(e)}
+                onSearch={(value) => this.handleSearchChange(value)}
+                onChange={(e) => this.handleSearchChange(e)}
                 enterButton
               />
             </Card>
@@ -407,7 +410,7 @@ class AddEditWing extends Component {
                     size='small'
                     title={`Flat Number: ${val.Flatno}`}
                     style={{
-                      backgroundColor: '#f44336'
+                      backgroundColor: '#f44336',
                     }}
                     className='singleCards'
                     key={key}
@@ -445,11 +448,11 @@ class AddEditWing extends Component {
                     style={{ marginBottom: 5 }}
                     onChange={this.handleChangeWings}
                   >
-                    <Option value='wingA'>Wing A</Option>
-                    <Option value='wingB'>Wing B</Option>
-                    <Option value='wingC'>Wing C</Option>
-                    <Option value='wingD'>Wing D</Option>
-                    <Option value='wingE'>Wing E</Option>
+                    <Option value='wingA'>A Wing</Option>
+                    <Option value='wingB'>B Wing</Option>
+                    <Option value='wingC'>C Wing</Option>
+                    <Option value='wingD'>D Wing</Option>
+                    <Option value='wingE'>E Wing</Option>
                   </Select>
                   <Select
                     size='large'
@@ -497,7 +500,7 @@ function mapStateToProps(state) {
     auth,
     getData,
     setData,
-    share
+    share,
   };
 }
 
@@ -505,6 +508,6 @@ export default compose(
   connect(mapStateToProps, {
     OnGetData,
     OnSetData,
-    OnShare
+    OnShare,
   })
 )(AddEditWing);
