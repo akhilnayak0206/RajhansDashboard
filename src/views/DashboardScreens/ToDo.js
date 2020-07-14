@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Skeleton, Card, Input, Avatar, Collapse, Modal } from 'antd';
+import {
+  Button,
+  Skeleton,
+  Card,
+  Input,
+  Avatar,
+  Collapse,
+  Modal,
+  notification,
+} from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import {} from '../../store/actions/actions';
+import { OnAddData, OnSetData } from '../../store/actions/actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import '../../styles/ToDo.css';
@@ -12,7 +21,7 @@ const { Search, TextArea } = Input;
 const { Meta } = Card;
 const { Panel } = Collapse;
 
-const ToDo = () => {
+const ToDo = ({ addData, OnAddData }) => {
   const [addTask, setAddTask] = useState(false);
   const [showTask, setShowTask] = useState(false);
   const [skeleton, setSkeleton] = useState(true);
@@ -30,6 +39,25 @@ const ToDo = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (addButton) {
+      if (addData.result) {
+        notification['success']({
+          message: 'To-Do Task',
+          description: addData.message,
+        });
+        setAddButton(false);
+        setAddTask((state) => !state);
+      } else {
+        notification['warning']({
+          message: 'To-Do Task',
+          description: addData.message,
+        });
+        setAddButton(false);
+      }
+    }
+  }, [addData]);
+
   const passStateFunc = () => {
     setShowTask(false);
     setTaskProp({});
@@ -42,10 +70,16 @@ const ToDo = () => {
   };
 
   const submitTask = () => {
-    setAddButton(true);
-    console.log(data);
-    setAddButton(false);
-    setAddTask((state) => !state);
+    if (data.title && data.taskCoordinator && data.description) {
+      setAddButton(true);
+      OnAddData({ collection: 'toDo', newData: data });
+    } else {
+      notification['warning']({
+        message: 'To-Do Task',
+        description:
+          'Bhai please enter title, task-coordinator and description',
+      });
+    }
   };
 
   return (
@@ -212,8 +246,13 @@ const ToDo = () => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  const { addData } = state;
+  return {
+    addData,
+  };
+};
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { OnAddData, OnSetData };
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(ToDo);

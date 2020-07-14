@@ -1,7 +1,7 @@
 import types from '../action_types/index';
 
 //this whole is  unnecessary do auth from screen for smoother transition
-const OnSetData = data => {
+const OnSetData = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     try {
@@ -17,7 +17,7 @@ const OnSetData = data => {
             .collection(data.collection)
             .doc(data.doc)
             .update({
-              ...data.setData
+              ...data.setData,
             })
             .then(() => {
               dispatch({
@@ -27,8 +27,8 @@ const OnSetData = data => {
                   message: 'Well Wisher Data replaced Successfully',
                   collection: data.collection,
                   document: data.doc,
-                  error: false
-                }
+                  error: false,
+                },
               });
             });
         }
@@ -44,7 +44,7 @@ const OnSetData = data => {
             .collection(data.collection)
             .doc(data.doc)
             .update({
-              ...data.setData
+              ...data.setData,
             })
             .then(() => {
               dispatch({
@@ -54,8 +54,35 @@ const OnSetData = data => {
                   message: 'Expense replaced Successfully',
                   collection: data.collection,
                   document: data.doc,
-                  error: false
-                }
+                  error: false,
+                },
+              });
+            });
+        }
+      } else if (data.hasOwnProperty('doc') && data.collection === 'toDo') {
+        let docRef = await firebase
+          .firestore()
+          .collection(data.collection)
+          .doc(data.doc)
+          .get();
+        if (docRef.exists) {
+          firebase
+            .firestore()
+            .collection(data.collection)
+            .doc(data.doc)
+            .update({
+              ...data.setData,
+            })
+            .then(() => {
+              dispatch({
+                type: types.ON_SET_COLLECTION,
+                payload: {
+                  result: 1,
+                  message: 'To Do Task Data replaced Successfully',
+                  collection: data.collection,
+                  document: data.doc,
+                  error: false,
+                },
               });
             });
         }
@@ -64,7 +91,7 @@ const OnSetData = data => {
           .firestore()
           .collection(data.collection)
           .add(data.setData)
-          .then(ref => {
+          .then((ref) => {
             dispatch({
               type: types.ON_SET_COLLECTION,
               payload: {
@@ -72,8 +99,8 @@ const OnSetData = data => {
                 message: 'Receipt made Successfully',
                 collection: data.collection,
                 document: ref.id,
-                error: false
-              }
+                error: false,
+              },
             });
           });
       } else if (data.hasOwnProperty('doc') && data.collection === 'bankBook') {
@@ -88,7 +115,7 @@ const OnSetData = data => {
             .collection(data.collection)
             .doc(data.doc)
             .update({
-              ...data.setData
+              ...data.setData,
             })
             .then(() => {
               dispatch({
@@ -98,8 +125,8 @@ const OnSetData = data => {
                   message: 'Amount replaced Successfully',
                   collection: data.collection,
                   document: data.doc,
-                  error: false
-                }
+                  error: false,
+                },
               });
             });
         }
@@ -108,7 +135,7 @@ const OnSetData = data => {
           .firestore()
           .collection(data.collection)
           .add(data.setData)
-          .then(ref => {
+          .then((ref) => {
             dispatch({
               type: types.ON_SET_COLLECTION,
               payload: {
@@ -116,8 +143,8 @@ const OnSetData = data => {
                 message: `Amount successfully ${data.setData.type}`,
                 collection: data.collection,
                 document: ref.id,
-                error: false
-              }
+                error: false,
+              },
             });
           });
       } else if (data.collection === 'expenses') {
@@ -125,7 +152,7 @@ const OnSetData = data => {
           .firestore()
           .collection(data.collection)
           .add(data.setData)
-          .then(ref => {
+          .then((ref) => {
             dispatch({
               type: types.ON_SET_COLLECTION,
               payload: {
@@ -133,8 +160,8 @@ const OnSetData = data => {
                 message: 'Expense added Successfully',
                 collection: data.collection,
                 document: ref.id,
-                error: false
-              }
+                error: false,
+              },
             });
           });
       } else if (data.hasOwnProperty('doc')) {
@@ -151,8 +178,8 @@ const OnSetData = data => {
             .update({
               ...data.setData,
               Receipt: firebase.firestore.FieldValue.arrayUnion({
-                ...data.setData
-              })
+                ...data.setData,
+              }),
             })
             .then(() => {
               dispatch({
@@ -162,8 +189,8 @@ const OnSetData = data => {
                   message: 'Data set Successfully',
                   collection: data.collection,
                   document: data.doc,
-                  error: false
-                }
+                  error: false,
+                },
               });
             });
         }
@@ -175,8 +202,8 @@ const OnSetData = data => {
             message: 'Error on setting collection',
             collection: data.collection,
             document: data.doc,
-            error: true
-          }
+            error: true,
+          },
         });
       }
     } catch (err) {
@@ -188,8 +215,8 @@ const OnSetData = data => {
           collection: data.collection,
           document: data.doc,
           error: true,
-          errArray: err
-        }
+          errArray: err,
+        },
       });
     }
   };
