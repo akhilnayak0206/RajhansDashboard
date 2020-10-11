@@ -66,7 +66,7 @@ const OnShare = (data) => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `https://api.whatsapp.com/send?phone=91${Number(
+                    url: `whatsapp://send?phone=91${Number(
                       data.personal
                     )}&text=Jai Mitra Mandal thanks ${
                       jsonData.Received
@@ -86,7 +86,7 @@ const OnShare = (data) => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `https://api.whatsapp.com/send?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
+                    url: `whatsapp://send?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
                   },
                 });
               }
