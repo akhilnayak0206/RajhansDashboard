@@ -56,6 +56,7 @@ const ToDo = ({ addData, OnAddData }) => {
         setAddButton(false);
       }
     }
+    // eslint-disable-next-line
   }, [addData]);
 
   const passStateFunc = () => {
@@ -63,16 +64,13 @@ const ToDo = ({ addData, OnAddData }) => {
     setTaskProp({});
   };
 
-  const searchChange = (e) => {
-    setSearchTask(e.target.value);
-    console.log(e.target.value);
-    //  add filter to show task and use filtered task  to show the task
-  };
-
   const submitTask = () => {
     if (data.title && data.taskCoordinator && data.description) {
       setAddButton(true);
-      OnAddData({ collection: 'toDo', newData: data });
+      OnAddData({
+        collection: 'toDo',
+        newData: { ...data, markCompleted: false, deleted: false },
+      });
     } else {
       notification['warning']({
         message: 'To-Do Task',
@@ -143,23 +141,7 @@ const ToDo = ({ addData, OnAddData }) => {
           }}
         />
       </Modal>
-      <div className='searchSticky'>
-        <Card
-          size='small'
-          style={{ borderRadius: 5, width: '100%' }}
-          bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
-          hoverable
-        >
-          <Search
-            value={searchTask}
-            placeholder={`Enter Title of the Task`}
-            allowClear
-            onSearch={(value) => searchChange(value)}
-            onChange={(e) => searchChange(e)}
-            enterButton
-          />
-        </Card>
-      </div>
+
       <div className='showAllCards'>
         <Collapse accordion>
           <Panel header='Remaining Tasks' key='1'>
@@ -256,3 +238,31 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = { OnAddData, OnSetData };
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(ToDo);
+
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <div className='searchSticky'>
+        <Card
+          size='small'
+          style={{ borderRadius: 5, width: '100%' }}
+          bodyStyle={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)' }}
+          hoverable
+        >
+          <Search
+            value={searchTask}
+            placeholder={`Enter Title of the Task`}
+            allowClear
+            onSearch={(value) => searchChange(value)}
+            onChange={(e) => searchChange(e)}
+            enterButton
+          />
+        </Card>
+      </div>
+      
+        // const searchChange = (e) => {
+  //   setSearchTask(e.target.value);
+  //   console.log(e.target.value);
+  //   //  add filter to show task and use filtered task  to show the task
+  // };
+       */
+}

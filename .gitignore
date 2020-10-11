@@ -9,6 +9,8 @@
 /firebase.json
 /.firebase
 
+debug.log
+
 # testing
 /coverage
 

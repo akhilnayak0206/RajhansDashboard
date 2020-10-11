@@ -77,7 +77,7 @@ class AddEditWing extends Component {
 
   handleOk = () => {
     if (
-      this.state.setData.Collected &&
+      (this.state.setData.Collected || this.props.auth.dataEmail.Name) &&
       this.state.setData.Received &&
       this.state.setData.Amount > 0 &&
       !isNaN(this.state.setData.Amount)
@@ -89,6 +89,7 @@ class AddEditWing extends Component {
         () =>
           this.props.OnSetData({
             setData: {
+              Collected: this.props.auth.dataEmail.Name,
               ...this.state.setData,
               timestamp: new Date(Date.now()),
             },

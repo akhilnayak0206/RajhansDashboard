@@ -165,16 +165,17 @@ const OnSetData = (data) => {
             });
           });
       } else if (data.hasOwnProperty('doc')) {
+        let docId = data.doc.toString();
         let docRef = await firebase
           .firestore()
           .collection(data.collection)
-          .doc(data.doc)
+          .doc(docId)
           .get();
         if (docRef.exists) {
           firebase
             .firestore()
             .collection(data.collection)
-            .doc(data.doc)
+            .doc(docId)
             .update({
               ...data.setData,
               Receipt: firebase.firestore.FieldValue.arrayUnion({
