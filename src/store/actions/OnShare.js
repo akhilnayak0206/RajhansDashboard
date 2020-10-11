@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import secretSignKey from '../../secretToken';
 
-const OnShare = data => {
+const OnShare = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     // eslint-disable-next-line
@@ -26,8 +26,8 @@ const OnShare = data => {
             collection: data.collection,
             document: data.doc,
             token: '',
-            mail: false
-          }
+            mail: false,
+          },
         });
       } else {
         jwt.sign(
@@ -36,7 +36,7 @@ const OnShare = data => {
             collected: jsonData.Collected,
             amount: jsonData.Amount,
             timestamp: jsonData.timestamp,
-            flatNo: jsonData.Flatno
+            flatNo: jsonData.Flatno,
           },
           secretSignKey,
           (err, token) => {
@@ -52,8 +52,8 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `mailto:${data.personal}?subject=Thank You for contributing in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM<br>Nav Rajhans<br>Borivali West`
-                  }
+                    url: `mailto:${data.personal}?subject=Thank You for contributing in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM<br>Nav Rajhans<br>Borivali West`,
+                  },
                 });
               } else if (Number(data.personal)) {
                 return dispatch({
@@ -66,14 +66,14 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `https://wa.me/91${Number(
+                    url: `https://api.whatsapp.com/send?phone=91${Number(
                       data.personal
-                    )}?text=Jai Mitra Mandal thanks ${
+                    )}&text=Jai Mitra Mandal thanks ${
                       jsonData.Received
                     } for the contribution of Rs.${
                       jsonData.Amount
-                    }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
-                  }
+                    }.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
+                  },
                 });
               } else {
                 return dispatch({
@@ -86,8 +86,8 @@ const OnShare = data => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `https://wa.me/?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `
-                  }
+                    url: `https://api.whatsapp.com/send?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
+                  },
                 });
               }
             } else if (err) {
@@ -108,8 +108,8 @@ const OnShare = data => {
           collection: data.collection,
           document: data.doc,
           token: '',
-          mail: false
-        }
+          mail: false,
+        },
       });
     }
   };
