@@ -52,7 +52,7 @@ const OnShare = (data) => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `mailto:${data.personal}?subject=Thank You for contributing in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.<br>Your Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} <br>For more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home <br> Regards,<br>JMM<br>Nav Rajhans<br>Borivali West`,
+                    url: `mailto:${data.personal}?subject=Thank You for contributing in Navratri festival &body= Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home %0d%0a Regards,%0d%0aJMM%0d%0aNav Rajhans%0d%0aBorivali West`,
                   },
                 });
               } else if (Number(data.personal)) {
@@ -66,7 +66,7 @@ const OnShare = (data) => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `whatsapp://send?phone=91${Number(
+                    url: `whatsapp://send?&source&data&phone=91${Number(
                       data.personal
                     )}&text=Jai Mitra Mandal thanks ${
                       jsonData.Received
@@ -86,7 +86,7 @@ const OnShare = (data) => {
                     document: data.doc,
                     token,
                     mail: data.mail,
-                    url: `whatsapp://send?text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
+                    url: `whatsapp://send?&source&data&phone&text=Jai Mitra Mandal thanks ${jsonData.Received} for the contribution of Rs.${jsonData.Amount}.%0d%0aYour Receipt link: https://jmmrajhans.firebaseapp.com/receipt/${token} %0d%0aFor more info about Navratri in Nav Rajhans: https://jmmrajhans.firebaseapp.com/home `,
                   },
                 });
               }

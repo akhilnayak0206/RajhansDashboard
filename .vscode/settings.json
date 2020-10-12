@@ -13,7 +13,8 @@
         "daal",
         "rajhansapp",
         "resetdatabase",
-        "webfonts"
+        "webfonts",
+        "whatsapp"
     ],
     "editor.formatOnSave": true
 }
