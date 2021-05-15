@@ -7,6 +7,7 @@ import totalData from './totalData';
 import uploadWings from './uploadWings';
 import download from './download';
 import share from './share';
+import resetData from './resetData';
 
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
@@ -22,8 +23,9 @@ const rootReducer = combineReducers({
   uploadWings,
   download,
   share,
+  resetData,
   firestore: firestoreReducer,
-  firebase: firebaseReducer
+  firebase: firebaseReducer,
 });
 
 export default rootReducer;

@@ -7,6 +7,7 @@ import OnTotalData from './OnTotalData';
 import OnUploadWings from './OnUploadWings';
 import OnDownload from './OnDownload';
 import OnShare from './OnShare';
+import OnResetDatabase from './OnResetDatabase';
 
 export {
   OnAuth,
@@ -17,5 +18,6 @@ export {
   OnTotalData,
   OnUploadWings,
   OnDownload,
-  OnShare
+  OnShare,
+  OnResetDatabase,
 };

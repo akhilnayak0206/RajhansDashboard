@@ -1,19 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import { OnAuth, OnDownload } from '../../store/actions/actions';
+import {
+  OnAuth,
+  OnDownload,
+  OnResetDatabase,
+} from '../../store/actions/actions';
 import { compose } from 'redux';
 import { CSVLink } from 'react-csv';
-import { Card, Icon, Button, notification, Skeleton } from 'antd';
+import { Card, Icon, Button, notification, Skeleton, Modal, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import '../../styles/ResetDatabase.css';
 
-const ResetDatabase = ({ OnDownload, download, auth }) => {
+const ResetDatabase = ({
+  OnDownload,
+  download,
+  auth,
+  OnResetDatabase,
+  resetData,
+}) => {
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [downloadWings, setDownloadWings] = useState(false);
   const [downloadWellWishers, setDownloadWellWishers] = useState(false);
   const [downloadExpenses, setDownloadExpenses] = useState(false);
+
+  const [confirmPopup, setConfirmPopup] = useState(false);
+  const [resetDatabaseButton, setResetDatabaseButton] = useState(false);
+  const [resetInProgress, setResetInProgress] = useState(false);
+  const [inputResetTitle, setInputResetTitle] = useState('');
 
   const csvAllWings = useRef();
   const csvWellWisher = useRef();
@@ -25,12 +40,12 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
         setButtonDisabled(false);
         notification['error']({
           message: 'Error in Excel File',
-          description: download.message
+          description: download.message,
         });
       } else {
         notification['success']({
           message: 'Excel File',
-          description: download.message
+          description: download.message,
         });
       }
     }
@@ -86,17 +101,75 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
     // eslint-disable-next-line
   }, []);
 
+  // reset database button
+  useEffect(() => {
+    if (resetData.resetDataChanged) {
+      if (!resetData.result) {
+        setResetInProgress(false);
+        notification['error']({
+          message: 'Error during Reset',
+          description: resetData.message,
+        });
+      } else {
+        setResetInProgress(false);
+        setConfirmPopup(false);
+        setResetDatabaseButton(false);
+        notification['success']({
+          message: 'Reset Message',
+          description: resetData.message,
+        });
+      }
+    }
+    // eslint-disable-next-line
+  }, [resetData.resetDataChanged]);
+
   return (
     <Skeleton loading={loadingSkeleton} active>
       <h1 className='heading'>Database Settings</h1>
       <div className='mainDiv'>
+        {/* reset confirm modal */}
+        {confirmPopup && (
+          <Modal
+            title='Confirm Reset Database'
+            visible={confirmPopup}
+            confirmLoading={resetInProgress}
+            onOk={() => {
+              let sanitizedInput = inputResetTitle.toLowerCase();
+              sanitizedInput = sanitizedInput.replace(/ /g, '');
+              if (sanitizedInput === 'ihavedownloadedandcheckedexcelfile') {
+                notification['success']({
+                  message: 'Reset Message',
+                  description: 'Reset Process started',
+                });
+                setResetInProgress(true);
+                OnResetDatabase();
+              } else {
+                notification['error']({
+                  message: 'Wrong password for reset',
+                  description:
+                    'Please make sure you have downloaded all data from the download button given above or at the left.',
+                });
+              }
+            }}
+            onCancel={() => {
+              setConfirmPopup(false);
+              setResetDatabaseButton(false);
+            }}
+          >
+            <h4>I have downloaded and checked excel file</h4>
+            <Input
+              value={inputResetTitle}
+              onChange={(val) => setInputResetTitle(val.target.value)}
+            />
+          </Modal>
+        )}
         <Card className='cardBoth'>
           <h3 style={{ textAlign: 'center' }}>Download Current Year Data</h3>
           <div className='downloadButtonDiv'>
             <Button
               className='downloadCSVButton'
               type='primary'
-              onClick={e => {
+              onClick={(e) => {
                 OnDownload({ type: 'wings' });
                 setButtonDisabled(true);
                 setDownloadWings(false);
@@ -128,7 +201,7 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
             <Button
               className='downloadCSVButton'
               type='primary'
-              onClick={e => {
+              onClick={(e) => {
                 OnDownload({ type: 'wellWishers' });
                 setButtonDisabled(true);
                 setDownloadWellWishers(false);
@@ -160,7 +233,7 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
             <Button
               className='downloadCSVButton'
               type='primary'
-              onClick={e => {
+              onClick={(e) => {
                 OnDownload({ type: 'expenses' });
                 setButtonDisabled(true);
                 setDownloadExpenses(false);
@@ -208,8 +281,11 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
           <div style={{ textAlign: 'center', marginBottom: '5px' }}>
             <Button
               type='danger'
-              // onClick={() => this.onSignOut()}
-              // disabled={this.state.btnSignOut}
+              onClick={() => {
+                setResetDatabaseButton(true);
+                setConfirmPopup(true);
+              }}
+              disabled={resetDatabaseButton}
             >
               Reset Database
             </Button>
@@ -221,17 +297,19 @@ const ResetDatabase = ({ OnDownload, download, auth }) => {
 };
 
 function mapStateToProps(state) {
-  const { firebase, auth, download } = state;
+  const { firebase, auth, download, resetData } = state;
   return {
     firebase,
     auth,
-    download
+    download,
+    resetData,
   };
 }
 
 export default compose(
   connect(mapStateToProps, {
     OnAuth,
-    OnDownload
+    OnDownload,
+    OnResetDatabase,
   })
 )(ResetDatabase);

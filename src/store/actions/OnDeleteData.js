@@ -1,6 +1,6 @@
 import types from '../action_types/index';
 
-const OnDeleteData = data => {
+const OnDeleteData = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const { collection, doc } = data;
@@ -10,9 +10,14 @@ const OnDeleteData = data => {
       .collection(collection)
       .doc(doc)
       .delete();
+    let ipAddress;
+    let geoIpData = await fetch('https://geoip-db.com/json');
+    ipAddress = await geoIpData.json();
+
     let ipApi = await fetch(
-      'http://api.ipapi.com/api/check?access_key=4cf1fc28782aa031778b0af65638fdf2'
+      `http://ipinfo.io/${ipAddress.IPv4}?token=69e9221c22cb9d`
     );
+
     let userData = await ipApi.json();
     let addDoc;
     if (userData) {
@@ -23,7 +28,7 @@ const OnDeleteData = data => {
           ...data,
           userEmail:
             firebase.auth().currentUser && firebase.auth().currentUser.email,
-          userData
+          userData,
         });
     } else {
       addDoc = await firebase
@@ -33,7 +38,7 @@ const OnDeleteData = data => {
           ...data,
           userEmail:
             firebase.auth().currentUser && firebase.auth().currentUser.email,
-          userData: `Couldn't add the data. API Error`
+          userData: `Couldn't add the data. API Error`,
         });
     }
     if (addDoc.id) {
@@ -42,8 +47,8 @@ const OnDeleteData = data => {
         payload: {
           result: 1,
           message: 'Data Deleted Successfully',
-          collection: collection
-        }
+          collection: collection,
+        },
       });
     }
   };
