@@ -182,6 +182,10 @@ const OnResetDatabase = (data) => {
     ]);
 
     // data to add
+    let nameOfUserObject = await firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.email).get();
     let dataToAddInReset = {
       Amount:
         Number(amountA) +
@@ -190,7 +194,7 @@ const OnResetDatabase = (data) => {
         Number(amountD) +
         Number(amountE) +
         Number(amountWell),
-      Name: this.state.Name,
+      Name: nameOfUserObject.Name,
       Type: 'Reset',
       Date: new Date(),
       expenses: amountExp,
