@@ -2,10 +2,12 @@ import types from '../action_types/index';
 
 const OnResetDatabase = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try{
+      {
     const firebase = getFirebase();
     let ipAddress;
     let userData;
-    let geoIpData = await fetch('https://geoip-db.com/json');
+    let geoIpData = await fetch('https://geoip-db.com/json/');
     if (geoIpData) {
       ipAddress = await geoIpData.json();
     }
@@ -330,6 +332,18 @@ const OnResetDatabase = (data) => {
         },
       });
     } else {
+      return dispatch({
+        type: types.ON_RESET_COLLECTION,
+        payload: {
+          result: 0,
+          message: 'Data Reset was not successfully',
+        },
+      });
+    }
+  }
+    }
+    catch(error){
+      console.log(error)
       return dispatch({
         type: types.ON_RESET_COLLECTION,
         payload: {
