@@ -269,7 +269,7 @@ const OnResetDatabase = (data) => {
     await docRefExpense.get().then((query) => {
       query.forEach((doc) => {
         // eslint-disable-next-line
-        if (doc.data()['Collected'] != undefined) {
+        if (doc.data()['Amount'] != undefined) {
           firebase
             .firestore()
             .collection('expenses')
@@ -290,7 +290,7 @@ const OnResetDatabase = (data) => {
     await docRefToDo.get().then((query) => {
       query.forEach((doc) => {
         // eslint-disable-next-line
-        if (doc.data()['Collected'] != undefined) {
+        if (doc.data()['title'] != undefined) {
           firebase
             .firestore()
             .collection('toDo')
