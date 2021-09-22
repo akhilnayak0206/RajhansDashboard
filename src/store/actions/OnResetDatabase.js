@@ -194,7 +194,7 @@ const OnResetDatabase = (data) => {
         Number(amountD) +
         Number(amountE) +
         Number(amountWell),
-      Name: nameOfUserObject.Name,
+      Name: nameOfUserObject.data().Name,
       Type: 'Reset',
       Date: new Date(),
       expenses: amountExp,
