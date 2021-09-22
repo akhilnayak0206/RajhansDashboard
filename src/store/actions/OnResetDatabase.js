@@ -254,7 +254,7 @@ const OnResetDatabase = (data) => {
             .doc(doc.id.toString())
             .delete()
             .then(function () {
-              console.log('well', doc.id.toString());
+              console.log('well:', doc.id.toString());
             })
             .catch(function (error) {
               throw Error;
@@ -276,7 +276,7 @@ const OnResetDatabase = (data) => {
             .doc(doc.id.toString())
             .delete()
             .then(function () {
-              console.log(doc.id.toString());
+              console.log("expense:",doc.id.toString());
             })
             .catch(function (error) {
               throw error;
