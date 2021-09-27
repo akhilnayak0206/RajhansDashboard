@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import '../../styles/ToDo.css';
 import ToDoModal from './Modal/ToDoModal';
 
+// eslint-disable-next-line
 const { Search, TextArea } = Input;
 const { Meta } = Card;
 const { Panel } = Collapse;
@@ -26,7 +27,9 @@ const ToDo = ({ addData, OnAddData }) => {
   const [showTask, setShowTask] = useState(false);
   const [skeleton, setSkeleton] = useState(true);
   const [addButton, setAddButton] = useState(false);
+  // eslint-disable-next-line
   const [taskProp, setTaskProp] = useState({});
+  // eslint-disable-next-line 
   const [searchTask, setSearchTask] = useState('');
   const [data, setData] = useState({
     title: '',

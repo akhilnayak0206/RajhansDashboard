@@ -89,8 +89,8 @@ class AddEditWing extends Component {
         () =>
           this.props.OnSetData({
             setData: {
-              Collected: this.props.auth.dataEmail.Name,
               ...this.state.setData,
+              Collected: this.props.auth.dataEmail.Name,
               timestamp: new Date(Date.now()),
             },
             collection: this.state.selectedWings,

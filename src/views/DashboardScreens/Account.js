@@ -102,6 +102,7 @@ class Account extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0,0);
     if (!this.props.auth.dataEmail.Name) {
       this.props.OnAuth({
         type: 'email_data'
