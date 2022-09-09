@@ -6,20 +6,20 @@ const OnResetDatabase = (data) => {
       {
     const firebase = getFirebase();
     let ipAddress;
-    let userData;
-    let geoIpData = await fetch('https://geoip-db.com/json/');
-    if (geoIpData) {
-      ipAddress = await geoIpData.json();
-    }
+    let userData = "removed";
+    // let geoIpData = await fetch('https://geoip-db.com/json/');
+    // if (geoIpData) {
+    //   ipAddress = await geoIpData.json();
+    // }
 
     // get ip address
-    let ipApi = await fetch(
-      `http://ipinfo.io/${ipAddress.IPv4}?token=69e9221c22cb9d`
-    );
+    // let ipApi = await fetch(
+    //   `http://ipinfo.io/${ipAddress.IPv4}?token=69e9221c22cb9d`
+    // );
 
-    if (ipApi) {
-      userData = await ipApi.json();
-    }
+    // if (ipApi) {
+    //   userData = await ipApi.json();
+    // }
 
     // get all data
     let amountA = 0;
